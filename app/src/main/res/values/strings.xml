@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Naval Battle</string>
+    <string name="profiles">Profiles</string>
+    <string name="new_game">New Game</string>
+    <string name="offline">Offline</string>
+    <string name="online">With Friends</string>
+    <string name="title_activity_new_game">newGameActivity</string>
+    <string name="title_activity_set_positions">SetPositionsActivity</string>
+
+
+</resources>

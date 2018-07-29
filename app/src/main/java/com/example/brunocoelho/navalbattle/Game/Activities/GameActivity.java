@@ -1,10 +1,11 @@
-package com.example.brunocoelho.navalbattle.Game;
+package com.example.brunocoelho.navalbattle.Game.Activities;
 
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.example.brunocoelho.navalbattle.Game.BattlefieldView;
 import com.example.brunocoelho.navalbattle.R;
 
 public class GameActivity extends AppCompatActivity {

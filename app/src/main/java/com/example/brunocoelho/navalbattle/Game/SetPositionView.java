@@ -1,32 +1,35 @@
 package com.example.brunocoelho.navalbattle.Game;
 
-import android.content.ClipDescription;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.example.brunocoelho.navalbattle.Game.Models.Position;
+import com.example.brunocoelho.navalbattle.Game.Models.Ship;
 import com.example.brunocoelho.navalbattle.R;
 
-import static android.view.MotionEvent.INVALID_POINTER_ID;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SetPositionView extends View{
 
 String TAG ="minha";
     float initialX, initialY;
+    private NavalBattleGame navalBattleGame;
 
-    public SetPositionView(Context context) {
+
+    public SetPositionView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
-        setBackgroundColor(Color.RED);
+        this.navalBattleGame = navalBattleGame;
 
-
+//        setBackgroundColor(Color.RED);
+        setBackgroundResource(R.drawable.grid_set_positions);
     }
 
     @Override
@@ -39,21 +42,30 @@ String TAG ="minha";
                 initialX = event.getX();
                 initialY = event.getY();
 
-                Position position = new Position((int)(initialX*16 / getWidth()), ((int)(initialY*16 / getHeight())));
+                Position position = new Position((int)(initialX*16 / getWidth()), ((int)(initialY*8 / getHeight())));
                 Log.d("onDown", position.toString());
 
 
                 break;
 
-//            case MotionEvent.ACTION_MOVE:
-//                Log.d(TAG, "Action was MOVE");
-//                break;
-
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_MOVE:
                 float finalX = event.getX();
                 float finalY = event.getY();
 
-                Position position2 = new Position((int)(finalX*16 / getWidth()), ((int)(finalY*16 / getHeight())));
+                Position position2 = new Position((int)(finalX*16 / getWidth()), ((int)(finalY*8 / getHeight())));
+
+                if(position2.getNumber()<8 && position2.getLetter()<8)
+                {
+                    Log.d("onMOVE", position2.toString());
+                }
+
+                break;
+
+            case MotionEvent.ACTION_UP:
+                finalX = event.getX();
+                finalY = event.getY();
+
+                position2 = new Position((int)(finalX*16 / getWidth()), ((int)(finalY*8 / getHeight())));
                 Log.d("onUP", position2.toString());
                 break;
 
@@ -69,4 +81,56 @@ String TAG ="minha";
     }
 
 
+    public static Bitmap createImage(int width, int height) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#3c3b3f"));
+        canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
+        return bitmap;
+    }
+
+    private void paintShips(Canvas canvas, List<Ship> team) {
+        Bitmap realImage;
+        Bitmap newBitmap;
+
+        //tamanho da peca
+        int wPeca = this.getWidth()/16;
+        int hPeca = this.getHeight()/8;
+
+        //ponto onde vai ser desenhada
+        float letterPoint;
+        float numberPoint;
+
+        for(Ship ship : team)
+        {
+            int MARGEMPECA = 0;
+
+            //vai buscar o tamanho real
+//            realImage = BitmapFactory.decodeResource(getResources(), team.get(i).getIcon());
+            realImage = createImage(50,50);
+
+            //converte para as medidas de uma peca do tabuleiro
+            newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-MARGEMPECA,hPeca-MARGEMPECA
+                    , false);
+
+
+
+            for(Position position : ship.getPositionList()){
+
+                numberPoint =  position.getNumber() * (this.getHeight()/8) + MARGEMPECA/2;
+                letterPoint = position.getLetter() * (this.getWidth()/16) + MARGEMPECA/2;
+
+                canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
+            }
+        }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        paintShips(canvas, navalBattleGame.getTeamA());
+
+    }
 }

@@ -7,7 +7,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.brunocoelho.navalbattle.R;
+import com.example.brunocoelho.navalbattle.Game.Models.Position;
 
 public class BattlefieldView extends View implements GestureDetector.OnGestureListener{
 

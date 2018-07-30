@@ -1,9 +1,7 @@
 package com.example.brunocoelho.navalbattle.Game;
 
-import android.util.Log;
-
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
-import com.example.brunocoelho.navalbattle.Game.Models.Ship;
+import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 
 import java.io.Serializable;
 import java.util.ArrayList;

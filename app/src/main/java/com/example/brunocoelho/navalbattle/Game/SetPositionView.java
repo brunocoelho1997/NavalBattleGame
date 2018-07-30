@@ -11,8 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
-import com.example.brunocoelho.navalbattle.Game.Models.Ship;
-import com.example.brunocoelho.navalbattle.R;
+import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 
 import java.util.List;
 
@@ -104,8 +103,6 @@ String TAG ="minha";
                         selectedShip.restoreInitialPosition();
                         navalBattleGame.getInvalidPositions().clear();
                     }
-
-//                    selectedShip.setColor(Constants.FULL_SQUARE);
 
 
                     selectedShip = null;

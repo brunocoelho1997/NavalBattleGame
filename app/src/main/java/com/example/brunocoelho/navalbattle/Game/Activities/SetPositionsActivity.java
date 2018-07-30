@@ -1,21 +1,18 @@
 package com.example.brunocoelho.navalbattle.Game.Activities;
 
-import android.content.ClipDescription;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
-import com.example.brunocoelho.navalbattle.Game.Models.Ship;
+import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
+import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipFive;
+import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipOne;
+import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipThree;
+import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.Game.SetPositionView;
 import com.example.brunocoelho.navalbattle.R;
@@ -76,7 +73,18 @@ public class SetPositionsActivity extends Activity {
 
     private Ship createShip(List<Position> positionList)
     {
-        Ship ship = new Ship();
+
+        Ship ship = null;
+
+        if(positionList.size() ==1)
+            ship = new ShipOne();
+        else if(positionList.size() == 2)
+            ship = new ShipTwo();
+        else if(positionList.size() == 3)
+            ship = new ShipThree();
+        else if(positionList.size() == 5)
+            ship = new ShipFive();
+
 
         ship.setPositionList(positionList);
         for(Position position : ship.getPositionList())
@@ -110,20 +118,21 @@ public class SetPositionsActivity extends Activity {
         positionList.add(new Position(1,6));
         ship = createShip(positionList);
         teamA.add(ship);
+
         positionList = new ArrayList<>();
-        positionList.add(new Position(3,1));
         positionList.add(new Position(3,2));
+        positionList.add(new Position(3,3));
         ship = createShip(positionList);
         teamA.add(ship);
 
+
+
         //2x3
         positionList = new ArrayList<>();
-        ship = new Ship();
-        positionList.add(new Position(3,4));
         positionList.add(new Position(3,5));
         positionList.add(new Position(3,6));
-        ship.setPositionList(positionList);
-        ship.setInitialPositionList(new ArrayList<Position>(positionList));
+        positionList.add(new Position(3,7));
+        ship = createShip(positionList);
         teamA.add(ship);
         positionList = new ArrayList<>();
         positionList.add(new Position(5,1));

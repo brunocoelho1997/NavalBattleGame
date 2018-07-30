@@ -56,8 +56,16 @@ public class NavalBattleGame implements Serializable{
         {
             if(position.getNumber()>=9 || position.getLetter()>=9)
                 return false;
-            if(position.getNumber()<=1 || position.getLetter()<=1)
+            if(position.getNumber()<=0 || position.getLetter()<=0)
                 return false;
+
+
+            //if there is a ship
+            for(Ship otherShip: getTeamA())
+            {
+                if(!otherShip.equals(selectedShip) && otherShip.getPositionList().contains(position))
+                    return false;
+            }
 
         }
 

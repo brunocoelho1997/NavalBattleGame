@@ -51,9 +51,6 @@ String TAG ="minha";
 
                 Position onDownPosition = new Position((int)(initialY*9 / getWidth()), ((int)(initialX*9 / getHeight())));
 
-//                if(onDownPosition.getLetter() == 0 || onDownPosition.getNumber() == 0)
-//                    break;
-
                 selectedShip = navalBattleGame.getShip(onDownPosition);
 
                 Log.d("onDown", "\n---" +onDownPosition.toString());
@@ -72,39 +69,20 @@ String TAG ="minha";
                 float finalX = event.getX();
                 float finalY = event.getY();
 
-
-
                 Position onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
 
+                if(selectedShip!= null)
+                {
+                    selectedShip.setPointPosition(onMovePosition);
 
+                    if(navalBattleGame.isValidatedShip(selectedShip))
+                        selectedShip.setColor(Constants.FULL_SQUARE);
+                    else
+                        selectedShip.setColor(Constants.RED_SQUARE);
 
-//                if(onMovePosition.getLetter() == 0 || onMovePosition.getNumber() == 0)
-//                    break;
+                    invalidate();
+                }
 
-//                if(onMovePosition.getLetter() >= 9 || onMovePosition.getNumber() >=9 )
-//                    break;
-
-
-
-
-//                if(onMovePosition.getNumber()<8 && onMovePosition.getLetter()<8)
-//                {
-//                    Log.d("onMOVE", onMovePosition.toString());
-
-                    if(selectedShip!= null)
-                    {
-                        selectedShip.setPointPosition(onMovePosition);
-
-                        if(navalBattleGame.isValidatedShip(selectedShip))
-                            selectedShip.setColor(Constants.SHIP_VALIDPOSITION_COLOR);
-                        else
-                            selectedShip.setColor(Constants.SHIP_INVALIDPOSITION_COLOR);
-
-                        invalidate();
-                    }
-
-
-//                }
 
                 break;
 
@@ -114,13 +92,6 @@ String TAG ="minha";
 
                 Position onUpPosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
 
-//                if(onUpPosition.getLetter() <= 0 || onUpPosition.getNumber() <= 0)
-//                    break;
-
-//                if(onUpPosition.getLetter() >= 9 || onUpPosition.getNumber() >=9 )
-//                    break;
-
-
                 Log.d("onUP", onUpPosition.toString() + "---\n");
 
                 if(selectedShip!=null)
@@ -129,15 +100,16 @@ String TAG ="minha";
                     if(navalBattleGame.isValidatedShip(selectedShip))
                     {
                         selectedShip.setPointPosition(onUpPosition);
-                        selectedShip.setColor(Constants.SHIP_DEFAULT_COLOR);
                     }
 
                     else
                     {
                         selectedShip.restoreInitialPosition();
-                        selectedShip.setColor(Constants.SHIP_DEFAULT_COLOR);
 
                     }
+
+                    selectedShip.setColor(Constants.FULL_SQUARE);
+
 
                     selectedShip = null;
 
@@ -225,7 +197,7 @@ String TAG ="minha";
             int marginShip = 0;
 
             //vai buscar o tamanho real
-            realImage = BitmapFactory.decodeResource(getResources(), Constants.FULL_SQUARE);
+            realImage = BitmapFactory.decodeResource(getResources(), ship.getColor());
 //            realImage = createImage(50,50, ship.getColor());
 
             //convert to point of the size of the table

@@ -11,24 +11,21 @@ import java.util.List;
 
 public class NavalBattleGame implements Serializable{
 
-    private  List<Ship> teamA;
-    private  List<Ship> teamB;
+    private Data data;
 
     public NavalBattleGame() {
-        teamA = new ArrayList<>();
-        teamB = new ArrayList<>();
+        this.data = new Data();
     }
-
 
     public Ship getShip(Position position)
     {
-        for(Ship ship: teamA)
+        for(Ship ship: data.getTeamA())
         {
             if(ship.getPositionList().contains(position))
                 return ship;
 
         }
-        for(Ship ship: teamB)
+        for(Ship ship: data.getTeamB())
         {
             if(ship.getPositionList().contains(position))
                 return ship;
@@ -37,18 +34,52 @@ public class NavalBattleGame implements Serializable{
     }
 
     public List<Ship> getTeamA() {
-        return teamA;
+        return data.getTeamA();
     }
 
     public void setTeamA(List<Ship> teamA) {
-        this.teamA = teamA;
+        data.setTeamA(teamA);
     }
 
     public List<Ship> getTeamB() {
-        return teamB;
+        return data.getTeamB();
     }
 
     public void setTeamB(List<Ship> teamB) {
-        this.teamB = teamB;
+        data.setTeamB(teamB);
+    }
+
+    public boolean isValidatedShip(Ship selectedShip) {
+
+
+        for(Position position : selectedShip.getPositionList())
+        {
+            if(position.getNumber()>=9 || position.getLetter()>=9)
+                return false;
+            if(position.getNumber()<=1 || position.getLetter()<=1)
+                return false;
+
+        }
+
+//        List<Position> adjancentPositions = getAdjacentPositions(selectedShip);
+
+        return true;
+    }
+
+    private List<Position> getAdjacentPositions(Ship selectedShip) {
+        List<Position> adjancentPositions = new ArrayList<>();
+        Position aux = null;
+
+        for(Position position : selectedShip.getPositionList()){
+            aux = new Position(position.getNumber(), position.getLetter());
+            adjancentPositions.add(aux);
+        }
+
+        if(selectedShip.getPositionList().size()==1)
+        {
+            adjancentPositions.add(new Position());
+        }
+
+        return adjancentPositions;
     }
 }

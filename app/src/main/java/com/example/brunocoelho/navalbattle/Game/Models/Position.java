@@ -48,6 +48,6 @@ public class Position implements Serializable{
         /*
         Tem de ser lido como: linha x coluna.
          */
-        return "[" + (number+1) + ";" +  (char)(letter+97)  + "] - " + number + ";" +letter  ;
+        return "[" + (number) + ";" +  (char)(letter+96)  + "] - " + number + ";" +letter  ;
     }
 }

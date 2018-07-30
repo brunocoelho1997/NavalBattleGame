@@ -14,7 +14,6 @@ import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ship;
 import com.example.brunocoelho.navalbattle.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SetPositionView extends View{
@@ -34,7 +33,8 @@ String TAG ="minha";
         this.selectedShip = null;
 
 //        setBackgroundColor(Color.RED);
-        setBackgroundResource(R.drawable.grid_set_positions);
+//        setBackgroundResource(R.drawable.grid_set_positions);
+        setBackgroundColor(Color.parseColor("#FFDB8E"));
 
 
     }
@@ -49,7 +49,11 @@ String TAG ="minha";
                 initialX = event.getX();
                 initialY = event.getY();
 
-                Position onDownPosition = new Position((int)(initialY*16 / getWidth()), ((int)(initialX*8 / getHeight())));
+                Position onDownPosition = new Position((int)(initialY*9 / getWidth()), ((int)(initialX*9 / getHeight())));
+
+//                if(onDownPosition.getLetter() == 0 || onDownPosition.getNumber() == 0)
+//                    break;
+
                 selectedShip = navalBattleGame.getShip(onDownPosition);
 
                 Log.d("onDown", "\n---" +onDownPosition.toString());
@@ -70,7 +74,18 @@ String TAG ="minha";
 
 
 
-                Position onMovePosition = new Position((int)(finalY*16 / getWidth()), ((int)(finalX*8 / getHeight())));
+                Position onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
+
+
+
+//                if(onMovePosition.getLetter() == 0 || onMovePosition.getNumber() == 0)
+//                    break;
+
+//                if(onMovePosition.getLetter() >= 9 || onMovePosition.getNumber() >=9 )
+//                    break;
+
+
+
 
 //                if(onMovePosition.getNumber()<8 && onMovePosition.getLetter()<8)
 //                {
@@ -79,6 +94,12 @@ String TAG ="minha";
                     if(selectedShip!= null)
                     {
                         selectedShip.setPointPosition(onMovePosition);
+
+                        if(navalBattleGame.isValidatedShip(selectedShip))
+                            selectedShip.setColor(Constants.SHIP_VALIDPOSITION_COLOR);
+                        else
+                            selectedShip.setColor(Constants.SHIP_INVALIDPOSITION_COLOR);
+
                         invalidate();
                     }
 
@@ -91,21 +112,30 @@ String TAG ="minha";
                 finalX = event.getX();
                 finalY = event.getY();
 
-                Position onUpPosition = new Position((int)(finalY*16 / getWidth()), ((int)(finalX*8 / getHeight())));
+                Position onUpPosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
+
+//                if(onUpPosition.getLetter() <= 0 || onUpPosition.getNumber() <= 0)
+//                    break;
+
+//                if(onUpPosition.getLetter() >= 9 || onUpPosition.getNumber() >=9 )
+//                    break;
+
 
                 Log.d("onUP", onUpPosition.toString() + "---\n");
 
                 if(selectedShip!=null)
                 {
 
-                    if(onUpPosition.getNumber()<8 && onUpPosition.getLetter()<8)
+                    if(navalBattleGame.isValidatedShip(selectedShip))
                     {
                         selectedShip.setPointPosition(onUpPosition);
+                        selectedShip.setColor(Constants.SHIP_DEFAULT_COLOR);
                     }
+
                     else
                     {
                         selectedShip.restoreInitialPosition();
-
+                        selectedShip.setColor(Constants.SHIP_DEFAULT_COLOR);
 
                     }
 
@@ -127,22 +157,64 @@ String TAG ="minha";
     }
 
 
-    public static Bitmap createImage(int width, int height) {
+    public static Bitmap createImage(int width, int height, String colorString) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#3c3b3f"));
+        paint.setColor(Color.parseColor(colorString));
         canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
         return bitmap;
     }
 
+    private void paintMap(Canvas canvas) {
+        Bitmap realImage;
+        Bitmap newBitmap;
+
+        //size of the ship
+        int wPeca = this.getWidth()/9;
+        int hPeca = this.getHeight()/9;
+
+        //point where ship will be painted
+        float letterPoint;
+        float numberPoint;
+
+        for(int number = 0; number<9; number++)
+        {
+            for(int letter= 0; letter<9; letter++)
+            {
+                if(number == 0 || letter == 0)
+                {
+                    //vai buscar o tamanho real
+                    realImage = BitmapFactory.decodeResource(getResources(), Constants.LETTER_A);
+
+                    //convert to point of the size of the table
+                    newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
+                            , false);
+                }
+                else
+                {
+                    //vai buscar o tamanho real
+                    realImage = BitmapFactory.decodeResource(getResources(), Constants.BLANK_SQUARE);
+                }
+
+                //convert to point of the size of the table
+                newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
+                        , false);
+
+                numberPoint =  number * (this.getHeight()/9);
+                letterPoint = letter * (this.getWidth()/9);
+                canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
+
+            }
+        }
+    }
     private void paintShips(Canvas canvas, List<Ship> team) {
         Bitmap realImage;
         Bitmap newBitmap;
 
         //size of the ship
-        int wPeca = this.getWidth()/16;
-        int hPeca = this.getHeight()/8;
+        int wPeca = this.getWidth()/9;
+        int hPeca = this.getHeight()/9;
 
         //point where ship will be painted
         float letterPoint;
@@ -153,19 +225,17 @@ String TAG ="minha";
             int marginShip = 0;
 
             //vai buscar o tamanho real
-//            realImage = BitmapFactory.decodeResource(getResources(), team.get(i).getIcon());
-            realImage = createImage(50,50);
+            realImage = BitmapFactory.decodeResource(getResources(), Constants.FULL_SQUARE);
+//            realImage = createImage(50,50, ship.getColor());
 
             //convert to point of the size of the table
             newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-marginShip,hPeca-marginShip
                     , false);
 
-
-
             for(Position position : ship.getPositionList()){
 
-                numberPoint =  position.getNumber() * (this.getHeight()/8) + marginShip/2;
-                letterPoint = position.getLetter() * (this.getWidth()/16) + marginShip/2;
+                numberPoint =  position.getNumber() * (this.getHeight()/9) + marginShip/2;
+                letterPoint = position.getLetter() * (this.getWidth()/9) + marginShip/2;
 
                 canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
             }
@@ -176,6 +246,7 @@ String TAG ="minha";
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        paintMap(canvas);
         paintShips(canvas, navalBattleGame.getTeamA());
 
     }

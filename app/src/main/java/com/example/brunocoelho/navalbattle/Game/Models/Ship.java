@@ -2,10 +2,14 @@ package com.example.brunocoelho.navalbattle.Game.Models;
 
 import android.util.Log;
 
+import com.example.brunocoelho.navalbattle.Game.Constants;
+import com.example.brunocoelho.navalbattle.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {
+    private String color;
     private List<Position> positionList;
     private List<Position> hitedPositions;
 
@@ -24,9 +28,10 @@ public class Ship {
     }
 
     public Ship() {
-        positionList=new ArrayList<>();
-        hitedPositions=new ArrayList<>();
-        initialPositionList = new ArrayList<>();
+        this.positionList=new ArrayList<>();
+        this.hitedPositions=new ArrayList<>();
+        this.initialPositionList = new ArrayList<>();
+        this.color = Constants.SHIP_DEFAULT_COLOR;
     }
 
     public void setHitedPositions(List<Position> hitedPositions) {
@@ -35,6 +40,14 @@ public class Ship {
 
     public List<Position> getInitialPositionList() {
         return initialPositionList;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public void setInitialPositionList(List<Position> initialPositionList) {
@@ -105,9 +118,6 @@ public class Ship {
 
     public void restoreInitialPosition()
     {
-
-        Log.d("initialPositionList", initialPositionList.toString());
-
         for(int i= 0; i<positionList.size(); i++)
         {
             positionList.get(i).setLetter(initialPositionList.get(i).getLetter());

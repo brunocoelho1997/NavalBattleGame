@@ -25,6 +25,9 @@ String TAG ="minha";
 
     private Ship selectedShip;
 
+    Position lastPoint = null;
+
+
     public SetPositionView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
         this.navalBattleGame = navalBattleGame;
@@ -46,13 +49,17 @@ String TAG ="minha";
                 initialX = event.getX();
                 initialY = event.getY();
 
-                Position position = new Position((int)(initialY*16 / getWidth()), ((int)(initialX*8 / getHeight())));
-                selectedShip = navalBattleGame.getShip(position);
+                Position onDownPosition = new Position((int)(initialY*16 / getWidth()), ((int)(initialX*8 / getHeight())));
+                selectedShip = navalBattleGame.getShip(onDownPosition);
 
-                Log.d("onDown", "\n---" +position.toString());
+                Log.d("onDown", "\n---" +onDownPosition.toString());
 
                 if(selectedShip!=null)
+                {
                     Log.d("onDown", selectedShip.toString());
+
+                    lastPoint = selectedShip.getPointPosition();
+                }
 
 
                 break;
@@ -61,24 +68,19 @@ String TAG ="minha";
                 float finalX = event.getX();
                 float finalY = event.getY();
 
-//                Ship shadowShip = new Ship();
+
 
                 Position onMovePosition = new Position((int)(finalY*16 / getWidth()), ((int)(finalX*8 / getHeight())));
 
-//                if(position2.getNumber()<8 && position2.getLetter()<8)
+//                if(onMovePosition.getNumber()<8 && onMovePosition.getLetter()<8)
 //                {
-                    Log.d("onMOVE", onMovePosition.toString());
+//                    Log.d("onMOVE", onMovePosition.toString());
 
-//                    Position middlePosition;
-//
-//                    if(selectedShip!= null)
-//                    {
-//                        middlePosition = selectedShip.getPointPosition();
-//                        shadowShip.setPositionList(selectedShip.getPositionList());
-//
-//
-//                    }
-
+                    if(selectedShip!= null)
+                    {
+                        selectedShip.setPointPosition(onMovePosition);
+                        invalidate();
+                    }
 
 
 //                }
@@ -95,7 +97,18 @@ String TAG ="minha";
 
                 if(selectedShip!=null)
                 {
-                    selectedShip.setPointPosition(onUpPosition);
+
+                    if(onUpPosition.getNumber()<8 && onUpPosition.getLetter()<8)
+                    {
+                        selectedShip.setPointPosition(onUpPosition);
+                    }
+                    else
+                    {
+                        selectedShip.restoreInitialPosition();
+
+
+                    }
+
                     selectedShip = null;
 
                     invalidate();

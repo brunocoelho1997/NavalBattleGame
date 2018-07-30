@@ -23,13 +23,17 @@ String TAG ="minha";
     float initialX, initialY;
     private NavalBattleGame navalBattleGame;
 
+    private Ship selectedShip;
 
     public SetPositionView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
         this.navalBattleGame = navalBattleGame;
+        this.selectedShip = null;
 
 //        setBackgroundColor(Color.RED);
         setBackgroundResource(R.drawable.grid_set_positions);
+
+
     }
 
     @Override
@@ -42,8 +46,13 @@ String TAG ="minha";
                 initialX = event.getX();
                 initialY = event.getY();
 
-                Position position = new Position((int)(initialX*16 / getWidth()), ((int)(initialY*8 / getHeight())));
-                Log.d("onDown", position.toString());
+                Position position = new Position((int)(initialY*16 / getWidth()), ((int)(initialX*8 / getHeight())));
+                selectedShip = navalBattleGame.getShip(position);
+
+                Log.d("onDown", "\n---" +position.toString());
+
+                if(selectedShip!=null)
+                    Log.d("onDown", selectedShip.toString());
 
 
                 break;
@@ -52,12 +61,27 @@ String TAG ="minha";
                 float finalX = event.getX();
                 float finalY = event.getY();
 
-                Position position2 = new Position((int)(finalX*16 / getWidth()), ((int)(finalY*8 / getHeight())));
+//                Ship shadowShip = new Ship();
 
-                if(position2.getNumber()<8 && position2.getLetter()<8)
-                {
-                    Log.d("onMOVE", position2.toString());
-                }
+                Position onMovePosition = new Position((int)(finalY*16 / getWidth()), ((int)(finalX*8 / getHeight())));
+
+//                if(position2.getNumber()<8 && position2.getLetter()<8)
+//                {
+                    Log.d("onMOVE", onMovePosition.toString());
+
+//                    Position middlePosition;
+//
+//                    if(selectedShip!= null)
+//                    {
+//                        middlePosition = selectedShip.getPointPosition();
+//                        shadowShip.setPositionList(selectedShip.getPositionList());
+//
+//
+//                    }
+
+
+
+//                }
 
                 break;
 
@@ -65,8 +89,17 @@ String TAG ="minha";
                 finalX = event.getX();
                 finalY = event.getY();
 
-                position2 = new Position((int)(finalX*16 / getWidth()), ((int)(finalY*8 / getHeight())));
-                Log.d("onUP", position2.toString());
+                Position onUpPosition = new Position((int)(finalY*16 / getWidth()), ((int)(finalX*8 / getHeight())));
+
+                Log.d("onUP", onUpPosition.toString() + "---\n");
+
+                if(selectedShip!=null)
+                {
+                    selectedShip.setPointPosition(onUpPosition);
+                    selectedShip = null;
+
+                    invalidate();
+                }
                 break;
 
             case MotionEvent.ACTION_CANCEL:
@@ -94,32 +127,32 @@ String TAG ="minha";
         Bitmap realImage;
         Bitmap newBitmap;
 
-        //tamanho da peca
+        //size of the ship
         int wPeca = this.getWidth()/16;
         int hPeca = this.getHeight()/8;
 
-        //ponto onde vai ser desenhada
+        //point where ship will be painted
         float letterPoint;
         float numberPoint;
 
         for(Ship ship : team)
         {
-            int MARGEMPECA = 0;
+            int marginShip = 0;
 
             //vai buscar o tamanho real
 //            realImage = BitmapFactory.decodeResource(getResources(), team.get(i).getIcon());
             realImage = createImage(50,50);
 
-            //converte para as medidas de uma peca do tabuleiro
-            newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-MARGEMPECA,hPeca-MARGEMPECA
+            //convert to point of the size of the table
+            newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-marginShip,hPeca-marginShip
                     , false);
 
 
 
             for(Position position : ship.getPositionList()){
 
-                numberPoint =  position.getNumber() * (this.getHeight()/8) + MARGEMPECA/2;
-                letterPoint = position.getLetter() * (this.getWidth()/16) + MARGEMPECA/2;
+                numberPoint =  position.getNumber() * (this.getHeight()/8) + marginShip/2;
+                letterPoint = position.getLetter() * (this.getWidth()/16) + marginShip/2;
 
                 canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
             }

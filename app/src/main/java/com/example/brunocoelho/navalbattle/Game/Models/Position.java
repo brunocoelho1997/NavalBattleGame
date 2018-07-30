@@ -32,11 +32,22 @@ public class Position implements Serializable{
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if(this.letter == ((Position)obj).getLetter())
+        {
+            if(this.number == ((Position)obj).getNumber())
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public String toString() {
 
         /*
         Tem de ser lido como: linha x coluna.
          */
-        return "[" + (letter+1) + ";" +  (char)(number+97)  + "] - " + letter + ";" +number  ;
+        return "[" + (number+1) + ";" +  (char)(letter+97)  + "] - " + number + ";" +letter  ;
     }
 }

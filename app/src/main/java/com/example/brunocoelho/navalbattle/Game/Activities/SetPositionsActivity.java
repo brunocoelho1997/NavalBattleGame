@@ -62,29 +62,41 @@ public class SetPositionsActivity extends Activity {
         Ship ship = new Ship();
 
         //2x1
+        positionList = new ArrayList<>();
+        ship = new Ship();
         positionList.add(new Position(0,9));
         ship.setPositionList(positionList);
         teamA.add(ship);
+        positionList = new ArrayList<>();
+        ship = new Ship();
         positionList.add(new Position(0,11));
         ship.setPositionList(positionList);
         teamA.add(ship);
 
         //2x2
+        positionList = new ArrayList<>();
+        ship = new Ship();
         positionList.add(new Position(0,13));
         positionList.add(new Position(0,14));
         ship.setPositionList(positionList);
         teamA.add(ship);
+        positionList = new ArrayList<>();
+        ship = new Ship();
         positionList.add(new Position(2,9));
         positionList.add(new Position(2,10));
         ship.setPositionList(positionList);
         teamA.add(ship);
 
         //2x3
+        positionList = new ArrayList<>();
+        ship = new Ship();
         positionList.add(new Position(2,13));
         positionList.add(new Position(2,14));
         positionList.add(new Position(2,15));
         ship.setPositionList(positionList);
         teamA.add(ship);
+        positionList = new ArrayList<>();
+        ship = new Ship();
         positionList.add(new Position(4,9));
         positionList.add(new Position(4,10));
         positionList.add(new Position(4,11));
@@ -92,12 +104,13 @@ public class SetPositionsActivity extends Activity {
         teamA.add(ship);
 
         //1x5 T
+        positionList = new ArrayList<>();
+        ship = new Ship();
         positionList.add(new Position(4,13));
         positionList.add(new Position(4,14));
         positionList.add(new Position(4,15));
         positionList.add(new Position(5,14));
         positionList.add(new Position(6,14));
-
         ship.setPositionList(positionList);
         teamA.add(ship);
 

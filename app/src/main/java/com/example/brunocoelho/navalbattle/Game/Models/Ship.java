@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {
-    private int color;
     private List<Position> positionList;
     private List<Position> hitedPositions;
 
@@ -31,7 +30,6 @@ public class Ship {
         this.positionList=new ArrayList<>();
         this.hitedPositions=new ArrayList<>();
         this.initialPositionList = new ArrayList<>();
-        this.color = Constants.FULL_SQUARE;
     }
 
     public void setHitedPositions(List<Position> hitedPositions) {
@@ -40,14 +38,6 @@ public class Ship {
 
     public List<Position> getInitialPositionList() {
         return initialPositionList;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
     }
 
     public void setInitialPositionList(List<Position> initialPositionList) {

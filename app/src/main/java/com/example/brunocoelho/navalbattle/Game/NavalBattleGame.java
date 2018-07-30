@@ -13,8 +13,11 @@ public class NavalBattleGame implements Serializable{
 
     private Data data;
 
+
+    private ArrayList<Position> invalidPositions;
+
     public NavalBattleGame() {
-        this.data = new Data();
+        this.data = new Data();invalidPositions = new ArrayList<>();
     }
 
     public Ship getShip(Position position)
@@ -51,9 +54,11 @@ public class NavalBattleGame implements Serializable{
 
     public boolean isValidatedShip(Ship selectedShip) {
 
-
         for(Position position : selectedShip.getPositionList())
         {
+            //define as bad position... if it isnt in the end of the function is changed
+//            position.setColor(Constants.RED_SQUARE);
+
             if(position.getNumber()>=9 || position.getLetter()>=9)
                 return false;
             if(position.getNumber()<=0 || position.getLetter()<=0)
@@ -66,7 +71,6 @@ public class NavalBattleGame implements Serializable{
                 if(!otherShip.equals(selectedShip) && otherShip.getPositionList().contains(position))
                     return false;
             }
-
         }
 
 //        List<Position> adjancentPositions = getAdjacentPositions(selectedShip);
@@ -89,5 +93,28 @@ public class NavalBattleGame implements Serializable{
         }
 
         return adjancentPositions;
+    }
+
+    public ArrayList<Position> getInvalidPositions() {
+        return invalidPositions;
+    }
+
+    public void setInvalidPositions(ArrayList<Position> invalidPositions) {
+        this.invalidPositions = invalidPositions;
+    }
+
+    public void refreshInvalidPositions(Ship selectedShip) {
+
+        invalidPositions = new ArrayList<>();
+
+
+        for(Ship ship : getTeamA())
+        {
+            for(Position position: ship.getPositionList())
+            {
+                if(selectedShip.getPositionList().contains(position) && !selectedShip.equals(ship))
+                    invalidPositions.add(position);
+            }
+        }
     }
 }

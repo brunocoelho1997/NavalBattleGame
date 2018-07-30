@@ -75,10 +75,7 @@ String TAG ="minha";
                 {
                     selectedShip.setPointPosition(onMovePosition);
 
-                    if(navalBattleGame.isValidatedShip(selectedShip))
-                        selectedShip.setColor(Constants.FULL_SQUARE);
-                    else
-                        selectedShip.setColor(Constants.RED_SQUARE);
+                    navalBattleGame.refreshInvalidPositions(selectedShip);
 
                     invalidate();
                 }
@@ -105,10 +102,10 @@ String TAG ="minha";
                     else
                     {
                         selectedShip.restoreInitialPosition();
-
+                        navalBattleGame.getInvalidPositions().clear();
                     }
 
-                    selectedShip.setColor(Constants.FULL_SQUARE);
+//                    selectedShip.setColor(Constants.FULL_SQUARE);
 
 
                     selectedShip = null;
@@ -127,7 +124,6 @@ String TAG ="minha";
         }
         return true;
     }
-
 
     public static Bitmap createImage(int width, int height, String colorString) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -196,15 +192,15 @@ String TAG ="minha";
         {
             int marginShip = 0;
 
-            //vai buscar o tamanho real
-            realImage = BitmapFactory.decodeResource(getResources(), ship.getColor());
-//            realImage = createImage(50,50, ship.getColor());
-
-            //convert to point of the size of the table
-            newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-marginShip,hPeca-marginShip
-                    , false);
-
             for(Position position : ship.getPositionList()){
+
+                //vai buscar o tamanho real
+                realImage = BitmapFactory.decodeResource(getResources(), position.getColor());
+//              realImage = createImage(50,50, ship.getColor());
+
+                //convert to point of the size of the table
+                newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-marginShip,hPeca-marginShip
+                        , false);
 
                 numberPoint =  position.getNumber() * (this.getHeight()/9) + marginShip/2;
                 letterPoint = position.getLetter() * (this.getWidth()/9) + marginShip/2;
@@ -214,12 +210,42 @@ String TAG ="minha";
         }
     }
 
+    private void paintInvalidPositions(Canvas canvas) {
+        Bitmap realImage;
+        Bitmap newBitmap;
+
+        //size of the ship
+        int wPeca = this.getWidth()/9;
+        int hPeca = this.getHeight()/9;
+
+        //point where ship will be painted
+        float letterPoint;
+        float numberPoint;
+
+        for(Position position : navalBattleGame.getInvalidPositions())
+        {
+            //vai buscar o tamanho real
+            realImage = BitmapFactory.decodeResource(getResources(), Constants.RED_SQUARE);
+//              realImage = createImage(50,50, ship.getColor());
+
+            //convert to point of the size of the table
+            newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
+                    , false);
+
+            numberPoint =  position.getNumber() * (this.getHeight()/9) ;
+            letterPoint = position.getLetter() * (this.getWidth()/9) ;
+
+            canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
+        }
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
         paintMap(canvas);
         paintShips(canvas, navalBattleGame.getTeamA());
+        paintInvalidPositions(canvas);
 
     }
 }

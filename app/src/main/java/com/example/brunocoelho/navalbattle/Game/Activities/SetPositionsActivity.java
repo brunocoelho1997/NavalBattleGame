@@ -125,8 +125,6 @@ public class SetPositionsActivity extends Activity {
         ship = createShip(positionList);
         teamA.add(ship);
 
-
-
         //2x3
         positionList = new ArrayList<>();
         positionList.add(new Position(3,5));

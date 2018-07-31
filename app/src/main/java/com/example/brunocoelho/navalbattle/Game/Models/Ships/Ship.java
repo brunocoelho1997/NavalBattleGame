@@ -49,6 +49,36 @@ public abstract class Ship {
 
     public void setPointPosition(Position position) { }
 
+    public List<Position> getAdjacentPositions()
+    {
+        List<Position> adjacentPositions = new ArrayList<>();
+
+        List<Position> finalAdjacentPositions = new ArrayList<>();
+
+        for(Position position: positionList)
+        {
+            adjacentPositions.add(new Position(position.getNumber()-1, position.getLetter()));
+            adjacentPositions.add(new Position(position.getNumber()-1, position.getLetter()+1));
+            adjacentPositions.add(new Position(position.getNumber()-1, position.getLetter()-1));
+            adjacentPositions.add(new Position(position.getNumber(), position.getLetter()+1));
+            adjacentPositions.add(new Position(position.getNumber(), position.getLetter()-1));
+            adjacentPositions.add(new Position(position.getNumber()+1, position.getLetter()+1));
+            adjacentPositions.add(new Position(position.getNumber()+1, position.getLetter()));
+            adjacentPositions.add(new Position(position.getNumber()+1, position.getLetter()-1));
+        }
+
+        for(Position position: adjacentPositions)
+        {
+            if(position.getNumber()>0 && position.getLetter()>0 && position.getNumber()<9 && position.getLetter()<9)
+                finalAdjacentPositions.add(position);
+
+//            if(!positionList.contains(position))
+//                finalAdjacentPositions.add(position);
+        }
+
+        return finalAdjacentPositions;
+    }
+
     public void restoreInitialPosition()
     {
         for(int i= 0; i<positionList.size(); i++)

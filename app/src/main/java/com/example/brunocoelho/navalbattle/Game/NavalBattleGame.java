@@ -52,19 +52,25 @@ public class NavalBattleGame implements Serializable{
         data.setTeamB(teamB);
     }
 
+    public boolean isInsideView(Ship selectedShip) {
+
+        for(Position position : selectedShip.getPositionList()) {
+            if (position.getNumber() >= 9 || position.getLetter() >= 9)
+                return false;
+            if (position.getNumber() <= 0 || position.getLetter() <= 0)
+                return false;
+        }
+
+        return true;
+    }
+
     public boolean isValidatedShip(Ship selectedShip) {
+
+        if(!isInsideView(selectedShip))
+            return false;
 
         for(Position position : selectedShip.getPositionList())
         {
-            //define as bad position... if it isnt in the end of the function is changed
-//            position.setColor(Constants.RED_SQUARE);
-
-            if(position.getNumber()>=9 || position.getLetter()>=9)
-                return false;
-            if(position.getNumber()<=0 || position.getLetter()<=0)
-                return false;
-
-
             //if there is a ship
             for(Ship otherShip: getTeamA())
             {
@@ -73,27 +79,8 @@ public class NavalBattleGame implements Serializable{
             }
         }
 
-//        List<Position> adjancentPositions = getAdjacentPositions(selectedShip);
-
         return true;
     }
-
-//    private List<Position> getAdjacentPositions(Ship selectedShip) {
-//        List<Position> adjancentPositions = new ArrayList<>();
-//        Position aux = null;
-//
-//        for(Position position : selectedShip.getPositionList()){
-//            aux = new Position(position.getNumber(), position.getLetter());
-//            adjancentPositions.add(aux);
-//        }
-//
-//        if(selectedShip.getPositionList().size()==1)
-//        {
-//            adjancentPositions.add(new Position());
-//        }
-//
-//        return adjancentPositions;
-//    }
 
     public ArrayList<Position> getInvalidPositions() {
         return invalidPositions;
@@ -129,8 +116,5 @@ public class NavalBattleGame implements Serializable{
 
             }
         }
-
-        Log.d("getAdjacentPositions", selectedShip.getAdjacentPositions().toString());
-
     }
 }

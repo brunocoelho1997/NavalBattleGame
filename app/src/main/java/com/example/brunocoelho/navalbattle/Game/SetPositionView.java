@@ -25,6 +25,7 @@ String TAG ="minha";
 
     Position lastPoint = null;
 
+    Position lasValidPosition = null;
 
     public SetPositionView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
@@ -74,6 +75,11 @@ String TAG ="minha";
                 {
                     selectedShip.setPointPosition(onMovePosition);
 
+                    if(navalBattleGame.isInsideView(selectedShip))
+                        lasValidPosition = onMovePosition;
+                    else
+                        selectedShip.setPointPosition(lasValidPosition);
+
                     navalBattleGame.refreshInvalidPositions(selectedShip);
 
                     invalidate();
@@ -93,17 +99,11 @@ String TAG ="minha";
                 if(selectedShip!=null)
                 {
 
+                    selectedShip.setPointPosition(onUpPosition);
                     if(navalBattleGame.isValidatedShip(selectedShip))
-                    {
-                        selectedShip.setPointPosition(onUpPosition);
-                    }
-
+                        lasValidPosition = onUpPosition;
                     else
-                    {
-                        selectedShip.restoreInitialPosition();
-                        navalBattleGame.getInvalidPositions().clear();
-                    }
-
+                        selectedShip.setPointPosition(lasValidPosition);
 
                     selectedShip = null;
 
@@ -120,15 +120,6 @@ String TAG ="minha";
                 break;
         }
         return true;
-    }
-
-    public static Bitmap createImage(int width, int height, String colorString) {
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor(colorString));
-        canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
-        return bitmap;
     }
 
     private void paintMap(Canvas canvas) {

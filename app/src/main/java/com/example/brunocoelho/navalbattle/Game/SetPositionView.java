@@ -25,6 +25,10 @@ String TAG ="minha";
 
     Position lastPoint = null;
 
+    Position onDownPosition = null;
+    Position onMovePosition= null;
+    Position onUpPosition = null;
+
     Position lasValidPosition = null;
 
     public SetPositionView(Context context, NavalBattleGame navalBattleGame) {
@@ -49,7 +53,7 @@ String TAG ="minha";
                 initialX = event.getX();
                 initialY = event.getY();
 
-                Position onDownPosition = new Position((int)(initialY*9 / getWidth()), ((int)(initialX*9 / getHeight())));
+                onDownPosition = new Position((int)(initialY*9 / getWidth()), ((int)(initialX*9 / getHeight())));
 
                 selectedShip = navalBattleGame.getShip(onDownPosition);
 
@@ -69,7 +73,8 @@ String TAG ="minha";
                 float finalX = event.getX();
                 float finalY = event.getY();
 
-                Position onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
+                onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
+                Log.d("onMovePosition", onMovePosition.toString() + "---\n");
 
                 if(selectedShip!= null)
                 {
@@ -92,15 +97,42 @@ String TAG ="minha";
                 finalX = event.getX();
                 finalY = event.getY();
 
-                Position onUpPosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
+                onUpPosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
 
                 Log.d("onUP", onUpPosition.toString() + "---\n");
 
                 if(selectedShip!=null)
                 {
 
+                    //if down, move and up same position so this is a rotate
+                    if(onDownPosition.equals(onUpPosition))
+                    {
+                        //if the first move of the ship we need to define its positions
+//                        if(selectedShip.getPositionList().isEmpty())
+//                            selectedShip.setPointPosition(onUpPosition);
+
+                        selectedShip.rotate();
+
+
+                        while(true)
+                        {
+                            selectedShip.setPointPosition(onUpPosition);
+                            if(!navalBattleGame.isInsideView(selectedShip))
+                                selectedShip.rotate();
+                            else
+                                break;
+                        }
+
+                    }
+
+
+
                     selectedShip.setPointPosition(onUpPosition);
-                    if(navalBattleGame.isValidatedShip(selectedShip))
+
+                    navalBattleGame.refreshInvalidPositions(selectedShip);
+
+
+                    if(navalBattleGame.isInsideView(selectedShip))
                         lasValidPosition = onUpPosition;
                     else
                         selectedShip.setPointPosition(lasValidPosition);

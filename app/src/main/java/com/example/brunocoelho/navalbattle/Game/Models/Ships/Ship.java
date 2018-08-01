@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Ship {
+    protected int rotation;
     protected List<Position> positionList;
     protected List<Position> hitedPositions;
 
@@ -28,6 +29,7 @@ public abstract class Ship {
     }
 
     public Ship() {
+        this.rotation = 0;
         this.positionList=new ArrayList<>();
         this.hitedPositions=new ArrayList<>();
         this.initialPositionList = new ArrayList<>();
@@ -87,11 +89,16 @@ public abstract class Ship {
             positionList.get(i).setNumber(initialPositionList.get(i).getNumber());
         }
     }
+
+    public void rotate(){}
+
     @Override
     public String toString() {
         return "Ship{" +
-                "positionList=" + positionList +
+                "rotation=" + rotation +
+                ", positionList=" + positionList +
                 ", hitedPositions=" + hitedPositions +
+                ", initialPositionList=" + initialPositionList +
                 '}';
     }
 }

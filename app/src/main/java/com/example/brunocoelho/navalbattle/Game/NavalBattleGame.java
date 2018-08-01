@@ -64,23 +64,23 @@ public class NavalBattleGame implements Serializable{
         return true;
     }
 
-    public boolean isValidatedShip(Ship selectedShip) {
-
-        if(!isInsideView(selectedShip))
-            return false;
-
-        for(Position position : selectedShip.getPositionList())
-        {
-            //if there is a ship
-            for(Ship otherShip: getTeamA())
-            {
-                if(!otherShip.equals(selectedShip) && otherShip.getPositionList().contains(position))
-                    return false;
-            }
-        }
-
-        return true;
-    }
+//    public boolean isValidatedShip(Ship selectedShip) {
+//
+//        if(!isInsideView(selectedShip))
+//            return false;
+//
+////        for(Position position : selectedShip.getPositionList())
+////        {
+////            //if there is a ship
+////            for(Ship otherShip: getTeamA())
+////            {
+////                if(!otherShip.equals(selectedShip) && otherShip.getPositionList().contains(position))
+////                    return false;
+////            }
+////        }
+//
+//        return true;
+//    }
 
     public ArrayList<Position> getInvalidPositions() {
         return invalidPositions;
@@ -93,7 +93,6 @@ public class NavalBattleGame implements Serializable{
     public void refreshInvalidPositions(Ship selectedShip) {
 
         invalidPositions = new ArrayList<>();
-
 
         for(Ship ship : getTeamA())
         {

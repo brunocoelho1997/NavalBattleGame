@@ -12,7 +12,6 @@ import java.util.List;
 public abstract class Ship {
     protected int rotation;
     protected List<Position> positionList;
-    protected List<Position> hitedPositions;
 
     private List<Position> initialPositionList;
 
@@ -24,19 +23,10 @@ public abstract class Ship {
         this.positionList = positionList;
     }
 
-    public List<Position> getHitedPositions() {
-        return hitedPositions;
-    }
-
     public Ship() {
         this.rotation = 0;
         this.positionList=new ArrayList<>();
-        this.hitedPositions=new ArrayList<>();
         this.initialPositionList = new ArrayList<>();
-    }
-
-    public void setHitedPositions(List<Position> hitedPositions) {
-        this.hitedPositions = hitedPositions;
     }
 
     public List<Position> getInitialPositionList() {
@@ -97,7 +87,6 @@ public abstract class Ship {
         return "Ship{" +
                 "rotation=" + rotation +
                 ", positionList=" + positionList +
-                ", hitedPositions=" + hitedPositions +
                 ", initialPositionList=" + initialPositionList +
                 '}';
     }

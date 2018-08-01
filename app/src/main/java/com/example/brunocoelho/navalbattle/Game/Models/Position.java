@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Position implements Serializable{
     private int number, letter;
     private int color;
+    private boolean destroyed;
 
     public Position() {
         number = -1;
@@ -53,6 +54,14 @@ public class Position implements Serializable{
 
         return false;
 
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
     }
 
     @Override

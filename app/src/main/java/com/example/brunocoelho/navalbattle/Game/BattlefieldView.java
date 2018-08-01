@@ -55,18 +55,23 @@ String TAG ="minha";
 
                 onDownPosition = new Position((int)(initialY*9 / getWidth()), ((int)(initialX*9 / getHeight())));
 
-                selectedShip = navalBattleGame.getShip(onDownPosition);
-
-                Log.d("onDown", "\n---" +onDownPosition.toString());
-
-                if(selectedShip!=null)
+                if(navalBattleGame.isStarted())
                 {
-                    Log.d("onDown", selectedShip.toString());
 
-                    lastPoint = selectedShip.getPointPosition();
                 }
+                else
+                {
+                    selectedShip = navalBattleGame.getShip(onDownPosition);
 
+                    Log.d("onDown", "\n---" +onDownPosition.toString());
 
+                    if(selectedShip!=null)
+                    {
+                        Log.d("onDown", selectedShip.toString());
+
+                        lastPoint = selectedShip.getPointPosition();
+                    }
+                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -76,20 +81,27 @@ String TAG ="minha";
                 onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
                 Log.d("onMovePosition", onMovePosition.toString() + "---\n");
 
-                if(selectedShip!= null)
+
+                if(navalBattleGame.isStarted())
                 {
-                    selectedShip.setPointPosition(onMovePosition);
 
-                    if(navalBattleGame.isInsideView(selectedShip))
-                        lasValidPosition = onMovePosition;
-                    else
-                        selectedShip.setPointPosition(lasValidPosition);
-
-                    navalBattleGame.refreshInvalidPositions(selectedShip);
-
-                    invalidate();
                 }
+                else
+                {
+                    if(selectedShip!= null)
+                    {
+                        selectedShip.setPointPosition(onMovePosition);
 
+                        if(navalBattleGame.isInsideView(selectedShip))
+                            lasValidPosition = onMovePosition;
+                        else
+                            selectedShip.setPointPosition(lasValidPosition);
+
+                        navalBattleGame.refreshInvalidPositions(selectedShip);
+
+                        invalidate();
+                    }
+                }
 
                 break;
 
@@ -101,40 +113,48 @@ String TAG ="minha";
 
                 Log.d("onUP", onUpPosition.toString() + "---\n");
 
-                if(selectedShip!=null)
+                if(navalBattleGame.isStarted())
                 {
 
-                    //if down, move and up same position so this is a rotate
-                    if(onDownPosition.equals(onUpPosition))
-                    {
-                        selectedShip.rotate();
-                        //rotate while doesn't find valid rotation
-                        while(true)
-                        {
-                            selectedShip.setPointPosition(onUpPosition);
-                            if(!navalBattleGame.isInsideView(selectedShip))
-                                selectedShip.rotate();
-                            else
-                                break;
-                        }
-                    }
-
-
-
-                    selectedShip.setPointPosition(onUpPosition);
-
-                    navalBattleGame.refreshInvalidPositions(selectedShip);
-
-
-                    if(navalBattleGame.isInsideView(selectedShip))
-                        lasValidPosition = onUpPosition;
-                    else
-                        selectedShip.setPointPosition(lasValidPosition);
-
-                    selectedShip = null;
-
-                    invalidate();
                 }
+                else
+                {
+                    if(selectedShip!=null)
+                    {
+
+                        //if down, move and up same position so this is a rotate
+                        if(onDownPosition.equals(onUpPosition))
+                        {
+                            selectedShip.rotate();
+                            //rotate while doesn't find valid rotation
+                            while(true)
+                            {
+                                selectedShip.setPointPosition(onUpPosition);
+                                if(!navalBattleGame.isInsideView(selectedShip))
+                                    selectedShip.rotate();
+                                else
+                                    break;
+                            }
+                        }
+
+
+
+                        selectedShip.setPointPosition(onUpPosition);
+
+                        if(navalBattleGame.isInsideView(selectedShip))
+                            lasValidPosition = onUpPosition;
+                        else
+                            selectedShip.setPointPosition(lasValidPosition);
+
+                        navalBattleGame.refreshInvalidPositions(selectedShip);
+
+
+                        selectedShip = null;
+
+                        invalidate();
+                    }
+                }
+
                 break;
 
             case MotionEvent.ACTION_CANCEL:
@@ -224,6 +244,43 @@ String TAG ="minha";
         }
     }
 
+    private void paintDestroyedPositions(Canvas canvas, List<Ship> team) {
+        Bitmap realImage;
+        Bitmap newBitmap;
+
+        //size of the ship
+        int wPeca = this.getWidth()/9;
+        int hPeca = this.getHeight()/9;
+
+        //point where ship will be painted
+        float letterPoint;
+        float numberPoint;
+
+        for(Ship ship : team)
+        {
+            int marginShip = 0;
+
+            for(Position position : ship.getPositionList()){
+
+                if(position.isDestroyed())
+                {
+                    //vai buscar o tamanho real
+                    realImage = BitmapFactory.decodeResource(getResources(), Constants.CROSS_SQUARE);
+//              realImage = createImage(50,50, ship.getColor());
+
+                    //convert to point of the size of the table
+                    newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-marginShip,hPeca-marginShip
+                            , false);
+
+                    numberPoint =  position.getNumber() * (this.getHeight()/9) + marginShip/2;
+                    letterPoint = position.getLetter() * (this.getWidth()/9) + marginShip/2;
+
+                    canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
+                }
+            }
+        }
+    }
+
     private void paintInvalidPositions(Canvas canvas) {
         Bitmap realImage;
         Bitmap newBitmap;
@@ -259,13 +316,13 @@ String TAG ="minha";
 
         paintMap(canvas);
 
-        //if game already started... just show asdasdadasdasdasdasddsas
+        //if game already started... just show destroyed positions from another team
         if(navalBattleGame.isStarted())
         {
             if(navalBattleGame.isPlayerATurn())
-                paintShips(canvas, navalBattleGame.getTeamA());
+                paintDestroyedPositions(canvas, navalBattleGame.getTeamB());
             else
-                paintShips(canvas, navalBattleGame.getTeamB());
+                paintDestroyedPositions(canvas, navalBattleGame.getTeamA());
         }
         //if the game has not started yet show all game to user change positions
         else

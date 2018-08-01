@@ -71,11 +71,13 @@ public class BattlefieldActivity extends Activity {
     public void onStartGame(View v) {
         navalBattleGame.startGame();
 
+        //close panels of choose positions
         LinearLayout linearLayoutChoosePanel = findViewById(R.id.choosePanel);
         linearLayoutChoosePanel.setVisibility(View.GONE);
         Button buttonStartGame = findViewById(R.id.btStartGame);
         buttonStartGame.setVisibility(View.GONE);
 
+        //open panel of players
         LinearLayout linearLayoutPlayerPanel = findViewById(R.id.playersPanel);
         linearLayoutPlayerPanel.setVisibility(View.VISIBLE);
 

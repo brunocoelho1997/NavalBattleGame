@@ -7,6 +7,8 @@ public class Constants {
     public static final int BLANK_SQUARE = R.drawable.blank_square;
     public static final int RED_SQUARE = R.drawable.red_square;
 
+    public static final int CROSS_SQUARE= R.drawable.cross_square;
+
 
     public static final int LETTER_A= R.drawable.letter_a;
 

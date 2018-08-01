@@ -318,15 +318,16 @@ public class NavalBattleGame implements Serializable{
                     for(Ship ship : getTeamB()) {
                         if(ship.getPositionList().contains(position))
                         {
-                            Log.d("verifyFiredPosition","Hited in position: " + position);
+                            Log.d("verifyFiredPosition","TeamA hited in position: " + position);
                             position.setColor(Constants.BLACK_CROSS_SQUARE);
+                            break;
                         }
                         else
                         {
-                            Log.d("verifyFiredPosition","Missed in position: " + position);
                             position.setColor(Constants.CROSS_SQUARE);
                         }
                     }
+                    Log.d("verifyFiredPosition","TeamA missed in position: " + position);
                 }
             }
             else
@@ -339,15 +340,16 @@ public class NavalBattleGame implements Serializable{
                     for(Ship ship : getTeamA()) {
                         if(ship.getPositionList().contains(position))
                         {
-                            Log.d("verifyFiredPosition","Hited in position: " + position);
+                            Log.d("verifyFiredPosition","TeamB hited in position: " + position);
                             position.setColor(Constants.BLACK_CROSS_SQUARE);
+                            break;
                         }
                         else
                         {
-                            Log.d("verifyFiredPosition","Missed in position: " + position);
                             position.setColor(Constants.CROSS_SQUARE);
                         }
                     }
+                    Log.d("verifyFiredPosition","TeamB missed in position: " + position);
                 }
             }
 

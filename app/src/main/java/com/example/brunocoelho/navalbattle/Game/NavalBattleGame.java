@@ -290,15 +290,17 @@ public class NavalBattleGame implements Serializable{
 
     public void addFiredPosition(Position onDownPosition) {
 
-        //if is teamA and is his turn or if is teamB and is his turn to play
-        if(isAmITeamA() && isTeamATurn() || !isAmITeamA() && !isTeamATurn())
+        //if the position clicked is inside table...
+        if (onDownPosition.getNumber() <= 9 && onDownPosition.getLetter() <= 9 && onDownPosition.getLetter()>=1 && onDownPosition.getNumber()>=1)
         {
-            //verify if the user already not fired to this position
-            if(!firedPositionsTemp.contains(onDownPosition))
-                firedPositionsTemp.add(onDownPosition);
+            //if is teamA and is his turn or if is teamB and is his turn to play
+            if(isAmITeamA() && isTeamATurn() || !isAmITeamA() && !isTeamATurn())
+            {
+                //verify if the user already not fired to this position
+                if(!firedPositionsTemp.contains(onDownPosition))
+                    firedPositionsTemp.add(onDownPosition);
+            }
         }
-
-
     }
 
     public void verifyFiredPosition() {
@@ -310,6 +312,7 @@ public class NavalBattleGame implements Serializable{
             //if was teamA
             if(isTeamATurn())
             {
+                //add as fired positions...
                 data.getFiredPositionsTeamA().addAll(firedPositionsTemp);
 
                 //if shots hit teamA change icon to cross black.... if not change to cross
@@ -332,6 +335,7 @@ public class NavalBattleGame implements Serializable{
             }
             else
             {
+                //add as fired positions...
                 data.getFiredPositionsTeamB().addAll(firedPositionsTemp);
 
                 //if shots hit teamA change icon to cross black.... if not change to cross

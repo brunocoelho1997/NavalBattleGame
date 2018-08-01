@@ -57,8 +57,7 @@ String TAG ="minha";
 
                 if(navalBattleGame.isStarted())
                 {
-
-                    navalBattleGame.addFiredPosition(onDownPosition);
+                        navalBattleGame.addFiredPosition(onDownPosition);
 
                 }
                 else

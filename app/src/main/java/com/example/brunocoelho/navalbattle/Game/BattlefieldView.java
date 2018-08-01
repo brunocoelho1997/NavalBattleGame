@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +29,7 @@ String TAG ="minha";
     Position onUpPosition = null;
 
     Position lasValidPosition = null;
+
 
     public BattlefieldView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
@@ -57,6 +57,8 @@ String TAG ="minha";
 
                 if(navalBattleGame.isStarted())
                 {
+
+                    navalBattleGame.addFiredPosition(onDownPosition);
 
                 }
                 else
@@ -115,7 +117,8 @@ String TAG ="minha";
 
                 if(navalBattleGame.isStarted())
                 {
-
+                    //verify fired positions and act
+                    navalBattleGame.verifyFiredPosition();
                 }
                 else
                 {
@@ -137,24 +140,20 @@ String TAG ="minha";
                             }
                         }
 
-
-
                         selectedShip.setPointPosition(onUpPosition);
 
+//                        TODO: understand this again... and comment
                         if(navalBattleGame.isInsideView(selectedShip))
                             lasValidPosition = onUpPosition;
                         else
                             selectedShip.setPointPosition(lasValidPosition);
 
                         navalBattleGame.refreshInvalidPositions(selectedShip);
-
-
                         selectedShip = null;
-
-                        invalidate();
                     }
                 }
 
+                invalidate();
                 break;
 
             case MotionEvent.ACTION_CANCEL:
@@ -244,7 +243,7 @@ String TAG ="minha";
         }
     }
 
-    private void paintDestroyedPositions(Canvas canvas, List<Ship> team) {
+    private void paintFiredPositionsTeam(Canvas canvas, List<Position> positions) {
         Bitmap realImage;
         Bitmap newBitmap;
 
@@ -256,30 +255,57 @@ String TAG ="minha";
         float letterPoint;
         float numberPoint;
 
-        for(Ship ship : team)
-        {
-            int marginShip = 0;
 
-            for(Position position : ship.getPositionList()){
+        int marginShip = 0;
 
-                if(position.isDestroyed())
-                {
-                    //vai buscar o tamanho real
-                    realImage = BitmapFactory.decodeResource(getResources(), Constants.CROSS_SQUARE);
+        for(Position position : positions){
+
+
+            //vai buscar o tamanho real
+            realImage = BitmapFactory.decodeResource(getResources(), position.getColor());
 //              realImage = createImage(50,50, ship.getColor());
 
-                    //convert to point of the size of the table
-                    newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-marginShip,hPeca-marginShip
-                            , false);
+            //convert to point of the size of the table
+            newBitmap = Bitmap.createScaledBitmap(realImage, wPeca-marginShip,hPeca-marginShip
+                    , false);
 
-                    numberPoint =  position.getNumber() * (this.getHeight()/9) + marginShip/2;
-                    letterPoint = position.getLetter() * (this.getWidth()/9) + marginShip/2;
+            numberPoint =  position.getNumber() * (this.getHeight()/9) + marginShip/2;
+            letterPoint = position.getLetter() * (this.getWidth()/9) + marginShip/2;
 
-                    canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
-                }
+            canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
+
+        }
+
+    }
+
+    private void paintFiredPositions(Canvas canvas) {
+            Bitmap realImage;
+            Bitmap newBitmap;
+
+            //size of the ship
+            int wPeca = this.getWidth()/9;
+            int hPeca = this.getHeight()/9;
+
+            //point where ship will be painted
+            float letterPoint;
+            float numberPoint;
+
+            for(Position position : navalBattleGame.getFiredPositionsTemp())
+            {
+                //vai buscar o tamanho real
+                realImage = BitmapFactory.decodeResource(getResources(), Constants.FIRED_SQUARE);
+//              realImage = createImage(50,50, ship.getColor());
+
+                //convert to point of the size of the table
+                newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
+                        , false);
+
+                numberPoint =  position.getNumber() * (this.getHeight()/9) ;
+                letterPoint = position.getLetter() * (this.getWidth()/9) ;
+
+                canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
             }
         }
-    }
 
     private void paintInvalidPositions(Canvas canvas) {
         Bitmap realImage;
@@ -319,10 +345,25 @@ String TAG ="minha";
         //if game already started... just show destroyed positions from another team
         if(navalBattleGame.isStarted())
         {
-            if(navalBattleGame.isPlayerATurn())
-                paintDestroyedPositions(canvas, navalBattleGame.getTeamB());
+            if(navalBattleGame.isTeamATurn())
+            {
+                paintFiredPositionsTeam(canvas, navalBattleGame.getFiredPositionsTeamA());
+                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getFiredPositionsTeamA().toString());
+
+                paintFiredPositions(canvas);
+                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team A.");
+
+            }
             else
-                paintDestroyedPositions(canvas, navalBattleGame.getTeamA());
+            {
+                Log.d("onDraw", "AI will play.");
+                navalBattleGame.AIFire();
+
+//                paintDestroyedPositions(canvas, navalBattleGame.getTeamA());
+                invalidate();
+            }
+
+
         }
         //if the game has not started yet show all game to user change positions
         else
@@ -331,9 +372,11 @@ String TAG ="minha";
                 paintShips(canvas, navalBattleGame.getTeamA());
             else
                 paintShips(canvas, navalBattleGame.getTeamB());
+
+            paintInvalidPositions(canvas);
+
         }
 
-        paintInvalidPositions(canvas);
 
     }
 }

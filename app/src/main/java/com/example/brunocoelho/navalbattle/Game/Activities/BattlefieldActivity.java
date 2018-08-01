@@ -82,12 +82,12 @@ public class BattlefieldActivity extends Activity {
         linearLayoutPlayerPanel.setVisibility(View.VISIBLE);
 
         //random - 0 or 1
-        navalBattleGame.setPlayerATurn(Math.random() < 0.5);
+        navalBattleGame.setTeamATurn(Math.random() < 0.5);
 
         navalBattleGame.setAIPositions();
 
         battlefieldView.invalidate();
-        Log.d("onStartGame", "Game Started.");
+        Log.d("onStartGame", "Game Started. PlayerA playing:" + navalBattleGame.isTeamATurn());
 
     }
 

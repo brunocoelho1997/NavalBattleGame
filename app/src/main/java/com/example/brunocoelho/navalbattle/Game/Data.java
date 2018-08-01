@@ -1,5 +1,6 @@
 package com.example.brunocoelho.navalbattle.Game;
 
+import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 
 import java.io.Serializable;
@@ -9,10 +10,13 @@ import java.util.List;
 public class Data implements Serializable{
     private List<Ship> teamA;
     private  List<Ship> teamB;
+    private ArrayList<Position> firedPositionsTeamA;
+    private ArrayList<Position> firedPositionsTeamB;
+
 
     private boolean started;
     //if 1 then teamA, if 0 then teamB
-    private boolean playerATurn;
+    private boolean teamATurn;
     //if 1 then teamA, if 0 then teamB
     private boolean amITeamA;
     private boolean twoPlayer;
@@ -20,6 +24,9 @@ public class Data implements Serializable{
     public Data() {
         teamA = new ArrayList<>();
         teamB = new ArrayList<>();
+        firedPositionsTeamA = new ArrayList<>();
+        firedPositionsTeamB = new ArrayList<>();
+
         started = false;
     }
 
@@ -47,12 +54,12 @@ public class Data implements Serializable{
         this.started = started;
     }
 
-    public boolean isPlayerATurn() {
-        return playerATurn;
+    public boolean isTeamATurn() {
+        return teamATurn;
     }
 
-    public void setPlayerATurn(boolean playerATurn) {
-        this.playerATurn = playerATurn;
+    public void setTeamATurn(boolean teamATurn) {
+        this.teamATurn = teamATurn;
     }
 
     public boolean isTwoPlayer() {
@@ -69,5 +76,21 @@ public class Data implements Serializable{
 
     public void setAmITeamA(boolean amITeamA) {
         this.amITeamA = amITeamA;
+    }
+
+    public ArrayList<Position> getFiredPositionsTeamA() {
+        return firedPositionsTeamA;
+    }
+
+    public void setFiredPositionsTeamA(ArrayList<Position> firedPositionsTeamA) {
+        this.firedPositionsTeamA = firedPositionsTeamA;
+    }
+
+    public ArrayList<Position> getFiredPositionsTeamB() {
+        return firedPositionsTeamB;
+    }
+
+    public void setFiredPositionsTeamB(ArrayList<Position> firedPositionsTeamB) {
+        this.firedPositionsTeamB = firedPositionsTeamB;
     }
 }

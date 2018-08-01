@@ -1,5 +1,7 @@
 package com.example.brunocoelho.navalbattle.Game;
 
+import android.util.Log;
+
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipFive;
@@ -10,6 +12,7 @@ import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NavalBattleGame implements Serializable{
 
@@ -17,9 +20,25 @@ public class NavalBattleGame implements Serializable{
 
 
     private ArrayList<Position> invalidPositions;
+    private ArrayList<Position> firedPositionsTemp;
+
+
+
+
+
 
     public NavalBattleGame() {
-        this.data = new Data();invalidPositions = new ArrayList<>();
+        this.data = new Data();
+        invalidPositions = new ArrayList<>();
+        this.firedPositionsTemp = new ArrayList<>();
+    }
+
+    public ArrayList<Position> getFiredPositionsTemp() {
+        return firedPositionsTemp;
+    }
+
+    public void setFiredPositionsTemp(ArrayList<Position> firedPositionsTemp) {
+        this.firedPositionsTemp = firedPositionsTemp;
     }
 
     public Ship getShip(Position position)
@@ -150,17 +169,33 @@ public class NavalBattleGame implements Serializable{
         data.setTwoPlayer(twoPlayer);
     }
 
-    public boolean isPlayerATurn() {
-        return data.isPlayerATurn();
+    public boolean isTeamATurn() {
+        return data.isTeamATurn();
     }
 
-    public void setPlayerATurn(boolean playerATurn) {
-        data.setPlayerATurn(playerATurn);
+    public void setTeamATurn(boolean playerATurn) {
+        data.setTeamATurn(playerATurn);
     }
 
     public void setAIPositions() {
 
 
+    }
+
+    public ArrayList<Position> getFiredPositionsTeamA() {
+        return data.getFiredPositionsTeamA();
+    }
+
+    public void setFiredPositionsTeamA(ArrayList<Position> firedPositionsTeamA) {
+        data.setFiredPositionsTeamA(firedPositionsTeamA);
+    }
+
+    public ArrayList<Position> getFiredPositionsTeamB() {
+        return data.getFiredPositionsTeamB();
+
+    }
+    public void setFiredPositionsTeamB(ArrayList<Position> firedPositionsTeamB) {
+        data.setFiredPositionsTeamB(firedPositionsTeamB);
     }
 
     public boolean isAmITeamA() {
@@ -252,4 +287,99 @@ public class NavalBattleGame implements Serializable{
         teamA.add(createShip(positionList));
 //        teamB.add(createShip(positionList));
     }
+
+    public void addFiredPosition(Position onDownPosition) {
+
+        //if is teamA and is his turn or if is teamB and is his turn to play
+        if(isAmITeamA() && isTeamATurn() || !isAmITeamA() && !isTeamATurn())
+        {
+            //verify if the user already not fired to this position
+            if(!firedPositionsTemp.contains(onDownPosition))
+                firedPositionsTemp.add(onDownPosition);
+        }
+
+
+    }
+
+    public void verifyFiredPosition() {
+
+        List<Ship> team;
+
+        if(firedPositionsTemp.size()==3)
+        {
+            //if was teamA
+            if(isTeamATurn())
+            {
+                data.getFiredPositionsTeamA().addAll(firedPositionsTemp);
+
+                //if shots hit teamA change icon to cross black.... if not change to cross
+                for(Position position : firedPositionsTemp)
+                {
+                    for(Ship ship : getTeamB()) {
+                        if(ship.getPositionList().contains(position))
+                        {
+                            Log.d("verifyFiredPosition","Hited in position: " + position);
+                            position.setColor(Constants.BLACK_CROSS_SQUARE);
+                        }
+                        else
+                        {
+                            Log.d("verifyFiredPosition","Missed in position: " + position);
+                            position.setColor(Constants.CROSS_SQUARE);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                data.getFiredPositionsTeamB().addAll(firedPositionsTemp);
+
+                //if shots hit teamA change icon to cross black.... if not change to cross
+                for(Position position : firedPositionsTemp)
+                {
+                    for(Ship ship : getTeamA()) {
+                        if(ship.getPositionList().contains(position))
+                        {
+                            Log.d("verifyFiredPosition","Hited in position: " + position);
+                            position.setColor(Constants.BLACK_CROSS_SQUARE);
+                        }
+                        else
+                        {
+                            Log.d("verifyFiredPosition","Missed in position: " + position);
+                            position.setColor(Constants.CROSS_SQUARE);
+                        }
+                    }
+                }
+            }
+
+
+            firedPositionsTemp.clear();
+            if(isTeamATurn())
+                setTeamATurn(false);
+            else
+                setTeamATurn(true);
+
+            Log.d("verifyFiredPosition","isTeamATurn: " + isTeamATurn());
+
+        }
+
+    }
+
+    public void AIFire() {
+
+        Random rand = new Random();
+        int min = 1; int max = 8;
+
+        //while is team B turn to play... since AI is TeamB
+        while(!isTeamATurn())
+        {
+            firedPositionsTemp.add(new Position(rand.nextInt((max - min) + 1) + min,rand.nextInt((max - min) + 1) + min ));
+
+            Log.d("AIFire","AI Fired!!!!! Positions:" + firedPositionsTemp.toString());
+
+            verifyFiredPosition();
+        }
+
+
+    }
+
 }

@@ -107,13 +107,8 @@ String TAG ="minha";
                     //if down, move and up same position so this is a rotate
                     if(onDownPosition.equals(onUpPosition))
                     {
-                        //if the first move of the ship we need to define its positions
-//                        if(selectedShip.getPositionList().isEmpty())
-//                            selectedShip.setPointPosition(onUpPosition);
-
                         selectedShip.rotate();
-
-
+                        //rotate while doesn't find valid rotation
                         while(true)
                         {
                             selectedShip.setPointPosition(onUpPosition);
@@ -122,7 +117,6 @@ String TAG ="minha";
                             else
                                 break;
                         }
-
                     }
 
 

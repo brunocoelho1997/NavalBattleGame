@@ -3,6 +3,8 @@
     <string name="app_name">Batalha Naval</string>
     <string name="profiles">Perfis</string>
     <string name="new_game">Novo Jogo</string>
+    <string name="header_set_positions">Escolha as suas posições de jogo.</string>
+    <string name="start_game">Começar Jogo</string>
 
 
 </resources>

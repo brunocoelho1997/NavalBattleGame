@@ -15,6 +15,83 @@
         android:text="X"
         android:textSize="15sp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:padding="10dp"
+        android:id="@+id/playersPanel"
+        android:visibility="gone">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="top"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:id="@+id/player1Image"/>
+
+            <TextView
+                android:id="@+id/player1Name"
+                android:textSize="15sp"
+                android:text="Player1"
+                android:gravity="center_vertical|center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:id="@+id/player2Image"/>
+
+            <TextView
+                android:id="@+id/player2Name"
+                android:textSize="15sp"
+                android:text="Player2"
+                android:gravity="center_vertical|center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:padding="10dp"
+        android:id="@+id/HeaderPanelChoosePositions">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:text="@string/header_set_positions"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,7 +115,14 @@
     </android.support.constraint.ConstraintLayout>
 
 
-
+    <Button
+        android:id="@+id/btStartGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onStartGame"
+        android:padding="10dp"
+        android:text="@string/start_game"
+        android:textSize="30sp" />
 
 
 </LinearLayout>

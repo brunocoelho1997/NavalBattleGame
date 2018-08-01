@@ -20,7 +20,6 @@
             android:name=".Menu.newGameActivity"
             android:label="@string/title_activity_new_game"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Game.Activities.GameActivity" />
         <activity
             android:name=".Game.Activities.SetPositionsActivity"
             android:label="@string/title_activity_set_positions"></activity>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Game.Activities.SetPositionsActivity"
+    tools:context=".Game.Activities.BattlefieldActivity"
     android:orientation="vertical">
 
     <Button
@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="top"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/player1Panel">
 
             <ImageView
                 android:layout_width="50dp"
@@ -53,10 +54,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="right"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:id="@+id/player2Panel">
 
 
-            <ImageView
+
+        <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -82,7 +85,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.2"
         android:padding="10dp"
-        android:id="@+id/HeaderPanelChoosePositions">
+        android:id="@+id/choosePanel">
 
         <TextView
             android:layout_width="match_parent"

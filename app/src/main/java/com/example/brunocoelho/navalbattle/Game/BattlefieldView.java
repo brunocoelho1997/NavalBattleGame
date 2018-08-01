@@ -15,7 +15,7 @@ import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 
 import java.util.List;
 
-public class SetPositionView extends View{
+public class BattlefieldView extends View{
 
 String TAG ="minha";
     float initialX, initialY;
@@ -31,7 +31,7 @@ String TAG ="minha";
 
     Position lasValidPosition = null;
 
-    public SetPositionView(Context context, NavalBattleGame navalBattleGame) {
+    public BattlefieldView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
         this.navalBattleGame = navalBattleGame;
         this.selectedShip = null;
@@ -258,7 +258,24 @@ String TAG ="minha";
         super.onDraw(canvas);
 
         paintMap(canvas);
-        paintShips(canvas, navalBattleGame.getTeamA());
+
+        //if game already started... just show asdasdadasdasdasdasddsas
+        if(navalBattleGame.isStarted())
+        {
+            if(navalBattleGame.isPlayerATurn())
+                paintShips(canvas, navalBattleGame.getTeamA());
+            else
+                paintShips(canvas, navalBattleGame.getTeamB());
+        }
+        //if the game has not started yet show all game to user change positions
+        else
+        {
+            if(navalBattleGame.isAmITeamA())
+                paintShips(canvas, navalBattleGame.getTeamA());
+            else
+                paintShips(canvas, navalBattleGame.getTeamB());
+        }
+
         paintInvalidPositions(canvas);
 
     }

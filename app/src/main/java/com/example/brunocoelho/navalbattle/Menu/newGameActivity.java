@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.example.brunocoelho.navalbattle.Game.Activities.SetPositionsActivity;
+import com.example.brunocoelho.navalbattle.Game.Activities.BattlefieldActivity;
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.R;
 
@@ -24,7 +24,11 @@ public class newGameActivity extends AppCompatActivity {
     }
 
     public void onOfflineGame(View v) {
-        Intent intent = new Intent(this, SetPositionsActivity.class);
+
+        navalBattleGame.setTwoPlayer(false);
+        navalBattleGame.setAmITeamA(true);
+
+        Intent intent = new Intent(this, BattlefieldActivity.class);
         intent.putExtra("navalBattleGame", navalBattleGame);
         startActivity(intent);
 
@@ -33,6 +37,8 @@ public class newGameActivity extends AppCompatActivity {
     }
 
     public void onOnlineGame(View v) {
+        navalBattleGame.setTwoPlayer(true);
+
 //        Intent intent = new Intent(this, ListaPerfis.class);
 //        startActivity(intent);
 

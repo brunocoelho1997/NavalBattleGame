@@ -13,6 +13,22 @@ public class Constants {
 
 
     public static final int LETTER_A= R.drawable.letter_a;
+    public static final int LETTER_B= R.drawable.letter_b;
+    public static final int LETTER_C= R.drawable.letter_c;
+    public static final int LETTER_D= R.drawable.letter_d;
+    public static final int LETTER_E= R.drawable.letter_e;
+    public static final int LETTER_F= R.drawable.letter_f;
+    public static final int LETTER_G= R.drawable.letter_g;
+    public static final int LETTER_H= R.drawable.letter_h;
+
+    public static final int NUMBER_1= R.drawable.number_1;
+    public static final int NUMBER_2= R.drawable.number_2;
+    public static final int NUMBER_3= R.drawable.number_3;
+    public static final int NUMBER_4= R.drawable.number_4;
+    public static final int NUMBER_5= R.drawable.number_5;
+    public static final int NUMBER_6= R.drawable.number_6;
+    public static final int NUMBER_7= R.drawable.number_7;
+    public static final int NUMBER_8= R.drawable.number_8;
 
 
 

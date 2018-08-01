@@ -23,22 +23,10 @@ public class NavalBattleGame implements Serializable{
     private ArrayList<Position> firedPositionsTemp;
 
 
-
-
-
-
     public NavalBattleGame() {
         this.data = new Data();
         invalidPositions = new ArrayList<>();
         this.firedPositionsTemp = new ArrayList<>();
-    }
-
-    public ArrayList<Position> getFiredPositionsTemp() {
-        return firedPositionsTemp;
-    }
-
-    public void setFiredPositionsTemp(ArrayList<Position> firedPositionsTemp) {
-        this.firedPositionsTemp = firedPositionsTemp;
     }
 
     public Ship getShip(Position position)
@@ -59,22 +47,6 @@ public class NavalBattleGame implements Serializable{
         return null;
     }
 
-    public List<Ship> getTeamA() {
-        return data.getTeamA();
-    }
-
-    public void setTeamA(List<Ship> teamA) {
-        data.setTeamA(teamA);
-    }
-
-    public List<Ship> getTeamB() {
-        return data.getTeamB();
-    }
-
-    public void setTeamB(List<Ship> teamB) {
-        data.setTeamB(teamB);
-    }
-
     public boolean isInsideView(Ship selectedShip) {
 
         for(Position position : selectedShip.getPositionList()) {
@@ -88,18 +60,6 @@ public class NavalBattleGame implements Serializable{
     }
 
 
-    public boolean isStarted()
-    {
-        return data.isStarted();
-    }
-    public void startGame()
-    {
-        data.setStarted(true);
-    }
-    public void endGame()
-    {
-        data.setStarted(false);
-    }
 
 
 //    public boolean isValidatedShip(Ship selectedShip) {
@@ -120,13 +80,7 @@ public class NavalBattleGame implements Serializable{
 //        return true;
 //    }
 
-    public ArrayList<Position> getInvalidPositions() {
-        return invalidPositions;
-    }
 
-    public void setInvalidPositions(ArrayList<Position> invalidPositions) {
-        this.invalidPositions = invalidPositions;
-    }
 
     public void refreshInvalidPositions(Ship selectedShip) {
 
@@ -161,50 +115,14 @@ public class NavalBattleGame implements Serializable{
         }
     }
 
-    public boolean isTwoPlayer() {
-        return data.isTwoPlayer();
-    }
 
-    public void setTwoPlayer(boolean twoPlayer) {
-        data.setTwoPlayer(twoPlayer);
-    }
-
-    public boolean isTeamATurn() {
-        return data.isTeamATurn();
-    }
-
-    public void setTeamATurn(boolean playerATurn) {
-        data.setTeamATurn(playerATurn);
-    }
 
     public void setAIPositions() {
 
 
     }
 
-    public ArrayList<Position> getFiredPositionsTeamA() {
-        return data.getFiredPositionsTeamA();
-    }
 
-    public void setFiredPositionsTeamA(ArrayList<Position> firedPositionsTeamA) {
-        data.setFiredPositionsTeamA(firedPositionsTeamA);
-    }
-
-    public ArrayList<Position> getFiredPositionsTeamB() {
-        return data.getFiredPositionsTeamB();
-
-    }
-    public void setFiredPositionsTeamB(ArrayList<Position> firedPositionsTeamB) {
-        data.setFiredPositionsTeamB(firedPositionsTeamB);
-    }
-
-    public boolean isAmITeamA() {
-        return data.isAmITeamA();
-    }
-
-    public void setAmITeamA(boolean amITeamA) {
-        data.setAmITeamA(amITeamA);
-    }
 
     private Ship createShip(List<Position> positionList)
     {
@@ -357,7 +275,6 @@ public class NavalBattleGame implements Serializable{
                 }
             }
 
-
             firedPositionsTemp.clear();
             if(isTeamATurn())
                 setTeamATurn(false);
@@ -384,8 +301,95 @@ public class NavalBattleGame implements Serializable{
 
             verifyFiredPosition();
         }
-
-
     }
 
+//    -
+//    -
+//    -
+//    getters and setters
+//    -
+//    -
+//    -
+//
+    public ArrayList<Position> getFiredPositionsTemp() {
+        return firedPositionsTemp;
+    }
+
+    public void setFiredPositionsTemp(ArrayList<Position> firedPositionsTemp) {
+        this.firedPositionsTemp = firedPositionsTemp;
+    }
+    public List<Ship> getTeamA() {
+        return data.getTeamA();
+    }
+
+    public void setTeamA(List<Ship> teamA) {
+        data.setTeamA(teamA);
+    }
+
+    public List<Ship> getTeamB() {
+        return data.getTeamB();
+    }
+
+    public void setTeamB(List<Ship> teamB) {
+        data.setTeamB(teamB);
+    }
+
+
+    public boolean isStarted()
+    {
+        return data.isStarted();
+    }
+    public void startGame()
+    {
+        data.setStarted(true);
+    }
+    public void endGame()
+    {
+        data.setStarted(false);
+    }
+    public ArrayList<Position> getInvalidPositions() {
+        return invalidPositions;
+    }
+
+    public void setInvalidPositions(ArrayList<Position> invalidPositions) {
+        this.invalidPositions = invalidPositions;
+    }
+    public boolean isTwoPlayer() {
+        return data.isTwoPlayer();
+    }
+
+    public void setTwoPlayer(boolean twoPlayer) {
+        data.setTwoPlayer(twoPlayer);
+    }
+
+    public boolean isTeamATurn() {
+        return data.isTeamATurn();
+    }
+
+    public void setTeamATurn(boolean playerATurn) {
+        data.setTeamATurn(playerATurn);
+    }
+    public ArrayList<Position> getFiredPositionsTeamA() {
+        return data.getFiredPositionsTeamA();
+    }
+
+    public void setFiredPositionsTeamA(ArrayList<Position> firedPositionsTeamA) {
+        data.setFiredPositionsTeamA(firedPositionsTeamA);
+    }
+
+    public ArrayList<Position> getFiredPositionsTeamB() {
+        return data.getFiredPositionsTeamB();
+
+    }
+    public void setFiredPositionsTeamB(ArrayList<Position> firedPositionsTeamB) {
+        data.setFiredPositionsTeamB(firedPositionsTeamB);
+    }
+
+    public boolean isAmITeamA() {
+        return data.isAmITeamA();
+    }
+
+    public void setAmITeamA(boolean amITeamA) {
+        data.setAmITeamA(amITeamA);
+    }
 }

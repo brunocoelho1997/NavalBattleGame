@@ -184,8 +184,45 @@ String TAG ="minha";
             {
                 if(number == 0 || letter == 0)
                 {
+                    int icon;
+
+                    if(number == 0 && letter == 1)
+                        icon = Constants.LETTER_A;
+                    else if(number == 0 && letter == 2)
+                        icon = Constants.LETTER_B;
+                    else if(number == 0 && letter == 3)
+                        icon = Constants.LETTER_C;
+                    else if(number == 0 && letter == 4)
+                        icon = Constants.LETTER_D;
+                    else if(number == 0 && letter == 5)
+                        icon = Constants.LETTER_E;
+                    else if(number == 0 && letter == 6)
+                        icon = Constants.LETTER_F;
+                    else if(number == 0 && letter == 7)
+                        icon = Constants.LETTER_G;
+                    else if(number == 0 && letter == 8)
+                        icon = Constants.LETTER_H;
+                    else if(number == 1 && letter == 0)
+                        icon = Constants.NUMBER_1;
+                    else if(number == 2 && letter == 0)
+                        icon = Constants.NUMBER_2;
+                    else if(number == 3 && letter == 0)
+                        icon = Constants.NUMBER_3;
+                    else if(number == 4 && letter == 0)
+                        icon = Constants.NUMBER_4;
+                    else if(number == 5 && letter == 0)
+                        icon = Constants.NUMBER_5;
+                    else if(number == 6 && letter == 0)
+                        icon = Constants.NUMBER_6;
+                    else if(number == 7 && letter == 0)
+                        icon = Constants.NUMBER_7;
+                    else if(number == 8 && letter == 0)
+                        icon = Constants.NUMBER_8;
+                    else
+                        icon = Constants.BLANK_SQUARE;
+
                     //vai buscar o tamanho real
-                    realImage = BitmapFactory.decodeResource(getResources(), Constants.LETTER_A);
+                    realImage = BitmapFactory.decodeResource(getResources(), icon);
 
                     //convert to point of the size of the table
                     newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca

@@ -119,8 +119,7 @@ public class BattlefieldActivity extends Activity {
         }
     }
 
-
-        public void onCloseSetPositions(View v) {
+    public void onCloseSetPositions(View v) {
 
         Log.d("onCloseSetPositions", "Clicked onCloseSetPositions");
 

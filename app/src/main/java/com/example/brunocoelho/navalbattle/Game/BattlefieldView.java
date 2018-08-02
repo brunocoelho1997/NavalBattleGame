@@ -394,7 +394,6 @@ String TAG ="minha";
 
                 paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
                 Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getAtualTeam().getFiredPositions().toString());
-
             }
             else
             {
@@ -408,9 +407,7 @@ String TAG ="minha";
                 paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
                 Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getAtualTeam().toString());
 
-
             }
-
 
         }
         //if the game has not started yet show all game to user change positions

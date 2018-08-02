@@ -57,31 +57,8 @@ public class NavalBattleGame implements Serializable{
             if (position.getNumber() <= 0 || position.getLetter() <= 0)
                 return false;
         }
-
         return true;
     }
-
-
-
-
-//    public boolean isValidatedShip(Ship selectedShip) {
-//
-//        if(!isInsideView(selectedShip))
-//            return false;
-//
-////        for(Position position : selectedShip.getPositionList())
-////        {
-////            //if there is a ship
-////            for(Ship otherShip: getTeamA())
-////            {
-////                if(!otherShip.equals(selectedShip) && otherShip.getPositionList().contains(position))
-////                    return false;
-////            }
-////        }
-//
-//        return true;
-//    }
-
 
     public boolean existInvalidPositions()
     {
@@ -131,7 +108,6 @@ public class NavalBattleGame implements Serializable{
 
     private Ship createShip(List<Position> positionList)
     {
-
         Ship ship = null;
 
         if(positionList.size() ==1)
@@ -241,7 +217,6 @@ public class NavalBattleGame implements Serializable{
             return data.getTeamA();
     }
 
-
     public void verifyFiredPosition() {
 
         Team team = getAtualTeam();
@@ -258,48 +233,69 @@ public class NavalBattleGame implements Serializable{
                     if(ship.getPositionList().contains(position))
                     {
 
-                        if(isAmITeamA())
+                        position.setColor(Constants.BLACK_CROSS_SQUARE);
+                        position.setDestroyed(true);
+
+                        if(isTeamATurn())
                             Log.d("verifyFiredPosition","TeamA hited in position: " + position);
                         else
                             Log.d("verifyFiredPosition","TeamB hited in position: " + position);
 
-                        position.setColor(Constants.BLACK_CROSS_SQUARE);
+
                         break;
                     }
                     else
                     {
+//                        if(isTeamATurn())
+//                            Log.d("verifyFiredPosition","TeamA missed in position: " + position);
+//                        else
+//                            Log.d("verifyFiredPosition","TeamB missed in position: " + position);
+
                         position.setColor(Constants.CROSS_SQUARE);
+
                     }
                 }
-
-                //verify if the atual player didn't win
-                if(verifyEndOfGame())
-                {
-                    if(isTeamATurn())
-                        Log.d("verifyFiredPosition","TeamA won!!!");
-                    else
-                        Log.d("verifyFiredPosition","TeamB won!!!");
-                }
-
-                if(isTeamATurn())
-                    Log.d("verifyFiredPosition","TeamA missed in position: " + position);
-                else
-                    Log.d("verifyFiredPosition","TeamB missed in position: " + position);
-
             }
+
+            if(verifyEndOfGame())
+            {
+                if(isTeamATurn())
+                    Log.d("verifyFiredPosition","TeamA won!!!");
+                else
+                    Log.d("verifyFiredPosition","TeamB won!!!");
+            }
+
         }
     }
 
-    private boolean verifyEndOfGame() {
+    public boolean verifyEndOfGame() {
 
-        Team team = getOpositeTeam();
+        Team atualTeam = getAtualTeam();
 
-        for(Ship ship : team.getShips())
+        Team opositeTeam = getOpositeTeam();
+
+        Log.d("verifyEndOfGame","Positions that atual team fired: " + atualTeam.getFiredPositions().toString());
+
+
+
+        //for all oposite team...
+        //percorre a equipa contrária
+        for(Ship ship : opositeTeam.getShips())
         {
+            //for each ship verify if do not exits any position which that atual team doesnt yet fired.
+            //para cada barco vai verificar se existe alguma posicao em que a equipa atual ainda n tenha disparado
             for(Position position : ship.getPositionList())
-                if(position.getColor() == Constants.FULL_SQUARE)
+            {
+                if(!atualTeam.getFiredPositions().contains(position))
+                {
+//                    Log.d("verifyEndOfGame","Found not fired position in another team. Position: " + position);
                     return false;
+                }
+            }
         }
+
+//        since atual team fired all positions of another team the the game is ended
+//        visto que a equipa atual disparou em todos os barcos contrarios esta nahou
         return true;
     }
 
@@ -321,7 +317,6 @@ public class NavalBattleGame implements Serializable{
 
     public void nextTurn() {
         getFiredPositionsTemp().clear();
-
         if(isTeamATurn())
             setTeamATurn(false);
         else

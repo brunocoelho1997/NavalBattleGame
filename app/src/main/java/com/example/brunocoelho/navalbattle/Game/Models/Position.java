@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class Position implements Serializable{
     private int number, letter;
     private int color;
+    private boolean destroyed;
 
     public Position() {
         number = -1;
@@ -43,6 +44,14 @@ public class Position implements Serializable{
         this.color = color;
     }
 
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(this.letter == ((Position)obj).getLetter())
@@ -61,6 +70,6 @@ public class Position implements Serializable{
         /*
         Tem de ser lido como: linha x coluna.
          */
-        return "[" + (number) + ";" +  (char)(letter+96)  + "] - " + number + ";" +letter  ;
+        return "[" + (number) + ";" +  (char)(letter+96)  + "] - " + number + ";" +letter +" ;isDestroyed:" + destroyed ;
     }
 }

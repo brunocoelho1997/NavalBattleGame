@@ -128,4 +128,15 @@
         android:textSize="30sp" />
 
 
+    <Button
+        android:id="@+id/btNextTurn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onNextTurn"
+        android:padding="10dp"
+        android:text="@string/next_turn"
+        android:textSize="30sp"
+        android:visibility="gone"/>
+
+
 </LinearLayout>

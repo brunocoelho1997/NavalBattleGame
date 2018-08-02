@@ -5,6 +5,7 @@
     <string name="new_game">Novo Jogo</string>
     <string name="header_set_positions">Escolha as suas posições de jogo.</string>
     <string name="start_game">Começar Jogo</string>
+    <string name="next_turn">Próximo Turno</string>
 
 
 </resources>

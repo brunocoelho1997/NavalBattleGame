@@ -13,6 +13,8 @@ import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BattlefieldView extends View{
 
@@ -314,7 +316,7 @@ String TAG ="minha";
 
     }
 
-    private void paintFiredPositions(Canvas canvas) {
+    private void paintTempFiredPositions(Canvas canvas) {
             Bitmap realImage;
             Bitmap newBitmap;
 
@@ -383,11 +385,16 @@ String TAG ="minha";
         {
             if(navalBattleGame.isTeamATurn())
             {
+                if(navalBattleGame.getFiredPositionsTemp().size()!=3)
+                {
+                    paintTempFiredPositions(canvas);
+                    Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team A.");
+                }
+
                 paintFiredPositionsTeam(canvas, navalBattleGame.getFiredPositionsTeamA());
                 Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getFiredPositionsTeamA().toString());
 
-                paintFiredPositions(canvas);
-                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team A.");
+
 
             }
             else
@@ -395,8 +402,17 @@ String TAG ="minha";
                 Log.d("onDraw", "AI will play.");
                 navalBattleGame.AIFire();
 
+//                paintTempFiredPositions(canvas);
+//                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team B.");
+
+                paintFiredPositionsTeam(canvas, navalBattleGame.getFiredPositionsTeamB());
+                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getFiredPositionsTeamB().toString());
+
+
+
+
 //                paintDestroyedPositions(canvas, navalBattleGame.getTeamA());
-                invalidate();
+//                invalidate();
             }
 
 

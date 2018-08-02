@@ -9,6 +9,7 @@
     <string name="title_activity_set_positions">SetPositionsActivity</string>
     <string name="header_set_positions">Choose your positions.</string>
     <string name="start_game">Start Game</string>
+    <string name="next_turn">Next Turn</string>
 
 
 

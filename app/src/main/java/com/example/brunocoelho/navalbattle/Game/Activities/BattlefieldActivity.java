@@ -77,9 +77,13 @@ public class BattlefieldActivity extends Activity {
         Button buttonStartGame = findViewById(R.id.btStartGame);
         buttonStartGame.setVisibility(View.GONE);
 
+
         //open panel of players
         LinearLayout linearLayoutPlayerPanel = findViewById(R.id.playersPanel);
         linearLayoutPlayerPanel.setVisibility(View.VISIBLE);
+        Button buttonNextTurn = findViewById(R.id.btNextTurn);
+        buttonNextTurn.setVisibility(View.VISIBLE);
+
 
         //random - 0 or 1
         navalBattleGame.setTeamATurn(Math.random() < 0.5);
@@ -91,8 +95,20 @@ public class BattlefieldActivity extends Activity {
 
     }
 
+    public void onNextTurn(View v) {
 
-    public void onCloseSetPositions(View v) {
+
+        if(navalBattleGame.isAvaibleNextTurn())
+        {
+            navalBattleGame.nextTurn();
+        }
+
+
+        battlefieldView.invalidate();
+    }
+
+
+        public void onCloseSetPositions(View v) {
 
         Log.d("onCloseSetPositions", "Clicked onCloseSetPositions");
 

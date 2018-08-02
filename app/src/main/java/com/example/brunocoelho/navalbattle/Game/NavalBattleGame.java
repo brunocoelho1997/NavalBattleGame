@@ -275,13 +275,13 @@ public class NavalBattleGame implements Serializable{
                 }
             }
 
-            firedPositionsTemp.clear();
-            if(isTeamATurn())
-                setTeamATurn(false);
-            else
-                setTeamATurn(true);
-
-            Log.d("verifyFiredPosition","isTeamATurn: " + isTeamATurn());
+//            firedPositionsTemp.clear();
+//            if(isTeamATurn())
+//                setTeamATurn(false);
+//            else
+//                setTeamATurn(true);
+//
+//            Log.d("verifyFiredPosition","isTeamATurn: " + isTeamATurn());
 
         }
 
@@ -293,7 +293,7 @@ public class NavalBattleGame implements Serializable{
         int min = 1; int max = 8;
 
         //while is team B turn to play... since AI is TeamB
-        while(!isTeamATurn())
+        while(firedPositionsTemp.size()!=3)
         {
             firedPositionsTemp.add(new Position(rand.nextInt((max - min) + 1) + min,rand.nextInt((max - min) + 1) + min ));
 
@@ -391,5 +391,20 @@ public class NavalBattleGame implements Serializable{
 
     public void setAmITeamA(boolean amITeamA) {
         data.setAmITeamA(amITeamA);
+    }
+
+    public void nextTurn() {
+        getFiredPositionsTemp().clear();
+
+        if(isTeamATurn())
+            setTeamATurn(false);
+        else
+           setTeamATurn(true);
+
+        Log.d("nextTurn","isTeamATurn: " + isTeamATurn());
+    }
+
+    public boolean isAvaibleNextTurn() {
+        return firedPositionsTemp.size()==3;
     }
 }

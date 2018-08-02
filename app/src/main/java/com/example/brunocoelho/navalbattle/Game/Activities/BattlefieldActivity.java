@@ -1,5 +1,6 @@
 package com.example.brunocoelho.navalbattle.Game.Activities;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
@@ -22,6 +24,8 @@ import com.example.brunocoelho.navalbattle.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BattlefieldActivity extends Activity {
 
@@ -69,42 +73,50 @@ public class BattlefieldActivity extends Activity {
 
 
     public void onStartGame(View v) {
-        navalBattleGame.startGame();
 
-        //close panels of choose positions
-        LinearLayout linearLayoutChoosePanel = findViewById(R.id.choosePanel);
-        linearLayoutChoosePanel.setVisibility(View.GONE);
-        Button buttonStartGame = findViewById(R.id.btStartGame);
-        buttonStartGame.setVisibility(View.GONE);
+        Context context = getApplicationContext();
+        CharSequence text = getResources().getString(R.string.invalid_positions);
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+
+        if(navalBattleGame.existInvalidPositions())
+            toast.show();
+        else
+        {
+            navalBattleGame.startGame();
+
+            //close panels of choose positions
+            LinearLayout linearLayoutChoosePanel = findViewById(R.id.choosePanel);
+            linearLayoutChoosePanel.setVisibility(View.GONE);
+            Button buttonStartGame = findViewById(R.id.btStartGame);
+            buttonStartGame.setVisibility(View.GONE);
 
 
-        //open panel of players
-        LinearLayout linearLayoutPlayerPanel = findViewById(R.id.playersPanel);
-        linearLayoutPlayerPanel.setVisibility(View.VISIBLE);
-        Button buttonNextTurn = findViewById(R.id.btNextTurn);
-        buttonNextTurn.setVisibility(View.VISIBLE);
+            //open panel of players
+            LinearLayout linearLayoutPlayerPanel = findViewById(R.id.playersPanel);
+            linearLayoutPlayerPanel.setVisibility(View.VISIBLE);
+            Button buttonNextTurn = findViewById(R.id.btNextTurn);
+            buttonNextTurn.setVisibility(View.VISIBLE);
 
 
-        //random - 0 or 1
-        navalBattleGame.setTeamATurn(Math.random() < 0.5);
+            //random - 0 or 1
+            navalBattleGame.setTeamATurn(Math.random() < 0.5);
 
-        navalBattleGame.setAIPositions();
+            navalBattleGame.setAIPositions();
 
-        battlefieldView.invalidate();
-        Log.d("onStartGame", "Game Started. TeamA playing:" + navalBattleGame.isTeamATurn());
-
+            battlefieldView.invalidate();
+            Log.d("onStartGame", "Game Started. TeamA playing:" + navalBattleGame.isTeamATurn());
+        }
     }
 
     public void onNextTurn(View v) {
 
-
         if(navalBattleGame.isAvaibleNextTurn())
         {
             navalBattleGame.nextTurn();
+            battlefieldView.invalidate();
+
         }
-
-
-        battlefieldView.invalidate();
     }
 
 

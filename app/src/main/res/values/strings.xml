@@ -11,6 +11,7 @@
     <string name="start_game">Start Game</string>
     <string name="next_turn">Next Turn</string>
 
+    <string name="invalid_positions">Exist invalid positions.</string>
 
 
 </resources>

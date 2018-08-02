@@ -395,8 +395,6 @@ String TAG ="minha";
                 paintFiredPositionsTeam(canvas, navalBattleGame.getTeamA().getFiredPositions());
                 Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getTeamA().getFiredPositions().toString());
 
-
-
             }
             else
             {
@@ -410,10 +408,6 @@ String TAG ="minha";
                 Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getTeamB().toString());
 
 
-
-
-//                paintDestroyedPositions(canvas, navalBattleGame.getTeamA());
-//                invalidate();
             }
 
 

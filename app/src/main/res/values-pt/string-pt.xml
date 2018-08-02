@@ -7,5 +7,8 @@
     <string name="start_game">Começar Jogo</string>
     <string name="next_turn">Próximo Turno</string>
 
+    <string name="invalid_positions">Existem posições inválidas.</string>
+
+
 
 </resources>

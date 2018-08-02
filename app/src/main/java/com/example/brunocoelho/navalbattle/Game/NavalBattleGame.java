@@ -32,7 +32,13 @@ public class NavalBattleGame implements Serializable{
 
     public Ship getShip(Position position)
     {
-        Team team = getAtualTeam();
+
+        Team team;
+
+        if(isAmITeamA())
+            team = getTeamA();
+        else
+            team = getTeamB();
 
         for(Ship ship : team.getShips())
         {
@@ -77,12 +83,20 @@ public class NavalBattleGame implements Serializable{
 //    }
 
 
-
+    public boolean existInvalidPositions()
+    {
+        return invalidPositions.size()!=0;
+    }
     public void refreshInvalidPositions(Ship selectedShip) {
 
         invalidPositions = new ArrayList<>();
 
-        Team team = getAtualTeam();
+        Team team;
+
+        if(isAmITeamA())
+            team = getTeamA();
+        else
+            team = getTeamB();
 
         for(Ship ship : team.getShips())
         {

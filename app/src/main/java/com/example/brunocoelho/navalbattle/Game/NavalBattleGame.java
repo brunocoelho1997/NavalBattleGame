@@ -220,7 +220,7 @@ public class NavalBattleGame implements Serializable{
             if(isAmITeamA() && isTeamATurn() || !isAmITeamA() && !isTeamATurn())
             {
                 //verify if the user already not fired to this position
-                if(!firedPositionsTemp.contains(onDownPosition))
+                if(!firedPositionsTemp.contains(onDownPosition) && !getAtualTeam().getFiredPositions().contains(onDownPosition))
                     firedPositionsTemp.add(onDownPosition);
             }
         }
@@ -272,6 +272,15 @@ public class NavalBattleGame implements Serializable{
                     }
                 }
 
+                //verify if the atual player didn't win
+                if(verifyEndOfGame())
+                {
+                    if(isTeamATurn())
+                        Log.d("verifyFiredPosition","TeamA won!!!");
+                    else
+                        Log.d("verifyFiredPosition","TeamB won!!!");
+                }
+
                 if(isTeamATurn())
                     Log.d("verifyFiredPosition","TeamA missed in position: " + position);
                 else
@@ -279,6 +288,19 @@ public class NavalBattleGame implements Serializable{
 
             }
         }
+    }
+
+    private boolean verifyEndOfGame() {
+
+        Team team = getOpositeTeam();
+
+        for(Ship ship : team.getShips())
+        {
+            for(Position position : ship.getPositionList())
+                if(position.getColor() == Constants.FULL_SQUARE)
+                    return false;
+        }
+        return true;
     }
 
     public void AIFire() {
@@ -310,6 +332,19 @@ public class NavalBattleGame implements Serializable{
 
     public boolean isAvaibleNextTurn() {
         return firedPositionsTemp.size()==3;
+    }
+    public Team getTeamA() {
+        if(isTeamATurn())
+            return getAtualTeam();
+        else
+            return getOpositeTeam();
+    }
+
+    public Team getTeamB() {
+        if(!isTeamATurn())
+            return getAtualTeam();
+        else
+            return getOpositeTeam();
     }
 //    -
 //    -
@@ -370,18 +405,4 @@ public class NavalBattleGame implements Serializable{
         data.setAmITeamA(amITeamA);
     }
 
-
-    public Team getTeamA() {
-        if(isTeamATurn())
-            return getAtualTeam();
-        else
-            return getOpositeTeam();
-    }
-
-    public Team getTeamB() {
-        if(!isTeamATurn())
-            return getAtualTeam();
-        else
-            return getOpositeTeam();
-    }
 }

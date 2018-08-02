@@ -392,8 +392,8 @@ String TAG ="minha";
                     Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team A.");
                 }
 
-                paintFiredPositionsTeam(canvas, navalBattleGame.getTeamA().getFiredPositions());
-                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getTeamA().getFiredPositions().toString());
+                paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
+                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getAtualTeam().getFiredPositions().toString());
 
             }
             else
@@ -404,8 +404,9 @@ String TAG ="minha";
 //                paintTempFiredPositions(canvas);
 //                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team B.");
 
-                paintFiredPositionsTeam(canvas, navalBattleGame.getTeamB().getFiredPositions());
-                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getTeamB().toString());
+                paintShips(canvas, navalBattleGame.getOpositeTeam().getShips());
+                paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
+                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getAtualTeam().toString());
 
 
             }

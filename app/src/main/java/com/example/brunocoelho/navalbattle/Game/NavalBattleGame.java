@@ -8,6 +8,7 @@ import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipFive;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipOne;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipThree;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
+import com.example.brunocoelho.navalbattle.Game.Models.Team;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,14 +32,9 @@ public class NavalBattleGame implements Serializable{
 
     public Ship getShip(Position position)
     {
-        List <Ship> team;
+        Team team = getAtualTeam();
 
-        if(isAmITeamA())
-            team  = getTeamA();
-        else
-            team  = getTeamB();
-
-        for(Ship ship: team)
+        for(Ship ship : team.getShips())
         {
             if(ship.getPositionList().contains(position))
                 return ship;
@@ -86,14 +82,9 @@ public class NavalBattleGame implements Serializable{
 
         invalidPositions = new ArrayList<>();
 
-        List <Ship> team;
+        Team team = getAtualTeam();
 
-        if(isAmITeamA())
-            team  = getTeamA();
-        else
-            team  = getTeamB();
-
-        for(Ship ship : team)
+        for(Ship ship : team.getShips())
         {
 
             //colision with another ship
@@ -151,8 +142,8 @@ public class NavalBattleGame implements Serializable{
 
     public void setTeamsPositions() {
         List<Position> positionList = new ArrayList<>();
-        List<Ship> teamA = data.getTeamA();
-        List<Ship> teamB = data.getTeamB();
+        List<Ship> teamA = data.getTeamA().getShips();
+        List<Ship> teamB = data.getTeamB().getShips();
 
         Ship ship;
 
@@ -221,70 +212,59 @@ public class NavalBattleGame implements Serializable{
         }
     }
 
+    public Team getAtualTeam()
+    {
+        if(data.isTeamATurn())
+            return data.getTeamA();
+        else
+            return data.getTeamB();
+    }
+    public Team getOpositeTeam()
+    {
+        if(data.isTeamATurn())
+            return data.getTeamB();
+        else
+            return data.getTeamA();
+    }
+
+
     public void verifyFiredPosition() {
 
-        List<Ship> team;
+        Team team = getAtualTeam();
 
         if(firedPositionsTemp.size()==3)
         {
-            //if was teamA
-            if(isTeamATurn())
-            {
-                //add as fired positions...
-                data.getFiredPositionsTeamA().addAll(firedPositionsTemp);
+            //add as fired positions...
+            team.getFiredPositions().addAll(firedPositionsTemp);
 
-                //if shots hit teamA change icon to cross black.... if not change to cross
-                for(Position position : firedPositionsTemp)
-                {
-                    for(Ship ship : getTeamB()) {
-                        if(ship.getPositionList().contains(position))
-                        {
+            //if shots hit teamA change icon to cross black.... if not change to cross
+            for(Position position : firedPositionsTemp)
+            {
+                for(Ship ship : getOpositeTeam().getShips()) {
+                    if(ship.getPositionList().contains(position))
+                    {
+
+                        if(isAmITeamA())
                             Log.d("verifyFiredPosition","TeamA hited in position: " + position);
-                            position.setColor(Constants.BLACK_CROSS_SQUARE);
-                            break;
-                        }
                         else
-                        {
-                            position.setColor(Constants.CROSS_SQUARE);
-                        }
-                    }
-                    Log.d("verifyFiredPosition","TeamA missed in position: " + position);
-                }
-            }
-            else
-            {
-                //add as fired positions...
-                data.getFiredPositionsTeamB().addAll(firedPositionsTemp);
-
-                //if shots hit teamA change icon to cross black.... if not change to cross
-                for(Position position : firedPositionsTemp)
-                {
-                    for(Ship ship : getTeamA()) {
-                        if(ship.getPositionList().contains(position))
-                        {
                             Log.d("verifyFiredPosition","TeamB hited in position: " + position);
-                            position.setColor(Constants.BLACK_CROSS_SQUARE);
-                            break;
-                        }
-                        else
-                        {
-                            position.setColor(Constants.CROSS_SQUARE);
-                        }
+
+                        position.setColor(Constants.BLACK_CROSS_SQUARE);
+                        break;
                     }
-                    Log.d("verifyFiredPosition","TeamB missed in position: " + position);
+                    else
+                    {
+                        position.setColor(Constants.CROSS_SQUARE);
+                    }
                 }
+
+                if(isTeamATurn())
+                    Log.d("verifyFiredPosition","TeamA missed in position: " + position);
+                else
+                    Log.d("verifyFiredPosition","TeamB missed in position: " + position);
+
             }
-
-//            firedPositionsTemp.clear();
-//            if(isTeamATurn())
-//                setTeamATurn(false);
-//            else
-//                setTeamATurn(true);
-//
-//            Log.d("verifyFiredPosition","isTeamATurn: " + isTeamATurn());
-
         }
-
     }
 
     public void AIFire() {
@@ -303,6 +283,20 @@ public class NavalBattleGame implements Serializable{
         }
     }
 
+    public void nextTurn() {
+        getFiredPositionsTemp().clear();
+
+        if(isTeamATurn())
+            setTeamATurn(false);
+        else
+            setTeamATurn(true);
+
+        Log.d("nextTurn","isTeamATurn: " + isTeamATurn());
+    }
+
+    public boolean isAvaibleNextTurn() {
+        return firedPositionsTemp.size()==3;
+    }
 //    -
 //    -
 //    -
@@ -318,22 +312,6 @@ public class NavalBattleGame implements Serializable{
     public void setFiredPositionsTemp(ArrayList<Position> firedPositionsTemp) {
         this.firedPositionsTemp = firedPositionsTemp;
     }
-    public List<Ship> getTeamA() {
-        return data.getTeamA();
-    }
-
-    public void setTeamA(List<Ship> teamA) {
-        data.setTeamA(teamA);
-    }
-
-    public List<Ship> getTeamB() {
-        return data.getTeamB();
-    }
-
-    public void setTeamB(List<Ship> teamB) {
-        data.setTeamB(teamB);
-    }
-
 
     public boolean isStarted()
     {
@@ -369,21 +347,6 @@ public class NavalBattleGame implements Serializable{
     public void setTeamATurn(boolean playerATurn) {
         data.setTeamATurn(playerATurn);
     }
-    public ArrayList<Position> getFiredPositionsTeamA() {
-        return data.getFiredPositionsTeamA();
-    }
-
-    public void setFiredPositionsTeamA(ArrayList<Position> firedPositionsTeamA) {
-        data.setFiredPositionsTeamA(firedPositionsTeamA);
-    }
-
-    public ArrayList<Position> getFiredPositionsTeamB() {
-        return data.getFiredPositionsTeamB();
-
-    }
-    public void setFiredPositionsTeamB(ArrayList<Position> firedPositionsTeamB) {
-        data.setFiredPositionsTeamB(firedPositionsTeamB);
-    }
 
     public boolean isAmITeamA() {
         return data.isAmITeamA();
@@ -393,18 +356,18 @@ public class NavalBattleGame implements Serializable{
         data.setAmITeamA(amITeamA);
     }
 
-    public void nextTurn() {
-        getFiredPositionsTemp().clear();
 
+    public Team getTeamA() {
         if(isTeamATurn())
-            setTeamATurn(false);
+            return getAtualTeam();
         else
-           setTeamATurn(true);
-
-        Log.d("nextTurn","isTeamATurn: " + isTeamATurn());
+            return getOpositeTeam();
     }
 
-    public boolean isAvaibleNextTurn() {
-        return firedPositionsTemp.size()==3;
+    public Team getTeamB() {
+        if(!isTeamATurn())
+            return getAtualTeam();
+        else
+            return getOpositeTeam();
     }
 }

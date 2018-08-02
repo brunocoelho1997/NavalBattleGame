@@ -59,6 +59,8 @@ String TAG ="minha";
 
                 if(navalBattleGame.isStarted())
                 {
+                    //if is avaiable next turn we cant click more...
+                    if(!navalBattleGame.isAvaibleNextTurn())
                         navalBattleGame.addFiredPosition(onDownPosition);
 
                 }
@@ -118,7 +120,6 @@ String TAG ="minha";
 
                 if(navalBattleGame.isStarted())
                 {
-                    //verify fired positions and act
                     navalBattleGame.verifyFiredPosition();
                 }
                 else
@@ -391,8 +392,8 @@ String TAG ="minha";
                     Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team A.");
                 }
 
-                paintFiredPositionsTeam(canvas, navalBattleGame.getFiredPositionsTeamA());
-                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getFiredPositionsTeamA().toString());
+                paintFiredPositionsTeam(canvas, navalBattleGame.getTeamA().getFiredPositions());
+                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getTeamA().getFiredPositions().toString());
 
 
 
@@ -405,8 +406,8 @@ String TAG ="minha";
 //                paintTempFiredPositions(canvas);
 //                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team B.");
 
-                paintFiredPositionsTeam(canvas, navalBattleGame.getFiredPositionsTeamB());
-                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getFiredPositionsTeamB().toString());
+                paintFiredPositionsTeam(canvas, navalBattleGame.getTeamB().getFiredPositions());
+                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getTeamB().toString());
 
 
 
@@ -421,9 +422,9 @@ String TAG ="minha";
         else
         {
             if(navalBattleGame.isAmITeamA())
-                paintShips(canvas, navalBattleGame.getTeamA());
+                paintShips(canvas, navalBattleGame.getTeamA().getShips());
             else
-                paintShips(canvas, navalBattleGame.getTeamB());
+                paintShips(canvas, navalBattleGame.getTeamB().getShips());
 
             paintInvalidPositions(canvas);
 

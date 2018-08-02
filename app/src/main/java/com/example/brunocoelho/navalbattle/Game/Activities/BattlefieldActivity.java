@@ -91,7 +91,7 @@ public class BattlefieldActivity extends Activity {
         navalBattleGame.setAIPositions();
 
         battlefieldView.invalidate();
-        Log.d("onStartGame", "Game Started. PlayerA playing:" + navalBattleGame.isTeamATurn());
+        Log.d("onStartGame", "Game Started. TeamA playing:" + navalBattleGame.isTeamATurn());
 
     }
 

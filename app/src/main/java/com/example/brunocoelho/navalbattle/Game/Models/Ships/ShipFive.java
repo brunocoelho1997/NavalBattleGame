@@ -3,6 +3,9 @@ package com.example.brunocoelho.navalbattle.Game.Models.Ships;
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
 
 public class ShipFive extends Ship {
+    public ShipFive() {
+    }
+
     @Override
     public Position getPointPosition() {
         return positionList.get(1);

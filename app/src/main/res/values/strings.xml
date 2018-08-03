@@ -17,6 +17,10 @@
     <string name="won_a">Team A won!!!</string>
     <string name="won_b">Team B won!!!</string>
     <string name="choose_new_position">You hitted 3 positions. You may choose new position on a ship.</string>
+    <string name="title_activity_server_or_client">ServerOrClientActivity</string>
+
+    <string name="server">Create Game</string>
+    <string name="client">Connect Game</string>
 
 
 

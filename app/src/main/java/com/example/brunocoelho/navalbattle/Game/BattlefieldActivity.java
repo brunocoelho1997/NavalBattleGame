@@ -1,4 +1,4 @@
-package com.example.brunocoelho.navalbattle.Game.Activities;
+package com.example.brunocoelho.navalbattle.Game;
 
 import android.content.Context;
 import android.graphics.Color;

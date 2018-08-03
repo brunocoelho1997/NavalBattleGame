@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
@@ -363,6 +364,7 @@ public class BattlefieldView extends View{
 
         }
     }
+
 
     private void createAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

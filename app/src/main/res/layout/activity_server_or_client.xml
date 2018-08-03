@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="15dp"
-    android:background="#FFDB8E"
-    >
+    android:background="#FFDB8E">
 
     <Button
-        android:onClick="onCloseNewGame"
+        android:onClick="onCloseServerOrClient"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:text="X"
@@ -29,12 +28,12 @@
             android:paddingRight="30dp">
 
             <Button
-                android:id="@+id/btOfflineGame"
+                android:id="@+id/btServer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onOfflineGame"
+                android:onClick="onServer"
                 android:padding="10dp"
-                android:text="@string/offline"
+                android:text="@string/server"
                 android:textSize="30sp" />
 
         </LinearLayout>
@@ -48,12 +47,12 @@
             android:paddingRight="30dp">
 
             <Button
-                android:id="@+id/btOnlineGame"
+                android:id="@+id/btClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onOnlineGame"
+                android:onClick="onClient"
                 android:padding="10dp"
-                android:text="@string/online"
+                android:text="@string/client"
                 android:textSize="30sp" />
 
         </LinearLayout>

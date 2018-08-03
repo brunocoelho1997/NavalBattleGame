@@ -23,6 +23,7 @@ public abstract class Ship {
         this.positionList = positionList;
     }
 
+
     public Ship() {
         this.rotation = 0;
         this.positionList=new ArrayList<>();

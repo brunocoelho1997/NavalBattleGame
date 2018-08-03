@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.example.brunocoelho.navalbattle.Game.Activities.BattlefieldActivity;
+import com.example.brunocoelho.navalbattle.Game.BattlefieldActivity;
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.R;
 
@@ -39,11 +39,21 @@ public class newGameActivity extends AppCompatActivity {
     public void onOnlineGame(View v) {
         navalBattleGame.setTwoPlayer(true);
 
-//        Intent intent = new Intent(this, ListaPerfis.class);
-//        startActivity(intent);
+
+        Intent intent = new Intent(this, ServerOrClientActivity.class);
+        intent.putExtra("navalBattleGame", navalBattleGame);
+        startActivity(intent);
+
 
         Log.d("onOnlineGame", "Aderi onOnlineGame");
 
+    }
+
+    public void onCloseNewGame(View v) {
+
+        Log.d("onCloseNewGame", "Clicked onCloseNewGame");
+
+        finish();
     }
 
 }

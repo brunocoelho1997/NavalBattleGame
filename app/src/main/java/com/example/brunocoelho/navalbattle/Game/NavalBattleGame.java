@@ -541,6 +541,11 @@ public class NavalBattleGame implements Serializable{
         if(!initialPositionShip.isAdjacent(onUpPosition))
             return false;
 
+        //if the oposite team already fired to this position...
+//        Ship shipAux = selectedShip.getClass().newInstance();
+//        if(getOpositeTeam().getFiredPositions().contains(onUpPosition))
+//            return false;
+
         return true;
     }
 

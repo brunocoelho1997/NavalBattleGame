@@ -13,6 +13,8 @@
     <string name="won_b">A equipa B ganhou!!!</string>
     <string name="choose_new_position">Acertaste 3 posições. Podes escolher uma nova posição de um barco.</string>
 
+    <string name="server">Criar Jogo</string>
+    <string name="client">Ligar a Jogo</string>
 
 
 </resources>

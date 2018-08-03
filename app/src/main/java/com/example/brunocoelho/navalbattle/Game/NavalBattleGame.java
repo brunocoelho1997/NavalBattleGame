@@ -246,25 +246,11 @@ public class NavalBattleGame implements Serializable{
                     }
                     else
                     {
-//                        if(isTeamATurn())
-//                            Log.d("verifyFiredPosition","TeamA missed in position: " + position);
-//                        else
-//                            Log.d("verifyFiredPosition","TeamB missed in position: " + position);
-
                         position.setColor(Constants.CROSS_SQUARE);
 
                     }
                 }
             }
-
-            if(verifyEndOfGame())
-            {
-                if(isTeamATurn())
-                    Log.d("verifyFiredPosition","TeamA won!!!");
-                else
-                    Log.d("verifyFiredPosition","TeamB won!!!");
-            }
-
         }
     }
 
@@ -341,6 +327,11 @@ public class NavalBattleGame implements Serializable{
         else
             return getOpositeTeam();
     }
+
+    public boolean isMyTurnToPlay() {
+        //if the atual player is temA and is time to teamA play or if the atual player is temB and is time to teamB play return true
+        return ((isTeamATurn() && isAmITeamA()) || (!isTeamATurn() && !isAmITeamA()));
+    }
 //    -
 //    -
 //    -
@@ -399,5 +390,6 @@ public class NavalBattleGame implements Serializable{
     public void setAmITeamA(boolean amITeamA) {
         data.setAmITeamA(amITeamA);
     }
+
 
 }

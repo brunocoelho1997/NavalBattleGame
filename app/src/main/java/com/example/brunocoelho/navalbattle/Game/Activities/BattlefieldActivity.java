@@ -55,7 +55,6 @@ public class BattlefieldActivity extends Activity {
 
 
 
-
         frameLayout = findViewById(R.id.positionsField);
         battlefieldView = new BattlefieldView(this, navalBattleGame);
         frameLayout.addView(battlefieldView);

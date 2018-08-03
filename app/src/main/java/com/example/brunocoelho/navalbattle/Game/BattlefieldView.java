@@ -1,6 +1,9 @@
 package com.example.brunocoelho.navalbattle.Game;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,6 +14,7 @@ import android.view.View;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
+import com.example.brunocoelho.navalbattle.R;
 
 import java.util.List;
 import java.util.Timer;
@@ -31,12 +35,14 @@ String TAG ="minha";
     Position onUpPosition = null;
 
     Position lasValidPosition = null;
+    private Context context;
 
 
     public BattlefieldView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
         this.navalBattleGame = navalBattleGame;
         this.selectedShip = null;
+        this.context = context;
 
 //        setBackgroundColor(Color.RED);
 //        setBackgroundResource(R.drawable.grid_set_positions);
@@ -384,7 +390,7 @@ String TAG ="minha";
         //if game already started... just show destroyed positions from another team
         if(navalBattleGame.isStarted())
         {
-            if(navalBattleGame.isTeamATurn())
+            if(navalBattleGame.isMyTurnToPlay())
             {
                 if(navalBattleGame.getFiredPositionsTemp().size()!=3)
                 {
@@ -409,6 +415,11 @@ String TAG ="minha";
 
             }
 
+            if(navalBattleGame.verifyEndOfGame())
+                createAlertDialog();
+
+
+
         }
         //if the game has not started yet show all game to user change positions
         else
@@ -421,7 +432,36 @@ String TAG ="minha";
             paintInvalidPositions(canvas);
 
         }
-
-
     }
+
+    private void createAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        int str;
+
+        if(navalBattleGame.isTeamATurn())
+            str = R.string.won_a;
+
+        else
+            str = R.string.won_b;
+
+
+        builder
+                .setTitle(R.string.end_game)
+                .setCancelable(false)
+                .setMessage(str)
+                .setPositiveButton(R.string.new_game, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((Activity) context).finish();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+//                if(isTeamATurn())
+//
+//                    Log.d("verifyFiredPosition","TeamA won!!!");
+//                else
+//                    Log.d("verifyFiredPosition","TeamB won!!!");
+    }
+
+
 }

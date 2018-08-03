@@ -13,5 +13,10 @@
 
     <string name="invalid_positions">Exist invalid positions.</string>
 
+    <string name="end_game">End of the Game.</string>
+    <string name="won_a">Team A won!!!</string>
+    <string name="won_b">Team B won!!!</string>
+
+
 
 </resources>

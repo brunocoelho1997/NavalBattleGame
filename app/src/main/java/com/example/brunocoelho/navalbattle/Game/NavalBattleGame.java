@@ -20,19 +20,30 @@ public class NavalBattleGame implements Serializable{
     private Data data;
 
 
+    //temp vars;
     private ArrayList<Position> invalidPositions;
     private ArrayList<Position> firedPositionsTemp;
 
+    private Ship selectedShip;
+    private Position onDownPosition = null;
+    private Position onMovePosition= null;
+    private Position onUpPosition = null;
+    private Position lasValidPosition = null;
+    private Position initialPositionShip = null; //used when we hitted in 3 positions... isMayChangeShipPosition
+
+
+
+    private boolean mayChangeShipPosition;
 
     public NavalBattleGame() {
         this.data = new Data();
         invalidPositions = new ArrayList<>();
         this.firedPositionsTemp = new ArrayList<>();
+        this.selectedShip = null;
     }
 
     public Ship getShip(Position position)
     {
-
         Team team;
 
         if(isAmITeamA())
@@ -221,6 +232,8 @@ public class NavalBattleGame implements Serializable{
 
         Team team = getAtualTeam();
 
+        int hittedFiredPositions = 0;
+
         if(firedPositionsTemp.size()==3)
         {
             //add as fired positions...
@@ -236,11 +249,12 @@ public class NavalBattleGame implements Serializable{
                         position.setColor(Constants.BLACK_CROSS_SQUARE);
                         position.setDestroyed(true);
 
-                        if(isTeamATurn())
-                            Log.d("verifyFiredPosition","TeamA hited in position: " + position);
-                        else
-                            Log.d("verifyFiredPosition","TeamB hited in position: " + position);
+                        hittedFiredPositions++;
 
+//                        if(isTeamATurn())
+//                            Log.d("verifyFiredPosition","TeamA hited in position: " + position);
+//                        else
+//                            Log.d("verifyFiredPosition","TeamB hited in position: " + position);
 
                         break;
                     }
@@ -252,6 +266,8 @@ public class NavalBattleGame implements Serializable{
                 }
             }
         }
+        if(hittedFiredPositions==3)
+            mayChangeShipPosition=true;
     }
 
     public boolean verifyEndOfGame() {
@@ -391,5 +407,161 @@ public class NavalBattleGame implements Serializable{
         data.setAmITeamA(amITeamA);
     }
 
+    public boolean isMayChangeShipPosition() {
+        return mayChangeShipPosition;
+    }
 
+    public void setMayChangeShipPosition(boolean mayChangeShipPosition) {
+        this.mayChangeShipPosition = mayChangeShipPosition;
+    }
+
+//    -
+//    -
+//    -
+//    clicked positions
+//    -
+//    -
+//    -
+//    -
+    public void onDown(Position onDownPosition) {
+
+        this.onDownPosition = onDownPosition;
+
+
+        //if the game already started and we may NOT change position in a ship...
+        if(isStarted() && !isMayChangeShipPosition())
+        {
+
+        }
+        else
+        {
+            selectedShip = getShip(onDownPosition);
+
+            Log.d("onDown", "\n---" + onDownPosition.toString());
+
+            if(selectedShip!=null)
+            {
+                Log.d("onDown", selectedShip.toString());
+
+                initialPositionShip = selectedShip.getPointPosition();
+                Log.d("onDown", "initialPositionShip:" + initialPositionShip);
+
+            }
+        }
+
+    }
+
+    public void onMove(Position onMovePosition) {
+        this.onMovePosition = onMovePosition;
+
+        //if the game already started and we may NOT change position in a ship...
+        if(isStarted() && !isMayChangeShipPosition())
+        {
+
+        }
+        else
+        {
+            if(selectedShip!= null)
+            {
+                selectedShip.setPointPosition(onMovePosition);
+
+                //verifica se está dentro do tabuleiro... se nao estiver volta a definir a ship na ultima posicao guardada que era valida...
+                //se a nova posicao for valida armazenar como sendo a ultima posicao valida efetuada
+                if(isInsideView(selectedShip))
+                    lasValidPosition = onMovePosition;
+                else
+                    selectedShip.setPointPosition(lasValidPosition);
+
+                refreshInvalidPositions(selectedShip);
+
+            }
+
+        }
+    }
+
+    public void onUp(Position onUpPosition) {
+        this.onUpPosition = onUpPosition;
+
+        //if the game already started and we may NOT change position in a ship...
+        if(isStarted() && !isMayChangeShipPosition())
+        {
+
+            //if is avaiable next turn we cant click more...
+            if(!isAvaibleNextTurn())
+                addFiredPosition(onUpPosition);
+
+            verifyFiredPosition();
+        }
+        else //when selecting position of the ships...
+        {
+            if(selectedShip!=null)
+            {
+
+                verifyRotate();
+
+
+                selectedShip.setPointPosition(onUpPosition);
+
+//              TODO: understand this again... and comment
+                //verifica se está dentro do tabuleiro... se nao estiver volta a definir a ship na ultima posicao guardada que era valida...
+                //se a nova posicao for valida armazenar como sendo a ultima posicao valida efetuada
+                if(isInsideView(selectedShip))
+                    lasValidPosition = onUpPosition;
+                else
+                    selectedShip.setPointPosition(lasValidPosition);
+
+                refreshInvalidPositions(selectedShip);
+
+//                if current team may change a ship position...
+                if(isMayChangeShipPosition())
+                {
+                    //tried to change position but... if it was invalid put the ship in last position which it was
+                    if(verifyIsValidPositionChangeShipPosition())
+                        setMayChangeShipPosition(false);
+                    else
+                    {
+                        Log.d("onUp", "tried to change position but exists an invalid Positions");
+
+                        selectedShip.setPointPosition(initialPositionShip);
+                        refreshInvalidPositions(selectedShip);
+                    }
+                }
+                selectedShip = null;
+            }
+        }
+    }
+
+    private boolean verifyIsValidPositionChangeShipPosition() {
+
+        //tried to change position but exists at least an invalid Position... so put the ship in last position which it was
+        if(invalidPositions.size()>0)
+            return false;
+
+        //if inst adjancet return false
+        if(!initialPositionShip.isAdjacent(onUpPosition))
+            return false;
+
+        return true;
+    }
+
+    private void verifyRotate() {
+        //if down, move and up same position so this is a rotate
+        if(onDownPosition.equals(onUpPosition))
+        {
+            //if is to change ship position after 3 hitted fired positions return... dont allow rotate
+            if(isMayChangeShipPosition())
+                return;
+
+            selectedShip.rotate();
+            //rotate while doesn't find valid rotation
+            while(true)
+            {
+                selectedShip.setPointPosition(onUpPosition);
+                if(!isInsideView(selectedShip))
+                    selectedShip.rotate();
+                else
+                    break;
+            }
+        }
+    }
 }

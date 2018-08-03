@@ -3,6 +3,8 @@ package com.example.brunocoelho.navalbattle.Game.Models;
 import com.example.brunocoelho.navalbattle.Game.Constants;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Position implements Serializable{
     private int number, letter;
@@ -71,5 +73,24 @@ public class Position implements Serializable{
         Tem de ser lido como: linha x coluna.
          */
         return "[" + (number) + ";" +  (char)(letter+96)  + "] - " + number + ";" +letter +" ;isDestroyed:" + destroyed ;
+    }
+
+    public boolean isAdjacent(Position onUpPosition) {
+
+        List<Position> adjacentPositions = new ArrayList<>();
+
+        adjacentPositions.add(new Position(this.getNumber()-1, this.getLetter()));
+        adjacentPositions.add(new Position(this.getNumber()-1, this.getLetter()+1));
+        adjacentPositions.add(new Position(this.getNumber()-1, this.getLetter()-1));
+        adjacentPositions.add(new Position(this.getNumber(), this.getLetter()+1));
+        adjacentPositions.add(new Position(this.getNumber(), this.getLetter()-1));
+        adjacentPositions.add(new Position(this.getNumber()+1, this.getLetter()+1));
+        adjacentPositions.add(new Position(this.getNumber()+1, this.getLetter()));
+        adjacentPositions.add(new Position(this.getNumber()+1, this.getLetter()-1));
+
+        if(adjacentPositions.contains(onUpPosition))
+            return true;
+
+        return false;
     }
 }

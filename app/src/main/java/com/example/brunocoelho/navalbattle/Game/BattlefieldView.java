@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
@@ -22,26 +23,17 @@ import java.util.TimerTask;
 
 public class BattlefieldView extends View{
 
-String TAG ="minha";
     float initialX, initialY;
     private NavalBattleGame navalBattleGame;
 
-    private Ship selectedShip;
 
-    Position lastPoint = null;
 
-    Position onDownPosition = null;
-    Position onMovePosition= null;
-    Position onUpPosition = null;
-
-    Position lasValidPosition = null;
     private Context context;
 
 
     public BattlefieldView(Context context, NavalBattleGame navalBattleGame) {
         super(context);
         this.navalBattleGame = navalBattleGame;
-        this.selectedShip = null;
         this.context = context;
 
 //        setBackgroundColor(Color.RED);
@@ -61,58 +53,23 @@ String TAG ="minha";
                 initialX = event.getX();
                 initialY = event.getY();
 
-                onDownPosition = new Position((int)(initialY*9 / getWidth()), ((int)(initialX*9 / getHeight())));
+                Position onDownPosition = new Position((int)(initialY*9 / getWidth()), ((int)(initialX*9 / getHeight())));
 
-                if(navalBattleGame.isStarted())
-                {
-                    //if is avaiable next turn we cant click more...
-                    if(!navalBattleGame.isAvaibleNextTurn())
-                        navalBattleGame.addFiredPosition(onDownPosition);
+                navalBattleGame.onDown(onDownPosition);
 
-                }
-                else
-                {
-                    selectedShip = navalBattleGame.getShip(onDownPosition);
 
-                    Log.d("onDown", "\n---" +onDownPosition.toString());
-
-                    if(selectedShip!=null)
-                    {
-                        Log.d("onDown", selectedShip.toString());
-
-                        lastPoint = selectedShip.getPointPosition();
-                    }
-                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 float finalX = event.getX();
                 float finalY = event.getY();
 
-                onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
+                Position onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
                 Log.d("onMovePosition", onMovePosition.toString() + "---\n");
 
+                navalBattleGame.onMove(onMovePosition);
 
-                if(navalBattleGame.isStarted())
-                {
-
-                }
-                else
-                {
-                    if(selectedShip!= null)
-                    {
-                        selectedShip.setPointPosition(onMovePosition);
-
-                        if(navalBattleGame.isInsideView(selectedShip))
-                            lasValidPosition = onMovePosition;
-                        else
-                            selectedShip.setPointPosition(lasValidPosition);
-
-                        navalBattleGame.refreshInvalidPositions(selectedShip);
-
-                        invalidate();
-                    }
-                }
+                invalidate();
 
                 break;
 
@@ -120,56 +77,23 @@ String TAG ="minha";
                 finalX = event.getX();
                 finalY = event.getY();
 
-                onUpPosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
+                Position onUpPosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
 
                 Log.d("onUP", onUpPosition.toString() + "---\n");
 
-                if(navalBattleGame.isStarted())
-                {
-                    navalBattleGame.verifyFiredPosition();
-                }
-                else
-                {
-                    if(selectedShip!=null)
-                    {
+                navalBattleGame.onUp(onUpPosition);
 
-                        //if down, move and up same position so this is a rotate
-                        if(onDownPosition.equals(onUpPosition))
-                        {
-                            selectedShip.rotate();
-                            //rotate while doesn't find valid rotation
-                            while(true)
-                            {
-                                selectedShip.setPointPosition(onUpPosition);
-                                if(!navalBattleGame.isInsideView(selectedShip))
-                                    selectedShip.rotate();
-                                else
-                                    break;
-                            }
-                        }
 
-                        selectedShip.setPointPosition(onUpPosition);
-
-//                        TODO: understand this again... and comment
-                        if(navalBattleGame.isInsideView(selectedShip))
-                            lasValidPosition = onUpPosition;
-                        else
-                            selectedShip.setPointPosition(lasValidPosition);
-
-                        navalBattleGame.refreshInvalidPositions(selectedShip);
-                        selectedShip = null;
-                    }
-                }
 
                 invalidate();
                 break;
 
             case MotionEvent.ACTION_CANCEL:
-                Log.d(TAG,"Action was CANCEL");
+                Log.d("tag","Action was CANCEL");
                 break;
 
             case MotionEvent.ACTION_OUTSIDE:
-                Log.d(TAG, "Movement occurred outside bounds of current screen element");
+                Log.d("tag", "Movement occurred outside bounds of current screen element");
                 break;
         }
         return true;
@@ -233,9 +157,6 @@ String TAG ="minha";
                     //vai buscar o tamanho real
                     realImage = BitmapFactory.decodeResource(getResources(), icon);
 
-                    //convert to point of the size of the table
-                    newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
-                            , false);
                 }
                 else
                 {
@@ -387,9 +308,11 @@ String TAG ="minha";
 
         paintMap(canvas);
 
+        //if the game already started and we may NOT change position in a ship...
         //if game already started... just show destroyed positions from another team
-        if(navalBattleGame.isStarted())
+        if(navalBattleGame.isStarted() && !navalBattleGame.isMayChangeShipPosition())
         {
+
             if(navalBattleGame.isMyTurnToPlay())
             {
                 if(navalBattleGame.getFiredPositionsTemp().size()!=3)
@@ -400,6 +323,7 @@ String TAG ="minha";
 
                 paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
                 Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getAtualTeam().getFiredPositions().toString());
+
             }
             else
             {
@@ -415,15 +339,21 @@ String TAG ="minha";
 
             }
 
+
+
             if(navalBattleGame.verifyEndOfGame())
                 createAlertDialog();
 
 
-
         }
-        //if the game has not started yet show all game to user change positions
+        //if the game has not started yet or user may choice new position to as ship.. show all game to user change positions
         else
         {
+
+            if(navalBattleGame.isMayChangeShipPosition())
+                createToast(R.string.choose_new_position);
+
+
             if(navalBattleGame.isAmITeamA())
                 paintShips(canvas, navalBattleGame.getTeamA().getShips());
             else
@@ -463,5 +393,12 @@ String TAG ="minha";
 //                    Log.d("verifyFiredPosition","TeamB won!!!");
     }
 
+    private void createToast(int str)
+    {
+        CharSequence text = getResources().getString(str);
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
 
 }

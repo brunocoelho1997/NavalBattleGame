@@ -26,7 +26,7 @@ public class newGameActivity extends AppCompatActivity {
     public void onOfflineGame(View v) {
 
         navalBattleGame.setTwoPlayer(false);
-        navalBattleGame.setAmITeamA(false);
+        navalBattleGame.setAmITeamA(true);
 
         Intent intent = new Intent(this, BattlefieldActivity.class);
         intent.putExtra("navalBattleGame", navalBattleGame);

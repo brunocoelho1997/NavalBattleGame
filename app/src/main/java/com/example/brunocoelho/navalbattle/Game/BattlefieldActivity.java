@@ -1,6 +1,7 @@
 package com.example.brunocoelho.navalbattle.Game;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -27,16 +28,31 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.brunocoelho.navalbattle.Game.Constants.SERVER;
+
 public class BattlefieldActivity extends Activity {
 
     private FrameLayout frameLayout;
     private BattlefieldView battlefieldView;
     private NavalBattleGame navalBattleGame;
 
+
+    int mode = SERVER;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battlefield);
+
+
+        Intent intent = getIntent();
+        if (intent != null)
+            mode = intent.getIntExtra("mode", SERVER);
+
+
+        Log.d("MINHA", "onCreate:" + mode);
+
 
         // Check whether we're recreating a previously destroyed instance
         if (savedInstanceState != null) {

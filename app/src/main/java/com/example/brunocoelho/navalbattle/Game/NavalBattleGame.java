@@ -12,6 +12,7 @@ import com.example.brunocoelho.navalbattle.Game.Models.Team;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -253,7 +254,6 @@ public class NavalBattleGame implements Serializable{
                     {
 
                         position.setColor(Constants.BLACK_CROSS_SQUARE);
-                        position.setDestroyed(true);
 
                         hittedFiredPositions++;
 
@@ -474,6 +474,13 @@ public class NavalBattleGame implements Serializable{
         {
             if(selectedShip!= null)
             {
+
+                if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShip.getPositionList()))
+                {
+                    Log.d("ChangeShipPosition", "Can't change ship position because this ship was already hitted by a fire of the other team.");
+                    return;
+                }
+
                 selectedShip.setPointPosition(onMovePosition);
 
                 //verifica se está dentro do tabuleiro... se nao estiver volta a definir a ship na ultima posicao guardada que era valida...
@@ -552,19 +559,82 @@ public class NavalBattleGame implements Serializable{
 
         //tried to change position but exists at least an invalid Position... so put the ship in last position which it was
         if(invalidPositions.size()>0)
+        {
+            Log.d("ChangeShipPosition", "Can't change ship position because you moved to an invalid position.");
             return false;
+
+        }
 
         //if inst adjancet return false
         if(!initialPositionShip.isAdjacent(onUpPosition))
+        {
+            Log.d("ChangeShipPosition", "Can't change ship position because you moved more than 1 position.");
             return false;
 
-        //if the oposite team already fired to this position...
-//        Ship shipAux = selectedShip.getClass().newInstance();
-//        if(getOpositeTeam().getFiredPositions().contains(onUpPosition))
-//            return false;
+        }
 
-        //if the ship has fired by other team...
-        //...
+
+        Ship selectedShipAux = createShip(selectedShip.getPositionList());
+
+        //if the oposite team already fired to this ship...
+        //usa a ship anteriormente criada... mas esta ship auxoliar na posicao inicial
+        selectedShipAux.setPointPosition(initialPositionShip);
+
+        //verifica se a outra equipa ja nao tinha disparado numa destas posicoes...
+        //Check if one list contains element from the other
+        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
+        {
+            Log.d("ChangeShipPosition", "Can't change ship position because this ship was already hitted by a fire of the other team.");
+            return false;
+
+        }
+
+        //if the oposite team already fired to this position...
+        //create a ship with same positions (apenas para ir buscar o numero de posicoes e criar um barco do mesmo tipo...)
+        selectedShipAux = createShip(selectedShip.getPositionList());
+
+        Log.d("ChangeShipPosition", "selectedShipAux.getPositionList():" + selectedShipAux.getPositionList());
+        Log.d("ChangeShipPosition", "getOpositeTeam().getFiredPositions():" + getOpositeTeam().getFiredPositions());
+
+        //verifica se ja nao tinha sido disparado para esta nova posicao...
+        //Check if one list contains element from the other
+        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
+        {
+            Log.d("ChangeShipPosition", "Can't change ship position because the oposite team already fired to this position.");
+            return false;
+
+        }
+
+
+
+
+
+
+//        //if the oposite team already fired to this position...
+//        //create a ship with same positions (apenas para ir buscar o numero de posicoes e criar um barco do mesmo tipo...)
+//        Ship selectedShipAux = createShip(selectedShip.getPositionList());
+//        //verifica se ja nao tinha sido disparado para esta nova posicao...
+//        //Check if one list contains element from the other
+//        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
+//        {
+//            Log.d("ChangeShipPosition", "Can't change ship position because the oposite team already fired to this position.");
+//            return false;
+//
+//        }
+//
+//
+//        //if the oposite team already fired to this ship...
+//        //usa a ship anteriormente criada... mas esta ship auxoliar na posicao inicial
+//        selectedShipAux.setPointPosition(initialPositionShip);
+//
+//        //verifica se a outra equipa ja nao tinha disparado numa destas posicoes...
+//        //Check if one list contains element from the other
+//        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
+//        {
+//            Log.d("ChangeShipPosition", "Can't change ship position because this ship was already hitted by a fire of the other team.");
+//            return false;
+//
+//        }
 
         return true;
     }

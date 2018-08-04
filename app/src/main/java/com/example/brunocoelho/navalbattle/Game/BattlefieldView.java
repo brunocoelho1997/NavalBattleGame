@@ -316,14 +316,17 @@ public class BattlefieldView extends View{
 
             if(navalBattleGame.isMyTurnToPlay())
             {
+
+                paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
+//                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getAtualTeam().getFiredPositions().toString());
+
                 if(navalBattleGame.getFiredPositionsTemp().size()!=3)
                 {
                     paintTempFiredPositions(canvas);
-                    Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team A.");
+//                    Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of atual team.");
                 }
 
-                paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
-                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getAtualTeam().getFiredPositions().toString());
+
 
             }
             else
@@ -332,11 +335,11 @@ public class BattlefieldView extends View{
                 navalBattleGame.AIFire();
 
 //                paintTempFiredPositions(canvas);
-//                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of team B.");
+//                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of oposite team.");
 
                 paintShips(canvas, navalBattleGame.getOpositeTeam().getShips());
                 paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
-                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getAtualTeam().toString());
+//                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getAtualTeam().toString());
 
             }
 
@@ -351,14 +354,22 @@ public class BattlefieldView extends View{
         else
         {
 
-            if(navalBattleGame.isMayChangeShipPosition())
-                createToast(R.string.choose_new_position, Toast.LENGTH_SHORT);
+
 
 
             if(navalBattleGame.isAmITeamA())
                 paintShips(canvas, navalBattleGame.getTeamA().getShips());
             else
                 paintShips(canvas, navalBattleGame.getTeamB().getShips());
+
+
+            if(navalBattleGame.isMayChangeShipPosition())
+            {
+                createToast(R.string.choose_new_position, Toast.LENGTH_SHORT);
+
+                paintFiredPositionsTeam(canvas, navalBattleGame.getOpositeTeam().getFiredPositions());
+
+            }
 
             paintInvalidPositions(canvas);
 

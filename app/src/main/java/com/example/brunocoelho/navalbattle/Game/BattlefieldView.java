@@ -352,7 +352,7 @@ public class BattlefieldView extends View{
         {
 
             if(navalBattleGame.isMayChangeShipPosition())
-                createToast(R.string.choose_new_position);
+                createToast(R.string.choose_new_position, Toast.LENGTH_SHORT);
 
 
             if(navalBattleGame.isAmITeamA())
@@ -395,10 +395,9 @@ public class BattlefieldView extends View{
 //                    Log.d("verifyFiredPosition","TeamB won!!!");
     }
 
-    private void createToast(int str)
+    private void createToast(int str, int duration)
     {
         CharSequence text = getResources().getString(str);
-        int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }

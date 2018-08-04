@@ -115,6 +115,8 @@ public class BattlefieldActivity extends Activity {
             navalBattleGame.nextTurn();
             battlefieldView.invalidate();
 
+
+            navalBattleGame.setChangedShipPosition(false);
         }
     }
 

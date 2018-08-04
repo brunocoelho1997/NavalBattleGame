@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
+import com.example.brunocoelho.navalbattle.Game.BattlefieldActivity;
+import com.example.brunocoelho.navalbattle.Game.Constants;
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.R;
 
@@ -47,11 +49,9 @@ public class ServerOrClientActivity extends Activity {
     public void onServer(View v) {
 
         Log.d("onServer", "Clicked onServer");
-//        Intent intent=new Intent(this, GameActivity.class);
-//        intent.putExtra("mode", GameActivity.SERVER);
-//
-//        intent.putExtra("mode", GameActivity.SERVER);
-//        startActivity(intent);
+        Intent intent=new Intent(this, BattlefieldActivity.class);
+        intent.putExtra("mode", Constants.SERVER);
+        startActivity(intent);
 
 
         finish();
@@ -59,8 +59,9 @@ public class ServerOrClientActivity extends Activity {
     public void onClient(View v) {
 
         Log.d("onServer", "Clicked onServer");
-
-        finish();
+        Intent intent=new Intent(this, BattlefieldActivity.class);
+        intent.putExtra("mode", Constants.CLIENT);
+        startActivity(intent);
     }
 
 

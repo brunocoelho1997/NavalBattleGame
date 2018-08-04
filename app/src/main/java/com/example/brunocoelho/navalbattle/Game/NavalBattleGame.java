@@ -34,6 +34,8 @@ public class NavalBattleGame implements Serializable{
 
 
     private boolean mayChangeShipPosition;
+    private boolean changedShipPosition;
+
 
     public NavalBattleGame() {
         this.data = new Data();
@@ -208,7 +210,11 @@ public class NavalBattleGame implements Serializable{
             {
                 //verify if the user already not fired to this position
                 if(!firedPositionsTemp.contains(onDownPosition) && !getAtualTeam().getFiredPositions().contains(onDownPosition))
-                    firedPositionsTemp.add(onDownPosition);
+                {
+                    //just can fire 3 positions...
+                    if(firedPositionsTemp.size()<=3)
+                        firedPositionsTemp.add(onDownPosition);
+                }
             }
         }
     }
@@ -266,7 +272,8 @@ public class NavalBattleGame implements Serializable{
                 }
             }
         }
-        if(hittedFiredPositions==3)
+        //if hitted in 3 positions and did not yet changed a position of ship...
+        if(hittedFiredPositions==3 && !isChangedShipPosition())
             mayChangeShipPosition=true;
     }
 
@@ -275,10 +282,6 @@ public class NavalBattleGame implements Serializable{
         Team atualTeam = getAtualTeam();
 
         Team opositeTeam = getOpositeTeam();
-
-        Log.d("verifyEndOfGame","Positions that atual team fired: " + atualTeam.getFiredPositions().toString());
-
-
 
         //for all oposite team...
         //percorre a equipa contrária
@@ -415,7 +418,15 @@ public class NavalBattleGame implements Serializable{
         this.mayChangeShipPosition = mayChangeShipPosition;
     }
 
-//    -
+    public boolean isChangedShipPosition() {
+        return changedShipPosition;
+    }
+
+    public void setChangedShipPosition(boolean changedShipPosition) {
+        this.changedShipPosition = changedShipPosition;
+    }
+
+    //    -
 //    -
 //    -
 //    clicked positions
@@ -486,6 +497,10 @@ public class NavalBattleGame implements Serializable{
         if(isStarted() && !isMayChangeShipPosition())
         {
 
+            //if firedPositionsTemp are already defined ignore new clicks... (estava a adicionar posicoes mesmo após delas todas definidas...)
+            if(firedPositionsTemp.size()==3)
+                return;
+
             //if is avaiable next turn we cant click more...
             if(!isAvaibleNextTurn())
                 addFiredPosition(onUpPosition);
@@ -498,7 +513,6 @@ public class NavalBattleGame implements Serializable{
             {
 
                 verifyRotate();
-
 
                 selectedShip.setPointPosition(onUpPosition);
 
@@ -517,7 +531,10 @@ public class NavalBattleGame implements Serializable{
                 {
                     //tried to change position but... if it was invalid put the ship in last position which it was
                     if(verifyIsValidPositionChangeShipPosition())
+                    {
                         setMayChangeShipPosition(false);
+                        setChangedShipPosition(true);
+                    }
                     else
                     {
                         Log.d("onUp", "tried to change position but exists an invalid Positions");
@@ -545,6 +562,9 @@ public class NavalBattleGame implements Serializable{
 //        Ship shipAux = selectedShip.getClass().newInstance();
 //        if(getOpositeTeam().getFiredPositions().contains(onUpPosition))
 //            return false;
+
+        //if the ship has fired by other team...
+        //...
 
         return true;
     }

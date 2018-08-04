@@ -574,7 +574,7 @@ public class NavalBattleGame implements Serializable{
         }
 
 
-        Ship selectedShipAux = createShip(selectedShip.getPositionList());
+        Ship selectedShipAux = createShip(new ArrayList<Position>(selectedShip.getPositionList()));
 
         //if the oposite team already fired to this ship...
         //usa a ship anteriormente criada... mas esta ship auxoliar na posicao inicial
@@ -589,21 +589,22 @@ public class NavalBattleGame implements Serializable{
 
         }
 
-        //if the oposite team already fired to this position...
-        //create a ship with same positions (apenas para ir buscar o numero de posicoes e criar um barco do mesmo tipo...)
-        selectedShipAux = createShip(selectedShip.getPositionList());
-
-        Log.d("ChangeShipPosition", "selectedShipAux.getPositionList():" + selectedShipAux.getPositionList());
-        Log.d("ChangeShipPosition", "getOpositeTeam().getFiredPositions():" + getOpositeTeam().getFiredPositions());
-
-        //verifica se ja nao tinha sido disparado para esta nova posicao...
-        //Check if one list contains element from the other
-        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
-        {
-            Log.d("ChangeShipPosition", "Can't change ship position because the oposite team already fired to this position.");
-            return false;
-
-        }
+//        //if the oposite team already fired to this position...
+//        //create a ship with same positions (apenas para ir buscar o numero de posicoes e criar um barco do mesmo tipo...)
+//        selectedShipAux = createShip(new ArrayList<Position>(selectedShip.getPositionList()));
+//
+//
+//        Log.d("ChangeShipPosition", "selectedShipAux.getPositionList():" + selectedShipAux.getPositionList());
+//        Log.d("ChangeShipPosition", "getOpositeTeam().getFiredPositions():" + getOpositeTeam().getFiredPositions());
+//
+//        //verifica se ja nao tinha sido disparado para esta nova posicao...
+//        //Check if one list contains element from the other
+//        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
+//        {
+//            Log.d("ChangeShipPosition", "Can't change ship position because the oposite team already fired to this position.");
+//            return false;
+//
+//        }
 
 
 

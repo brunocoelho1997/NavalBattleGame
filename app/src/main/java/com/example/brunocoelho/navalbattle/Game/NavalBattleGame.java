@@ -603,37 +603,6 @@ public class NavalBattleGame implements Serializable{
 
         }
 
-
-
-
-
-
-//        //if the oposite team already fired to this position...
-//        //create a ship with same positions (apenas para ir buscar o numero de posicoes e criar um barco do mesmo tipo...)
-//        Ship selectedShipAux = createShip(selectedShip.getPositionList());
-//        //verifica se ja nao tinha sido disparado para esta nova posicao...
-//        //Check if one list contains element from the other
-//        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
-//        {
-//            Log.d("ChangeShipPosition", "Can't change ship position because the oposite team already fired to this position.");
-//            return false;
-//
-//        }
-//
-//
-//        //if the oposite team already fired to this ship...
-//        //usa a ship anteriormente criada... mas esta ship auxoliar na posicao inicial
-//        selectedShipAux.setPointPosition(initialPositionShip);
-//
-//        //verifica se a outra equipa ja nao tinha disparado numa destas posicoes...
-//        //Check if one list contains element from the other
-//        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
-//        {
-//            Log.d("ChangeShipPosition", "Can't change ship position because this ship was already hitted by a fire of the other team.");
-//            return false;
-//
-//        }
-
         return true;
     }
 
@@ -657,6 +626,23 @@ public class NavalBattleGame implements Serializable{
             }
         }
     }
+
+
+
+
+    //    -
+//    -
+//    -
+//    online methods
+//    -
+//    -
+//    -
+//
+    //the commThread
+//    public void createListenerThread(){
+//
+//    }
+
 
 
 }

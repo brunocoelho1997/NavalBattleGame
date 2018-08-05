@@ -126,46 +126,35 @@ public class BattlefieldActivity extends Activity {
         super.onSaveInstanceState(savedInstanceState);
     }
 
-//    @Override
-//    protected void onResume() {
-//
-//        if(navalBattleGame.isTwoPlayer())
-//        {
-//            super.onResume();
-//            if (mode == SERVER)
-//                server();
-//            else  // CLIENT
-//                clientDlg();
-//
-//
-//            sendProfiles();
-//
-//            final Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//
-//
-//                }
-//            }, 1000);
-//        }
-//;
-//
-//    }
+    @Override
+    protected void onResume() {
 
-    private void sendProfiles() {
+        if(navalBattleGame.isTwoPlayer())
+        {
+            super.onResume();
+            if (mode == SERVER)
+                server();
+            else  // CLIENT
+                clientDlg();
+
+        }
+;
+
+    }
+
+    private void sendProfile() {
 
         final Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Log.d("RPS", "Sending profile: PERFILABC EHEHE");
+                    Log.d("sendProfile", "Sending profile: PERFILABC EHEHE");
                     output.println("PERFILABC EHEHE");
                     output.flush();
-                    Log.d("RPS", "Sent profile");
+                    Log.d("sendProfile", "Sent profile");
 
                 } catch (Exception e) {
-                    Log.d("RPS", "Error sending a move. Error: " + e);
+                    Log.d("sendProfile", "Error sending a move. Error: " + e);
                 }
             }
         });
@@ -335,10 +324,30 @@ public class BattlefieldActivity extends Activity {
                 input = new BufferedReader(new InputStreamReader(
                         socketGame.getInputStream()));
                 output = new PrintWriter(socketGame.getOutputStream());
+                Log.d("commThread", "Pronta para receber e enviar mensagens...");
+
+                sendProfile();
+
+                Log.d("commThread", "Enviei perfil...");
+
+
                 while (!Thread.currentThread().isInterrupted()) {
-                    String read = input.readLine();
+
+                    Object receivedObject = input.readLine();
+
+                    if(receivedObject instanceof String){
+
+                        String read = (String)receivedObject;
+                        Log.d("commThread", "Received String: " + read);
+                    }
+                    else if(receivedObject instanceof Position)
+                    {
+                        Position position = (Position) receivedObject;
+                        Log.d("commThread", "Received position: " + position);
+                    }
+
 //                    final int move = Integer.parseInt(read);
-                    Log.d("RPS", "Received: " + read);
+                    Log.d("RPS", "Received: " + receivedObject);
 //                    procMsg.post(new Runnable() {
 //                        @Override
 //                        public void run() {

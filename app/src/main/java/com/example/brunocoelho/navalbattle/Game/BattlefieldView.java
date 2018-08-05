@@ -367,7 +367,7 @@ public class BattlefieldView extends View{
             {
                 createToast(R.string.choose_new_position, Toast.LENGTH_SHORT);
 
-//                paintFiredPositionsTeam(canvas, navalBattleGame.getOpositeTeam().getFiredPositions());
+                paintFiredPositionsTeam(canvas, navalBattleGame.getOpositeTeam().getFiredPositions());
 
             }
 

@@ -20,8 +20,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.2"
         android:padding="10dp"
-        android:id="@+id/playersPanel"
-        android:visibility="gone">
+        android:id="@+id/playersPanel">
 
 
         <LinearLayout
@@ -86,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:padding="10dp"
+        android:padding="5dp"
         android:id="@+id/choosePanel">
 
         <TextView

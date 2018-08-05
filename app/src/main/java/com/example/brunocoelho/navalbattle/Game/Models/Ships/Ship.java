@@ -6,10 +6,11 @@ import com.example.brunocoelho.navalbattle.Game.Constants;
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Ship {
+public abstract class Ship implements Serializable{
     protected int rotation;
     protected List<Position> positionList;
 

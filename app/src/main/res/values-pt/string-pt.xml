@@ -16,5 +16,10 @@
     <string name="server">Criar Jogo</string>
     <string name="client">Ligar a Jogo</string>
 
+    <string name="error_netconn">Sem rede.</string>
+    <string name="serverdlg_msg">À espera que alguém se conecte...</string>
+    <string name="serverdlg_title">Batalha Naval Online</string>
+    <string name="game_finished">O jogo acabou.</string>
+
 
 </resources>

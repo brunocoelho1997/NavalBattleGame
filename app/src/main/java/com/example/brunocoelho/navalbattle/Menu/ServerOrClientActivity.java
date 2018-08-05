@@ -50,16 +50,19 @@ public class ServerOrClientActivity extends Activity {
 
         Log.d("onServer", "Clicked onServer");
         Intent intent=new Intent(this, BattlefieldActivity.class);
+        intent.putExtra("navalBattleGame", navalBattleGame);
+        navalBattleGame.setAmITeamA(true);
         intent.putExtra("mode", Constants.SERVER);
         startActivity(intent);
 
 
-        finish();
     }
     public void onClient(View v) {
 
         Log.d("onServer", "Clicked onServer");
         Intent intent=new Intent(this, BattlefieldActivity.class);
+        intent.putExtra("navalBattleGame", navalBattleGame);
+
         intent.putExtra("mode", Constants.CLIENT);
         startActivity(intent);
     }

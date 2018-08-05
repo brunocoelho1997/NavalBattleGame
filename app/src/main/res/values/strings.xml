@@ -21,6 +21,12 @@
 
     <string name="server">Create Game</string>
     <string name="client">Connect Game</string>
+    <string name="error_netconn">No network connection.</string>
+    <string name="serverdlg_msg">Waiting for a someone...</string>
+    <string name="serverdlg_title">NavalBatle Online</string>
+    <string name="game_finished">The game was finished.</string>
+
+
 
 
 

@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.brunocoelho.navalbattle.Game.Constants.PORT;
 import static com.example.brunocoelho.navalbattle.Game.Constants.SERVER;
 
 public class BattlefieldActivity extends Activity {
@@ -60,12 +61,8 @@ public class BattlefieldActivity extends Activity {
     int mode = SERVER;
     Handler procMsg = null;
     ProgressDialog pd = null;
-    ServerSocket serverSocket=null;
-    Socket socketGame = null;
-    BufferedReader input;
-    PrintWriter output;
 
-    private static final int PORT = 8899;
+
 
 
     @Override
@@ -138,7 +135,7 @@ public class BattlefieldActivity extends Activity {
                 clientDlg();
 
         }
-;
+        ;
 
     }
 
@@ -149,8 +146,8 @@ public class BattlefieldActivity extends Activity {
             public void run() {
                 try {
                     Log.d("sendProfile", "Sending profile: PERFILABC EHEHE");
-                    output.println("PERFILABC EHEHE");
-                    output.flush();
+                    navalBattleGame.getOutput().println("PERFILABC EHEHE");
+                    navalBattleGame.getOutput().flush();
                     Log.d("sendProfile", "Sent profile");
 
                 } catch (Exception e) {
@@ -236,12 +233,12 @@ public class BattlefieldActivity extends Activity {
             @Override
             public void onCancel(DialogInterface dialog) {
                 finish();
-                if (serverSocket!=null) {
+                if (navalBattleGame.getServerSocket()!=null) {
                     try {
-                        serverSocket.close();
+                        navalBattleGame.getServerSocket().close();
                     } catch (IOException e) {
                     }
-                    serverSocket=null;
+                    navalBattleGame.setServerSocket(null);
                 }
             }
         });
@@ -251,20 +248,21 @@ public class BattlefieldActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    serverSocket = new ServerSocket(PORT);
-                    socketGame = serverSocket.accept();
-                    serverSocket.close();
-                    serverSocket=null;
+                    navalBattleGame.setServerSocket(new ServerSocket(PORT));
+                    navalBattleGame.setSocketGame(navalBattleGame.serverSocket.accept());
+
+                    navalBattleGame.getServerSocket().close();
+                    navalBattleGame.setServerSocket(null);
                     commThread.start();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    socketGame = null;
+                    navalBattleGame.setSocketGame(null);
                 }
                 procMsg.post(new Runnable() {
                     @Override
                     public void run() {
                         pd.dismiss();
-                        if (socketGame == null)
+                        if (navalBattleGame.getSocketGame() == null)
                             finish();
                     }
                 });
@@ -298,11 +296,12 @@ public class BattlefieldActivity extends Activity {
             public void run() {
                 try {
                     Log.d("RPS", "Connecting to the server  " + strIP);
-                    socketGame = new Socket(strIP, Port);
+                    navalBattleGame.setSocketGame(new Socket(strIP, Port));
                 } catch (Exception e) {
-                    socketGame = null;
+                    navalBattleGame.setSocketGame(null);
+
                 }
-                if (socketGame == null) {
+                if (navalBattleGame.getSocketGame() == null) {
                     procMsg.post(new Runnable() {
                         @Override
                         public void run() {
@@ -321,9 +320,12 @@ public class BattlefieldActivity extends Activity {
         @Override
         public void run() {
             try {
-                input = new BufferedReader(new InputStreamReader(
-                        socketGame.getInputStream()));
-                output = new PrintWriter(socketGame.getOutputStream());
+
+                navalBattleGame.setInput(new BufferedReader(new InputStreamReader(
+                        navalBattleGame.getSocketGame().getInputStream())));
+
+                navalBattleGame.setOutput(new PrintWriter(navalBattleGame.getSocketGame().getOutputStream()));
+
                 Log.d("commThread", "Pronta para receber e enviar mensagens...");
 
                 sendProfile();
@@ -332,22 +334,9 @@ public class BattlefieldActivity extends Activity {
 
 
                 while (!Thread.currentThread().isInterrupted()) {
-
-                    Object receivedObject = input.readLine();
-
-                    if(receivedObject instanceof String){
-
-                        String read = (String)receivedObject;
-                        Log.d("commThread", "Received String: " + read);
-                    }
-                    else if(receivedObject instanceof Position)
-                    {
-                        Position position = (Position) receivedObject;
-                        Log.d("commThread", "Received position: " + position);
-                    }
-
+                    String read = navalBattleGame.getInput().readLine();
 //                    final int move = Integer.parseInt(read);
-                    Log.d("RPS", "Received: " + receivedObject);
+                    Log.d("RPS", "Received: " + read);
 //                    procMsg.post(new Runnable() {
 //                        @Override
 //                        public void run() {
@@ -369,21 +358,23 @@ public class BattlefieldActivity extends Activity {
         }
     });
 
+
+
     protected void onPause() {
         super.onPause();
         try {
             commThread.interrupt();
-            if (socketGame != null)
-                socketGame.close();
-            if (output != null)
-                output.close();
-            if (input != null)
-                input.close();
+            if (navalBattleGame.getSocketGame() != null)
+                navalBattleGame.getSocketGame().close();
+            if (navalBattleGame.getOutput()!= null)
+                navalBattleGame.getOutput().close();
+            if (navalBattleGame.getInput()!= null)
+                navalBattleGame.getInput().close();
         } catch (Exception e) {
         }
-        input = null;
-        output = null;
-        socketGame = null;
+        navalBattleGame.setInput(null);
+        navalBattleGame.setOutput(null);
+        navalBattleGame.setSocketGame(null);
     };
 
     public static String getLocalIpAddress() {

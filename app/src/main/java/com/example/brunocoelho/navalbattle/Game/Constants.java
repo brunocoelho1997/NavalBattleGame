@@ -6,6 +6,8 @@ public class Constants {
 
     public static final int SERVER = 0;
     public static final int CLIENT = 1;
+    public static final int PORT = 8899;
+
 
     public static final int FULL_SQUARE = R.drawable.black_square;
     public static final int BLANK_SQUARE = R.drawable.blank_square;

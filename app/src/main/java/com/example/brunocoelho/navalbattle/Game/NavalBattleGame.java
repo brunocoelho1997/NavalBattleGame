@@ -10,7 +10,11 @@ import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipThree;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
 import com.example.brunocoelho.navalbattle.Game.Models.Team;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.io.Serializable;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +40,14 @@ public class NavalBattleGame implements Serializable{
 
     private boolean mayChangeShipPosition;
     private boolean changedShipPosition;
+
+
+    //online
+    ServerSocket serverSocket=null;
+    Socket socketGame = null;
+    BufferedReader input;
+    PrintWriter output;
+
 
 
     public NavalBattleGame() {
@@ -350,7 +362,7 @@ public class NavalBattleGame implements Serializable{
         //if the atual player is temA and is time to teamA play or if the atual player is temB and is time to teamB play return true
         return ((isTeamATurn() && isAmITeamA()) || (!isTeamATurn() && !isAmITeamA()));
     }
-//    -
+    //    -
 //    -
 //    -
 //    getters and setters
@@ -638,11 +650,38 @@ public class NavalBattleGame implements Serializable{
 //    -
 //    -
 //
-    //the commThread
-//    public void createListenerThread(){
-//
-//    }
 
 
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public void setServerSocket(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+
+    public Socket getSocketGame() {
+        return socketGame;
+    }
+
+    public void setSocketGame(Socket socketGame) {
+        this.socketGame = socketGame;
+    }
+
+    public BufferedReader getInput() {
+        return input;
+    }
+
+    public void setInput(BufferedReader input) {
+        this.input = input;
+    }
+
+    public PrintWriter getOutput() {
+        return output;
+    }
+
+    public void setOutput(PrintWriter output) {
+        this.output = output;
+    }
 
 }

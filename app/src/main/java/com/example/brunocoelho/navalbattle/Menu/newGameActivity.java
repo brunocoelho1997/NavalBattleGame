@@ -37,8 +37,8 @@ public class newGameActivity extends AppCompatActivity {
     }
 
     public void onOnlineGame(View v) {
-        navalBattleGame.setTwoPlayer(true);
 
+        navalBattleGame.setTwoPlayer(true);
 
         Intent intent = new Intent(this, ServerOrClientActivity.class);
         intent.putExtra("navalBattleGame", navalBattleGame);

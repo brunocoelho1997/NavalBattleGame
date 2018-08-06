@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Ship implements Serializable{
+public class Ship implements Serializable{
     protected int rotation;
     protected List<Position> positionList;
 
@@ -83,6 +83,14 @@ public abstract class Ship implements Serializable{
     }
 
     public void rotate(){}
+
+    public int getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
+    }
 
     @Override
     public String toString() {

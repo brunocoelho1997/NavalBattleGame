@@ -20,24 +20,8 @@ public class ServerOrClientActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_or_client);
 
-        // Check whether we're recreating a previously destroyed instance
-        if (savedInstanceState != null) {
-            // Restore value of members from saved state
-            navalBattleGame = (NavalBattleGame) savedInstanceState.getSerializable("restoredNavalBattleGame");
-        } else {
-            // when is new game...
-            navalBattleGame = (NavalBattleGame)getIntent().getSerializableExtra("navalBattleGame");
-            navalBattleGame.setTeamsPositions();
-        }
-    }
+        navalBattleGame = (NavalBattleGame)getIntent().getSerializableExtra("navalBattleGame");
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save the user's current game state
-        savedInstanceState.putSerializable("restoredNavalBattleGame", navalBattleGame);
-
-        // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
     }
 
     public void onCloseServerOrClient(View v) {
@@ -49,9 +33,11 @@ public class ServerOrClientActivity extends Activity {
     public void onServer(View v) {
 
         Log.d("onServer", "Clicked onServer");
+        navalBattleGame.setAmITeamA(true);
+
+
         Intent intent=new Intent(this, BattlefieldActivity.class);
         intent.putExtra("navalBattleGame", navalBattleGame);
-        navalBattleGame.setAmITeamA(true);
         intent.putExtra("mode", Constants.SERVER);
         startActivity(intent);
 
@@ -60,6 +46,8 @@ public class ServerOrClientActivity extends Activity {
     public void onClient(View v) {
 
         Log.d("onServer", "Clicked onServer");
+        navalBattleGame.setAmITeamA(false);
+
         Intent intent=new Intent(this, BattlefieldActivity.class);
         intent.putExtra("navalBattleGame", navalBattleGame);
 

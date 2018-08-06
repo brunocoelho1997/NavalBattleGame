@@ -238,13 +238,15 @@ public class NavalBattleGame implements Serializable{
         else
             return data.getTeamB();
     }
-    public Team getOpositeTeam()
+    public Team getOppositeTeam()
     {
         if(data.isTeamATurn())
             return data.getTeamB();
         else
             return data.getTeamA();
     }
+
+
 
     public void verifyFiredPosition() {
 
@@ -260,7 +262,7 @@ public class NavalBattleGame implements Serializable{
             //if shots hit teamA change icon to cross black.... if not change to cross
             for(Position position : firedPositionsTemp)
             {
-                for(Ship ship : getOpositeTeam().getShips()) {
+                for(Ship ship : getOppositeTeam().getShips()) {
                     if(ship.getPositionList().contains(position))
                     {
 
@@ -292,7 +294,7 @@ public class NavalBattleGame implements Serializable{
 
         Team atualTeam = getAtualTeam();
 
-        Team opositeTeam = getOpositeTeam();
+        Team opositeTeam = getOppositeTeam();
 
         //for all oposite team...
         //percorre a equipa contrária
@@ -348,19 +350,24 @@ public class NavalBattleGame implements Serializable{
         if(isTeamATurn())
             return getAtualTeam();
         else
-            return getOpositeTeam();
+            return getOppositeTeam();
     }
 
     public Team getTeamB() {
         if(!isTeamATurn())
             return getAtualTeam();
         else
-            return getOpositeTeam();
+            return getOppositeTeam();
     }
 
     public boolean isMyTurnToPlay() {
         //if the atual player is temA and is time to teamA play or if the atual player is temB and is time to teamB play return true
         return ((isTeamATurn() && isAmITeamA()) || (!isTeamATurn() && !isAmITeamA()));
+    }
+
+    public void setShipsOpositeTeam()
+    {
+
     }
     //    -
 //    -
@@ -437,7 +444,7 @@ public class NavalBattleGame implements Serializable{
         this.changedShipPosition = changedShipPosition;
     }
 
-    //    -
+//    -
 //    -
 //    -
 //    clicked positions
@@ -487,7 +494,7 @@ public class NavalBattleGame implements Serializable{
             {
 
                 //apenas para a GUI... para quando a ship tiver atingida nao deixar mexer... pq ficava com as posicoes lixadas...
-                if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShip.getPositionList()))
+                if(!Collections.disjoint(getOppositeTeam().getFiredPositions(), selectedShip.getPositionList()))
                 {
 //                    Log.d("ChangeShipPosition", "Can't change ship position because this ship was already hitted by a fire of the other team.");
                     return;
@@ -530,7 +537,6 @@ public class NavalBattleGame implements Serializable{
         {
             if(selectedShip!=null)
             {
-
                 verifyRotate();
 
                 selectedShip.setPointPosition(onUpPosition);
@@ -594,7 +600,7 @@ public class NavalBattleGame implements Serializable{
 
         //verifica se a outra equipa ja nao tinha disparado numa destas posicoes...
         //Check if one list contains element from the other
-        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
+        if(!Collections.disjoint(getOppositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
         {
             Log.d("ChangeShipPosition", "Can't change ship position because this ship was already hitted by a fire of the other team.");
             return false;
@@ -608,7 +614,7 @@ public class NavalBattleGame implements Serializable{
 
         //verifica se ja nao tinha sido disparado para esta nova posicao...
         //Check if one list contains element from the other
-        if(!Collections.disjoint(getOpositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
+        if(!Collections.disjoint(getOppositeTeam().getFiredPositions(), selectedShipAux.getPositionList()))
         {
             Log.d("ChangeShipPosition", "Can't change ship position because the oposite team already fired to this position.");
             return false;
@@ -652,6 +658,15 @@ public class NavalBattleGame implements Serializable{
 //
 
 
+    public void setOppositeTeam(Team team)
+    {
+        if(data.isAmITeamA())
+            data.setTeamB(team);
+        else
+            data.setTeamA(team);
+    }
+
+
     public ServerSocket getServerSocket() {
         return serverSocket;
     }
@@ -684,4 +699,24 @@ public class NavalBattleGame implements Serializable{
         this.output = output;
     }
 
+
+    public void defineShipsType(Team oppositeTeam) {
+        List<Ship> shipTypeDefinedList = new ArrayList<>();
+
+        for(Ship ship: oppositeTeam.getShips())
+        {
+            Ship newShip = createShip(ship.getPositionList());
+            newShip.setRotation(ship.getRotation());
+            newShip.setInitialPositionList(new ArrayList<Position>(ship.getInitialPositionList()));
+            shipTypeDefinedList.add(newShip);
+        }
+
+        oppositeTeam.setShips(shipTypeDefinedList);
+    }
+
+    public void restoreData() {
+        boolean isTwoPlayer = data.isTwoPlayer();
+        this.data = new Data();
+        data.setTwoPlayer(isTwoPlayer); //TODO: isto nao esta' mt bem
+    }
 }

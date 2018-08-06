@@ -20,15 +20,22 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.brunocoelho.navalbattle.Game.Models.Message;
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
+import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipFive;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipOne;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipThree;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
+import com.example.brunocoelho.navalbattle.Game.Models.Team;
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.Game.BattlefieldView;
 import com.example.brunocoelho.navalbattle.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,6 +50,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -61,7 +69,7 @@ public class BattlefieldActivity extends Activity {
     int mode = SERVER;
     Handler procMsg = null;
     ProgressDialog pd = null;
-
+    Gson gson;
 
 
 
@@ -100,6 +108,7 @@ public class BattlefieldActivity extends Activity {
 
 
             procMsg = new Handler();
+            gson = new Gson();
 
         }
 
@@ -145,8 +154,13 @@ public class BattlefieldActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    Log.d("sendProfile", "Sending profile: PERFILABC EHEHE");
-                    navalBattleGame.getOutput().println("PERFILABC EHEHE");
+                    Profile profile = new Profile("PERFILABC_" + (new Random()).nextInt());
+
+                    String jsonProfile = gson.toJson(profile);
+
+                    Log.d("sendProfile", "JSONProfile which will be send:" + jsonProfile);
+
+                    navalBattleGame.getOutput().println(jsonProfile);
                     navalBattleGame.getOutput().flush();
                     Log.d("sendProfile", "Sent profile");
 
@@ -155,11 +169,37 @@ public class BattlefieldActivity extends Activity {
                 }
             }
         });
-
         t.start();
-
     }
 
+
+    //convert object to json and send
+    public void sendObject(final Object object)
+    {
+        try {
+            final Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+
+                        //convert object to JSON
+                        String jsonObject = gson.toJson(object);
+                        //send json
+                        navalBattleGame.getOutput().println(jsonObject);
+                        navalBattleGame.getOutput().flush();
+                        Log.d("sendObject", "Sent: " + object);
+                    } catch (Exception e) {
+                        Log.d("sendObject", "Error sending a move. Error: " + e);
+                    }
+                }
+            });
+            t.start();
+            t.join();
+        } catch (InterruptedException e) {
+            Log.d("sendObject", "Error por estar à espera q acabasse de enviar mensagem completa. error: " + e);
+
+        }
+    }
 
     public void onStartGame(View v) {
 
@@ -172,7 +212,97 @@ public class BattlefieldActivity extends Activity {
             toast.show();
         else
         {
-            navalBattleGame.startGame();
+
+            //random - 0 or 1
+
+            //se eu sou a equipa B e estamos a jogar c 2 jogadores nao fazer...
+            navalBattleGame.setTeamATurn(Math.random() < 0.5);
+
+            if(navalBattleGame.isTwoPlayer())
+            {
+                //after clicked to start game send our game to the other player
+                Log.d("onStartGame", "Sending my team...");
+
+                Team team;
+
+                if(navalBattleGame.isAmITeamA())
+                    team = navalBattleGame.getTeamA();
+                else
+                    team = navalBattleGame.getTeamB();
+
+                team.setPositionedShips(true); //flag which indicates if we have already positioned the ships... (indicates that we are ready to begin the game...)
+
+                sendObject(team);
+
+
+                Log.d("onStartGame", "Sent my team. My team: " + team);
+
+                //the TeamA (the server) is who defines who begin playing...
+                if(navalBattleGame.isAmITeamA())
+                    sendObject(new Message(Constants.TEAM_A_TURN + navalBattleGame.isTeamATurn()));
+
+
+
+                if(navalBattleGame.isAmITeamA())
+                {
+                    Log.d("onStartGame", "SOU EQUIPA A portanto vou verificar se a EQUIPA B ja isPositionedShips   ");
+                    team = navalBattleGame.getTeamB();
+                }
+
+                else
+                {
+                    Log.d("onStartGame", "SOU EQUIPA B portanto vou verificar se a EQUIPA A ja isPositionedShips   ");
+                    team = navalBattleGame.getTeamA();
+
+                }
+
+
+                Log.d("onStartGame", "navalBattleGame.getOppositeTeam(): " + team);
+
+
+
+                if(team.isPositionedShips())
+                {
+                    Log.d("onStartGame", "Equipa adversaria tem as ships posicionadas portanto vou mandar um start game e vou começar o jogo tbm");
+
+                    sendObject(new Message(Constants.START_GAME));
+                    navalBattleGame.startGame();
+
+                    procMsg.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            pd.dismiss();
+                            pd = null;
+                        }
+                    });
+                }
+
+                if(!navalBattleGame.isStarted())
+                {
+                    pd = new ProgressDialog(this);
+                    pd.setMessage("Aguardando other playa");
+                    pd.setTitle(R.string.serverdlg_title);
+                    pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            finish();
+                            if (navalBattleGame.getServerSocket()!=null) {
+                                try {
+                                    navalBattleGame.getServerSocket().close();
+                                } catch (IOException e) {
+                                }
+                                navalBattleGame.setServerSocket(null);
+                                navalBattleGame.restoreData();
+                            }
+                        }
+                    });
+                    pd.show();
+                }
+            }
+
+
+
+//            navalBattleGame.startGame();
 
             //close panels of choose positions
             LinearLayout linearLayoutChoosePanel = findViewById(R.id.choosePanel);
@@ -188,13 +318,13 @@ public class BattlefieldActivity extends Activity {
             buttonNextTurn.setVisibility(View.VISIBLE);
 
 
-            //random - 0 or 1
-            navalBattleGame.setTeamATurn(Math.random() < 0.5);
 
-            navalBattleGame.setAIPositions();
+
+            //if only 1 player....
+            if(!navalBattleGame.isTwoPlayer())
+                navalBattleGame.setAIPositions();
 
             battlefieldView.invalidate();
-            Log.d("onStartGame", "Game Started. TeamA playing:" + navalBattleGame.isTeamATurn());
         }
     }
 
@@ -239,6 +369,8 @@ public class BattlefieldActivity extends Activity {
                     } catch (IOException e) {
                     }
                     navalBattleGame.setServerSocket(null);
+                    navalBattleGame.restoreData();
+
                 }
             }
         });
@@ -257,6 +389,8 @@ public class BattlefieldActivity extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     navalBattleGame.setSocketGame(null);
+                    navalBattleGame.restoreData();
+
                 }
                 procMsg.post(new Runnable() {
                     @Override
@@ -306,6 +440,8 @@ public class BattlefieldActivity extends Activity {
                         @Override
                         public void run() {
                             finish();
+                            navalBattleGame.restoreData();
+
                         }
                     });
                     return;
@@ -334,15 +470,51 @@ public class BattlefieldActivity extends Activity {
 
 
                 while (!Thread.currentThread().isInterrupted()) {
-                    String read = navalBattleGame.getInput().readLine();
-//                    final int move = Integer.parseInt(read);
-                    Log.d("RPS", "Received: " + read);
-//                    procMsg.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            moveOtherPlayer(move);
-//                        }
-//                    });
+
+                    final String jsonReceived= navalBattleGame.getInput().readLine();
+
+                    Log.d("RPS", "Received: " + jsonReceived);
+
+
+                    procMsg.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if(jsonReceived.contains(Constants.CLASS_PROFILE))
+                            {
+                                Profile profile = gson.fromJson(jsonReceived, Profile.class);
+                                Log.d("commThread", "Received the profile: " + profile);
+                            }
+                            else if(jsonReceived.contains(Constants.CLASS_TEAM))
+                            {
+
+
+
+                                Team oppositeTeam = gson.fromJson(jsonReceived, Team.class);
+
+                                Log.d("commThread", "RECEBI OPOSSITE TEAM: " + oppositeTeam);
+
+                                if(navalBattleGame.isAmITeamA())
+                                    Log.d("commThread", "SOU EQUIPA A: ");
+                                else
+                                    Log.d("commThread", "SOU EQUIPA B: ");
+
+
+                                navalBattleGame.defineShipsType(oppositeTeam);
+
+                                navalBattleGame.setOppositeTeam(oppositeTeam);
+
+                            }
+                            else if(jsonReceived.contains(Constants.CLASS_MESSAGE))
+                            {
+                                Message message = gson.fromJson(jsonReceived, Message.class);
+                                if(message.getContent().contains("_#"))
+                                    processResult(message);
+                            }
+
+
+                        }
+                    });
                 }
             } catch (Exception e) {
                 procMsg.post(new Runnable() {
@@ -358,6 +530,47 @@ public class BattlefieldActivity extends Activity {
         }
     });
 
+    private void processResult(Message message) {
+
+        switch (message.getContent())
+        {
+            case Constants.START_GAME:
+                //se a equipa atual tem as ships posicionadas... ou seja, ja clicou em start game e esta' 'a espera do outro...
+                if(navalBattleGame.getAtualTeam().isPositionedShips())
+                {
+                    navalBattleGame.startGame();
+                    if(pd!= null && pd.isShowing())
+                    {
+
+                        procMsg.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                pd.dismiss();
+                                pd = null;
+                            }
+                        });
+                    }
+                }
+
+
+                if(navalBattleGame.isTeamATurn())
+                    Log.d("processResult", "Game Started. TeamA playing.");
+                else
+                    Log.d("processResult", "Game Started. TeamB playing.");
+
+
+
+                break;
+            case Constants.TEAM_A_TURN + ":true":
+                navalBattleGame.setTeamATurn(true);
+                break;
+            case Constants.TEAM_A_TURN + ":false":
+                navalBattleGame.setTeamATurn(false);
+                break;
+
+
+        }
+    }
 
 
     protected void onPause() {

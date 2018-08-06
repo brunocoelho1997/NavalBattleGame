@@ -8,6 +8,16 @@ public class Constants {
     public static final int CLIENT = 1;
     public static final int PORT = 8899;
 
+    public static final String START_GAME = "_#startGame";
+    public static final String TEAM_A_TURN= "_#teamATurn:";
+
+
+    public static final String CLASS_PROFILE= "Profile";
+    public static final String CLASS_TEAM= "Team";
+    public static final String CLASS_MESSAGE= "Message";
+    public static final String CLASS_POSITION= "Position";
+
+
 
     public static final int FULL_SQUARE = R.drawable.black_square;
     public static final int BLANK_SQUARE = R.drawable.blank_square;

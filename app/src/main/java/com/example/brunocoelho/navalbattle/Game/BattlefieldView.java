@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
@@ -19,8 +18,6 @@ import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.R;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class BattlefieldView extends View{
 
@@ -331,13 +328,15 @@ public class BattlefieldView extends View{
             }
             else
             {
-                Log.d("onDraw", "AI will play.");
-                navalBattleGame.AIFire();
-
+                if(!navalBattleGame.isTwoPlayer())
+                {
+                    Log.d("onDraw", "AI will play.");
+                    navalBattleGame.AIFire();
+                }
 //                paintTempFiredPositions(canvas);
 //                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of oposite team.");
 
-                paintShips(canvas, navalBattleGame.getOpositeTeam().getShips());
+                paintShips(canvas, navalBattleGame.getOppositeTeam().getShips());
                 paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
 //                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getAtualTeam().toString());
 
@@ -367,7 +366,7 @@ public class BattlefieldView extends View{
             {
                 createToast(R.string.choose_new_position, Toast.LENGTH_SHORT);
 
-                paintFiredPositionsTeam(canvas, navalBattleGame.getOpositeTeam().getFiredPositions());
+                paintFiredPositionsTeam(canvas, navalBattleGame.getOppositeTeam().getFiredPositions());
 
             }
 

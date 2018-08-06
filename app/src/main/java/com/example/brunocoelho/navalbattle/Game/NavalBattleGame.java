@@ -3,6 +3,7 @@ package com.example.brunocoelho.navalbattle.Game;
 import android.util.Log;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
+import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipFive;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipOne;
@@ -444,7 +445,17 @@ public class NavalBattleGame implements Serializable{
         this.changedShipPosition = changedShipPosition;
     }
 
-//    -
+    public Profile getProfileTeamA()
+    {
+        return data.getTeamA().getProfile();
+    }
+    public Profile getProfileTeamB()
+    {
+        return data.getTeamA().getProfile();
+    }
+
+
+    //    -
 //    -
 //    -
 //    clicked positions

@@ -4,6 +4,8 @@ import com.example.brunocoelho.navalbattle.R;
 
 public class Constants {
 
+    public static final String FILE_NAME = "NavalBattleGame_Profiles.txt";
+
     public static final int SERVER = 0;
     public static final int CLIENT = 1;
     public static final int PORT = 8899;

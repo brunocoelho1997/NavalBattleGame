@@ -277,8 +277,7 @@ public class BattlefieldActivity extends Activity {
                         }
                     });
                 }
-
-                if(!navalBattleGame.isStarted())
+                else
                 {
                     pd = new ProgressDialog(this);
                     pd.setMessage("Aguardando other playa");
@@ -518,6 +517,9 @@ public class BattlefieldActivity extends Activity {
                     });
                 }
             } catch (Exception e) {
+
+                Log.d("commThread", "\n\naqui!!!!!!!!!!!");
+
                 procMsg.post(new Runnable() {
                     @Override
                     public void run() {

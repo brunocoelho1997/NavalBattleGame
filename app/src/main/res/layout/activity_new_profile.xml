@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".Menu.NewProfileActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:textColor="#000" />
+
+    <EditText
+        android:id="@+id/eName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/tvRequired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/required"
+        android:textColor="#f00"
+        android:visibility="invisible"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textAlignment="textEnd"/>
+
+    <Button
+        android:id="@+id/btCriarNovoPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="50dp"
+        android:paddingVertical="15dp"
+        android:text="@string/create_profile"
+        android:onClick="onCreateProfile"
+        android:selectAllOnFocus="true" />
+</LinearLayout>

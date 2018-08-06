@@ -74,4 +74,5 @@ public class Data implements Serializable{
     public void setAmITeamA(boolean amITeamA) {
         this.amITeamA = amITeamA;
     }
+
 }

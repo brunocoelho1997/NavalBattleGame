@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.brunocoelho.navalbattle">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -30,7 +29,13 @@
             android:label="@string/title_activity_set_positions" />
         <activity
             android:name=".Menu.ServerOrClientActivity"
-            android:label="@string/title_activity_server_or_client"></activity>
+            android:label="@string/title_activity_server_or_client" />
+        <activity
+            android:name=".Menu.ProfilesList"
+            android:label="@string/title_activity_profiles_list" />
+        <activity
+            android:name=".Menu.NewProfileActivity"
+            android:label="@string/title_activity_new_profile"></activity>
     </application>
 
 </manifest>

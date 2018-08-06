@@ -196,7 +196,7 @@ public class BattlefieldActivity extends Activity {
             t.start();
             t.join();
         } catch (InterruptedException e) {
-            Log.d("sendObject", "Error por estar à espera q acabasse de enviar mensagem completa. error: " + e);
+            Log.d("sendObject", "Error por estar à espera q acabasse de enviar mensagem completa.");
 
         }
     }
@@ -271,7 +271,8 @@ public class BattlefieldActivity extends Activity {
                     procMsg.post(new Runnable() {
                         @Override
                         public void run() {
-                            pd.dismiss();
+                            if(pd!=null)
+                                pd.dismiss();
                             pd = null;
                         }
                     });

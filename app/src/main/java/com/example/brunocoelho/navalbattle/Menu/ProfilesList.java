@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -147,7 +148,7 @@ public class ProfilesList extends AppCompatActivity {
         if(requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 if(data.hasExtra("NewProfile")) {
-                    profiles.add((Profile) data.getSerializableExtra("NewProfileActivity"));
+                    profiles.add((Profile) data.getSerializableExtra("NewProfile"));
                     lv.invalidateViews();
                 }
             }

@@ -21,15 +21,11 @@ public class NewProfileActivity extends Activity {
         setContentView(R.layout.activity_new_profile);
     }
 
-
-
-
-
-    public void onCriarNovoPerfil(View v) {
+    public void onCreateProfile(View v) {
         if(validations()) {
             Profile p = new Profile(name);
             Intent intent = new Intent();
-            intent.putExtra("NewProfileActivity", p);
+            intent.putExtra("NewProfile", p);
             setResult(RESULT_OK, intent);
             finish();
         }

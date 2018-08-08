@@ -26,12 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onNewGame(View v) {
         Intent intent = new Intent(this, newGameActivity.class);
-
         intent.putExtra("navalBattleGame", navalBattleGame);
-
-
         startActivity(intent);
-
         Log.d("onNewGame", "Aderi onNewGame");
     }
 

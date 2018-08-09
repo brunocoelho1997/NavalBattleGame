@@ -218,9 +218,9 @@ public class BattlefieldActivity extends Activity {
         {
 
             //random - 0 or 1
-
-            //se eu sou a equipa B e estamos a jogar c 2 jogadores nao fazer...
-            navalBattleGame.setTeamATurn(Math.random() < 0.5);
+            //se eu sou a equipa B e estamos a jogar c 2 jogadores nao fazer... pq ja recebeu por mensagem quem e' a vez de jogar...
+            if(!navalBattleGame.isAmITeamA() && navalBattleGame.isTwoPlayer())
+                navalBattleGame.setTeamATurn(Math.random() < 0.5);
 
             if(navalBattleGame.isTwoPlayer())
             {
@@ -267,8 +267,7 @@ public class BattlefieldActivity extends Activity {
 
                 if(team.isPositionedShips())
                 {
-                    Log.d("onStartGame", "Equipa adversaria tem as ships posicionadas portanto vou mandar um start game e vou começar o jogo tbm");
-
+//                    Log.d("onStartGame", "Equipa adversaria tem as ships posicionadas portanto vou mandar um start game e vou começar o jogo tbm");
                     sendObject(new Message(Constants.START_GAME));
                     navalBattleGame.startGame();
 
@@ -303,8 +302,6 @@ public class BattlefieldActivity extends Activity {
                     pd.show();
                 }
             }
-
-
 
 //            navalBattleGame.startGame();
 
@@ -530,7 +527,6 @@ public class BattlefieldActivity extends Activity {
                     navalBattleGame.startGame();
                     if(pd!= null && pd.isShowing())
                     {
-
                         procMsg.post(new Runnable() {
                             @Override
                             public void run() {
@@ -541,14 +537,10 @@ public class BattlefieldActivity extends Activity {
                     }
                 }
 
-
                 if(navalBattleGame.isTeamATurn())
                     Log.d("processResult", "Game Started. TeamA playing.");
                 else
                     Log.d("processResult", "Game Started. TeamB playing.");
-
-
-
                 break;
             case Constants.TEAM_A_TURN + ":true":
                 navalBattleGame.setTeamATurn(true);
@@ -556,8 +548,6 @@ public class BattlefieldActivity extends Activity {
             case Constants.TEAM_A_TURN + ":false":
                 navalBattleGame.setTeamATurn(false);
                 break;
-
-
         }
     }
 

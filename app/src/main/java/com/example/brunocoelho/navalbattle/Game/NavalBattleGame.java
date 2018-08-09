@@ -44,8 +44,6 @@ public class NavalBattleGame implements Serializable{
 
 
     //online
-    ServerSocket serverSocket=null;
-    Socket socketGame = null;
     BufferedReader input;
     PrintWriter output;
 
@@ -392,6 +390,10 @@ public class NavalBattleGame implements Serializable{
     }
     public void startGame()
     {
+        Log.d("startGame", "O jogo comecou:");
+        Log.d("startGame", "isTeamATurn: " + isTeamATurn());
+        Log.d("startGame", "isAmITeamA: " + isAmITeamA());
+
         data.setStarted(true);
     }
     public void endGame()
@@ -675,23 +677,6 @@ public class NavalBattleGame implements Serializable{
             data.setTeamB(team);
         else
             data.setTeamA(team);
-    }
-
-
-    public ServerSocket getServerSocket() {
-        return serverSocket;
-    }
-
-    public void setServerSocket(ServerSocket serverSocket) {
-        this.serverSocket = serverSocket;
-    }
-
-    public Socket getSocketGame() {
-        return socketGame;
-    }
-
-    public void setSocketGame(Socket socketGame) {
-        this.socketGame = socketGame;
     }
 
     public BufferedReader getInput() {

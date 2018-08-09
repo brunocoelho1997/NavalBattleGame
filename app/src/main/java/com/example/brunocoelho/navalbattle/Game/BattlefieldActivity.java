@@ -138,10 +138,10 @@ public class BattlefieldActivity extends Activity {
 
     @Override
     protected void onResume() {
+        super.onResume();
 
         if(navalBattleGame.isTwoPlayer())
         {
-            super.onResume();
             if (mode == SERVER)
                 server();
             else  // CLIENT
@@ -302,8 +302,8 @@ public class BattlefieldActivity extends Activity {
                     pd.show();
                 }
             }
-
-//            navalBattleGame.startGame();
+            else
+                navalBattleGame.startGame();
 
             //close panels of choose positions
             LinearLayout linearLayoutChoosePanel = findViewById(R.id.choosePanel);

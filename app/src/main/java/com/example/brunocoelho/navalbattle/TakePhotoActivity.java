@@ -25,6 +25,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -56,6 +57,7 @@ public class TakePhotoActivity extends Activity {
     private Button btnCapture;
     private TextureView textureView;
 
+    private String stringAux;
 
 
     //Check state orientation of output image
@@ -88,9 +90,12 @@ public class TakePhotoActivity extends Activity {
             createCameraPreview();
         }
 
+
         @Override
-        public void onDisconnected(@NonNull CameraDevice cameraDevice) {
-            cameraDevice.close();
+        public void onDisconnected(@NonNull CameraDevice camera) {
+            cameraDevice = camera;
+            closeCameraDevice();
+
         }
 
         @Override
@@ -163,16 +168,10 @@ public class TakePhotoActivity extends Activity {
                         buffer.get(bytes);
                         save(bytes);
 
+//                        Log.d("onTakePhoto", "cameraDevice.close()");
 
-                        Intent intent = new Intent();
-                        intent.putExtra("pathName", file.getPath());
-                        intent.putExtra("aqui", "aqui222");
 
-                        setResult(RESULT_OK, intent);
 
-                        Log.d("camara", "pathName:" + file.getPath());
-
-                                finish();
 
 
 
@@ -188,8 +187,22 @@ public class TakePhotoActivity extends Activity {
                     finally {
                         {
                             if(image != null)
+                            {
                                 image.close();
+//                                cameraDevice.close();
+//                                Log.d("camara", "AQUI");
 
+//                                Intent intent = new Intent();
+////                                intent.putExtra("pathName", file.getPath());
+//                                intent.putExtra("aqui", "aqui222");
+//
+//                                setResult(RESULT_OK, intent);
+
+//                                Log.d("camara", "pathName:" + file.getPath());
+
+
+//                                finish();
+                            }
 
                         }
                     }
@@ -363,6 +376,9 @@ public class TakePhotoActivity extends Activity {
             mBackgroundThread.join();
             mBackgroundThread= null;
             mBackgroundHandler = null;
+
+
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -372,5 +388,28 @@ public class TakePhotoActivity extends Activity {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+    }
+
+    @MainThread private
+    void closeCameraDevice() {
+        if (cameraDevice != null) {
+            cameraDevice.close();
+            cameraDevice = null;
+
+//            Intent intent = new Intent();
+//            intent.putExtra("pathName", file.getPath());
+//            intent.putExtra("aqui", "aqui222");
+//
+//            setResult(RESULT_OK, intent);
+
+//            Log.d("camara", "pathName:" + file.getPath());
+
+
+//            finish();
+
+//            Log.d("camara", "closeCameraDevice");
+
+
+        }
     }
 }

@@ -17,6 +17,9 @@ public class NewProfileActivity extends Activity {
 
     private String name;
 
+    private String stringAux;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +60,14 @@ public class NewProfileActivity extends Activity {
 
         if(requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                if(data.hasExtra("pathName")) {
-                    Log.d("onActivityResult", "pathName:" + (String)data.getSerializableExtra("pathName"));
-                    Log.d("onActivityResult", "aqui:" + (String)data.getSerializableExtra("aqui"));
+                if(data.hasExtra("aqui")) {
+//                    Log.d("onActivityResult", "pathName:" + (String)data.getSerializableExtra("pathName"));
+                    Log.d("onActivityResult", "aqui:" + data.getSerializableExtra("aqui"));
 
                 }
             }
         }
     }
+
 
 }

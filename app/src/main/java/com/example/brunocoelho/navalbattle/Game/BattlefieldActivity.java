@@ -219,8 +219,9 @@ public class BattlefieldActivity extends Activity {
 
             //random - 0 or 1
             //se eu sou a equipa B e estamos a jogar c 2 jogadores nao fazer... pq ja recebeu por mensagem quem e' a vez de jogar...
-            if(!navalBattleGame.isAmITeamA() && navalBattleGame.isTwoPlayer())
+            if(navalBattleGame.isAmITeamA() && navalBattleGame.isTwoPlayer() || !navalBattleGame.isTwoPlayer())
                 navalBattleGame.setTeamATurn(Math.random() < 0.5);
+
 
             if(navalBattleGame.isTwoPlayer())
             {
@@ -249,25 +250,24 @@ public class BattlefieldActivity extends Activity {
 
                 if(navalBattleGame.isAmITeamA())
                 {
-                    Log.d("onStartGame", "SOU EQUIPA A portanto vou verificar se a EQUIPA B ja isPositionedShips   ");
+//                    Log.d("onStartGame", "SOU EQUIPA A portanto vou verificar se a EQUIPA B ja isPositionedShips   ");
                     team = navalBattleGame.getTeamB();
                 }
 
                 else
                 {
-                    Log.d("onStartGame", "SOU EQUIPA B portanto vou verificar se a EQUIPA A ja isPositionedShips   ");
+//                    Log.d("onStartGame", "SOU EQUIPA B portanto vou verificar se a EQUIPA A ja isPositionedShips   ");
                     team = navalBattleGame.getTeamA();
 
                 }
 
-
-                Log.d("onStartGame", "navalBattleGame.getOppositeTeam(): " + team);
-
-
+//                Log.d("onStartGame", "navalBattleGame.getOppositeTeam(): " + team);
 
                 if(team.isPositionedShips())
                 {
 //                    Log.d("onStartGame", "Equipa adversaria tem as ships posicionadas portanto vou mandar um start game e vou começar o jogo tbm");
+
+
                     sendObject(new Message(Constants.START_GAME));
                     navalBattleGame.startGame();
 
@@ -497,10 +497,10 @@ public class BattlefieldActivity extends Activity {
 
             Log.d("commThread", "RECEBI OPOSSITE TEAM: " + oppositeTeam);
 
-            if(navalBattleGame.isAmITeamA())
-                Log.d("commThread", "SOU EQUIPA A: ");
-            else
-                Log.d("commThread", "SOU EQUIPA B: ");
+//            if(navalBattleGame.isAmITeamA())
+//                Log.d("commThread", "SOU EQUIPA A: ");
+//            else
+//                Log.d("commThread", "SOU EQUIPA B: ");
 
 
             navalBattleGame.defineShipsType(oppositeTeam);
@@ -532,20 +532,16 @@ public class BattlefieldActivity extends Activity {
                             public void run() {
                                 pd.dismiss();
                                 pd = null;
+                                battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
                             }
                         });
                     }
                 }
-
-                if(navalBattleGame.isTeamATurn())
-                    Log.d("processResult", "Game Started. TeamA playing.");
-                else
-                    Log.d("processResult", "Game Started. TeamB playing.");
                 break;
-            case Constants.TEAM_A_TURN + ":true":
+            case Constants.TEAM_A_TURN + "true":
                 navalBattleGame.setTeamATurn(true);
                 break;
-            case Constants.TEAM_A_TURN + ":false":
+            case Constants.TEAM_A_TURN + "false":
                 navalBattleGame.setTeamATurn(false);
                 break;
         }

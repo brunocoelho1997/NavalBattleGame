@@ -178,7 +178,7 @@ public class BattlefieldActivity extends Activity {
     //convert object to json and send
     public void sendObject(final Object object)
     {
-        try {
+//        try {
             final Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -196,11 +196,11 @@ public class BattlefieldActivity extends Activity {
                 }
             });
             t.start();
-            t.join();
-        } catch (InterruptedException e) {
-            Log.d("sendObject", "Error por estar à espera q acabasse de enviar mensagem completa.");
-
-        }
+//            t.join();
+//        } catch (InterruptedException e) {
+//            Log.d("sendObject", "Error por estar à espera q acabasse de enviar mensagem completa.");
+//
+//        }
     }
 
     public void onStartGame(View v) {
@@ -267,17 +267,28 @@ public class BattlefieldActivity extends Activity {
 //                    Log.d("onStartGame", "Equipa adversaria tem as ships posicionadas portanto vou mandar um start game e vou começar o jogo tbm");
 
 
-                    sendObject(new Message(Constants.START_GAME));
-                    navalBattleGame.startGame();
-
-                    procMsg.post(new Runnable() {
+                    //delay para chegar la primeiro a equipa contraria (a indicar q as posicoes estao definidas)... so dps e q mandamos start game...
+                    procMsg.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(pd!=null)
-                                pd.dismiss();
-                            pd = null;
+                            sendObject(new Message(Constants.START_GAME));
+                            navalBattleGame.startGame();
+
+                            procMsg.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(pd!=null)
+                                        pd.dismiss();
+                                    pd = null;
+                                }
+                            });
+
                         }
-                    });
+                    }, 3000);
+
+
+
+
                 }
                 else
                 {
@@ -511,11 +522,6 @@ public class BattlefieldActivity extends Activity {
 
             navalBattleGame.setOppositeTeam(oppositeTeam);
 
-//            if(navalBattleGame.isStarted()){
-//                navalBattleGame.nextTurn();
-//                battlefieldView.invalidate();
-//                navalBattleGame.setChangedShipPosition(false);
-//            }
 
         }
         else if(jsonReceived.contains(Constants.CLASS_MESSAGE))
@@ -541,27 +547,18 @@ public class BattlefieldActivity extends Activity {
                 //se a equipa atual tem as ships posicionadas... ou seja, ja clicou em start game e esta' 'a espera do outro...
                 if(navalBattleGame.getAtualTeam().isPositionedShips())
                 {
-
-                    //delay for other player receive our team completed...
-                    procMsg.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            navalBattleGame.startGame();
-                            if(pd!= null && pd.isShowing())
-                            {
-                                procMsg.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        pd.dismiss();
-                                        pd = null;
-                                        battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
-                                    }
-                                });
+                    navalBattleGame.startGame();
+                    if(pd!= null && pd.isShowing())
+                    {
+                        procMsg.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                pd.dismiss();
+                                pd = null;
+                                battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
                             }
-                        }
-                    }, 2000);
-
-
+                        });
+                    }
                 }
                 break;
             case Constants.TEAM_A_TURN + "true":

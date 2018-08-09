@@ -10,6 +10,7 @@ import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipOne;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipThree;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
 import com.example.brunocoelho.navalbattle.Game.Models.Team;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
@@ -224,11 +225,37 @@ public class NavalBattleGame implements Serializable{
                 {
                     //just can fire 3 positions...
                     if(firedPositionsTemp.size()<=3)
+                    {
                         firedPositionsTemp.add(onDownPosition);
+//                        if(isTwoPlayer())
+//                            sendPosition(onDownPosition);
+                    }
                 }
             }
         }
     }
+
+//    private void sendPosition(final Position onDownPosition) {
+//        final Gson gson = new Gson();
+//
+//        final Thread t = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//
+//                    //convert object to JSON
+//                    String jsonObject = gson.toJson(onDownPosition);
+//                    //send json
+//                    output.println(jsonObject);
+//                    output.flush();
+//                    Log.d("sendObject", "Sent: " + onDownPosition);
+//                } catch (Exception e) {
+//                    Log.d("sendObject", "Error sending a move. Error: " + e);
+//                }
+//            }
+//        });
+//        t.start();
+//    }
 
     public Team getAtualTeam()
     {

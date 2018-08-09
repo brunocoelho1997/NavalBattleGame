@@ -34,6 +34,7 @@ import com.example.brunocoelho.navalbattle.Game.BattlefieldView;
 import com.example.brunocoelho.navalbattle.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -146,10 +147,7 @@ public class BattlefieldActivity extends Activity {
                 server();
             else  // CLIENT
                 clientDlg();
-
         }
-        ;
-
     }
 
     private void sendProfile() {
@@ -222,8 +220,9 @@ public class BattlefieldActivity extends Activity {
             if(navalBattleGame.isAmITeamA() && navalBattleGame.isTwoPlayer() || !navalBattleGame.isTwoPlayer())
                 navalBattleGame.setTeamATurn(Math.random() < 0.5);
 
-
-            if(navalBattleGame.isTwoPlayer())
+            if(!navalBattleGame.isTwoPlayer())
+                navalBattleGame.startGame();
+            else
             {
                 //after clicked to start game send our game to the other player
                 Log.d("onStartGame", "Sending my team...");
@@ -302,8 +301,8 @@ public class BattlefieldActivity extends Activity {
                     pd.show();
                 }
             }
-            else
-                navalBattleGame.startGame();
+
+
 
             //close panels of choose positions
             LinearLayout linearLayoutChoosePanel = findViewById(R.id.choosePanel);
@@ -335,9 +334,14 @@ public class BattlefieldActivity extends Activity {
         {
             navalBattleGame.nextTurn();
             battlefieldView.invalidate();
-
-
             navalBattleGame.setChangedShipPosition(false);
+
+            if(navalBattleGame.isAmITeamA())
+                sendObject(navalBattleGame.getTeamA());
+            else
+                sendObject(navalBattleGame.getTeamB());
+
+
         }
     }
 
@@ -507,12 +511,25 @@ public class BattlefieldActivity extends Activity {
 
             navalBattleGame.setOppositeTeam(oppositeTeam);
 
+//            if(navalBattleGame.isStarted()){
+//                navalBattleGame.nextTurn();
+//                battlefieldView.invalidate();
+//                navalBattleGame.setChangedShipPosition(false);
+//            }
+
         }
         else if(jsonReceived.contains(Constants.CLASS_MESSAGE))
         {
             Message message = gson.fromJson(jsonReceived, Message.class);
             if(message.getContent().contains("_#"))
                 processMessage(message);
+        }
+        else
+        {
+            List <Position> firedPositionsTemp = gson.fromJson(jsonReceived, new TypeToken<List<Position>>(){}.getType());
+
+            Log.d("commThread", "firedPositionsTemp: " + firedPositionsTemp);
+
         }
     }
 
@@ -524,18 +541,27 @@ public class BattlefieldActivity extends Activity {
                 //se a equipa atual tem as ships posicionadas... ou seja, ja clicou em start game e esta' 'a espera do outro...
                 if(navalBattleGame.getAtualTeam().isPositionedShips())
                 {
-                    navalBattleGame.startGame();
-                    if(pd!= null && pd.isShowing())
-                    {
-                        procMsg.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                pd.dismiss();
-                                pd = null;
-                                battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
+
+                    //delay for other player receive our team completed...
+                    procMsg.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            navalBattleGame.startGame();
+                            if(pd!= null && pd.isShowing())
+                            {
+                                procMsg.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        pd.dismiss();
+                                        pd = null;
+                                        battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
+                                    }
+                                });
                             }
-                        });
-                    }
+                        }
+                    }, 2000);
+
+
                 }
                 break;
             case Constants.TEAM_A_TURN + "true":

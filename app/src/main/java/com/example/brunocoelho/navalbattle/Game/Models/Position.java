@@ -9,6 +9,7 @@ import java.util.List;
 public class Position implements Serializable{
     private int number, letter;
     private int color;
+    private String objectType;
 
     public Position() {
         number = -1;
@@ -19,6 +20,8 @@ public class Position implements Serializable{
         this.number = number;
         this.letter = letter;
         this.color = Constants.FULL_SQUARE;
+        this.objectType = Constants.CLASS_POSITION; //className
+
     }
 
     public int getNumber() {

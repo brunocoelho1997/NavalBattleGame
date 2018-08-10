@@ -213,25 +213,26 @@ public class NavalBattleGame implements Serializable{
 //        teamB.add(createShip(positionList));
     }
 
-    public void addFiredPosition(Position onDownPosition) {
+    public void addFiredPosition(Position onUpPosition) {
 
         //if the position clicked is inside table...
-        if (onDownPosition.getNumber() <= 9 && onDownPosition.getLetter() <= 9 && onDownPosition.getLetter()>=1 && onDownPosition.getNumber()>=1)
+        if (onUpPosition.getNumber() <= 9 && onUpPosition.getLetter() <= 9 && onUpPosition.getLetter()>=1 && onUpPosition.getNumber()>=1)
         {
-            if(isMyTurnToPlay())
-            {
+            //if is my time to play
+//            if(isMyTurnToPlay())
+//            {
                 //verify if the user already not fired to this position
-                if(!firedPositionsTemp.contains(onDownPosition) && !getAtualTeam().getFiredPositions().contains(onDownPosition))
+                if(!firedPositionsTemp.contains(onUpPosition) && !getAtualTeam().getFiredPositions().contains(onUpPosition))
                 {
                     //just can fire 3 positions...
                     if(firedPositionsTemp.size()<=3)
                     {
-                        firedPositionsTemp.add(onDownPosition);
+                        firedPositionsTemp.add(onUpPosition);
 //                        if(isTwoPlayer())
 //                            sendPosition(onDownPosition);
                     }
                 }
-            }
+//            }
         }
     }
 
@@ -278,6 +279,17 @@ public class NavalBattleGame implements Serializable{
 
         Team team = getAtualTeam();
 
+
+//        TODO: isto para mim nao esta' bem... so esta' a fazer para uma equipa...
+//        solucao:
+//        Team team;
+//
+//        //se for um jogo online e nao for a minha vez de jogar vai verificar as firedpositions da equipa contraria...
+//        if(isTwoPlayer() && !isMyTurnToPlay())
+//            team = getOppositeTeam();
+//        else
+//            team = getAtualTeam();
+//
         int hittedFiredPositions = 0;
 
         if(firedPositionsTemp.size()==3)
@@ -559,9 +571,11 @@ public class NavalBattleGame implements Serializable{
     public void onUp(Position onUpPosition) {
         this.onUpPosition = onUpPosition;
 
-        //if the game already started and we may NOT change position in a ship...
-        if(isStarted() && !isMayChangeShipPosition())
+        //if the game already started and we may NOT change position in a ship... or if is two player (other team are firing positions...)
+        if((isStarted() && !isMayChangeShipPosition()) || isTwoPlayer())
         {
+
+            //TODO: ATENCAO... ACRESCEI ISTWOPLAYER... mandar aqui um log para ver se as posicoes sao aderidas...
 
             //if firedPositionsTemp are already defined ignore new clicks... (estava a adicionar posicoes mesmo após delas todas definidas...)
             if(firedPositionsTemp.size()==3)

@@ -68,8 +68,8 @@ public class BattlefieldActivity extends Activity {
     //online
     ServerSocket serverSocket=null;
     Socket socketGame = null;
-    BufferedReader input;
-    PrintWriter output;
+    BufferedReader input = null;
+    PrintWriter output = null;
 
     int mode = SERVER;
     Handler procMsg = null;
@@ -123,7 +123,7 @@ public class BattlefieldActivity extends Activity {
 //        view.setBackgroundResource(R.drawable.background);
 
         frameLayout = findViewById(R.id.positionsField);
-        battlefieldView = new BattlefieldView(this, navalBattleGame);
+        battlefieldView = new BattlefieldView(this, navalBattleGame, output);
         frameLayout.addView(battlefieldView);
 
     }
@@ -266,7 +266,6 @@ public class BattlefieldActivity extends Activity {
                 {
 //                    Log.d("onStartGame", "Equipa adversaria tem as ships posicionadas portanto vou mandar um start game e vou começar o jogo tbm");
 
-
                     //delay para chegar la primeiro a equipa contraria (a indicar q as posicoes estao definidas)... so dps e q mandamos start game...
                     procMsg.postDelayed(new Runnable() {
                         @Override
@@ -285,16 +284,12 @@ public class BattlefieldActivity extends Activity {
                             });
 
                         }
-                    }, 3000);
-
-
-
-
+                    }, 2000);
                 }
                 else
                 {
                     pd = new ProgressDialog(this);
-                    pd.setMessage("Aguardando other playa");
+                    pd.setMessage(getString(R.string.waiting_other_player));
                     pd.setTitle(R.string.serverdlg_title);
                     pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
@@ -314,8 +309,6 @@ public class BattlefieldActivity extends Activity {
                 }
             }
 
-
-
             //close panels of choose positions
             LinearLayout linearLayoutChoosePanel = findViewById(R.id.choosePanel);
             linearLayoutChoosePanel.setVisibility(View.GONE);
@@ -328,8 +321,6 @@ public class BattlefieldActivity extends Activity {
             linearLayoutPlayerPanel.setVisibility(View.VISIBLE);
             Button buttonNextTurn = findViewById(R.id.btNextTurn);
             buttonNextTurn.setVisibility(View.VISIBLE);
-
-
 
 
             //if only 1 player....
@@ -348,10 +339,8 @@ public class BattlefieldActivity extends Activity {
             battlefieldView.invalidate();
             navalBattleGame.setChangedShipPosition(false);
 
-            if(navalBattleGame.isAmITeamA())
-                sendObject(navalBattleGame.getTeamA());
-            else
-                sendObject(navalBattleGame.getTeamB());
+            if(navalBattleGame.isTwoPlayer())
+                sendObject(new Message(Constants.NEXT_TURN));
 
 
         }
@@ -477,8 +466,9 @@ public class BattlefieldActivity extends Activity {
                         socketGame.getInputStream()));
                 output = new PrintWriter(socketGame.getOutputStream());
 
-                navalBattleGame.setInput(input);
-                navalBattleGame.setOutput(output);
+//                navalBattleGame.setInput(input);
+//                navalBattleGame.setOutput(output);
+                battlefieldView.setOutput(output);
 
                 sendProfile();
 
@@ -531,11 +521,21 @@ public class BattlefieldActivity extends Activity {
             if(message.getContent().contains("_#"))
                 processMessage(message);
         }
-        else
+        else if(jsonReceived.contains(Constants.CLASS_POSITION))
         {
-            List <Position> firedPositionsTemp = gson.fromJson(jsonReceived, new TypeToken<List<Position>>(){}.getType());
+            final Position onUPosition = gson.fromJson(jsonReceived, Position.class);
 
-            Log.d("commThread", "firedPositionsTemp: " + firedPositionsTemp);
+            procMsg.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    navalBattleGame.onUp(onUPosition);
+                    Log.d("commThread", "getFiredPositionsTemp: " + navalBattleGame.getFiredPositionsTemp());
+
+                    battlefieldView.invalidate();
+                }
+            }, 2000);
+
+
 
         }
     }
@@ -567,6 +567,11 @@ public class BattlefieldActivity extends Activity {
                 break;
             case Constants.TEAM_A_TURN + "false":
                 navalBattleGame.setTeamATurn(false);
+                break;
+            case Constants.NEXT_TURN:
+                navalBattleGame.nextTurn();
+                battlefieldView.invalidate();
+                navalBattleGame.setChangedShipPosition(false);
                 break;
         }
     }

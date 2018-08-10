@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.R;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
@@ -26,16 +27,16 @@ public class BattlefieldView extends View{
     float initialX, initialY;
     private NavalBattleGame navalBattleGame;
 
-
+    private PrintWriter output;
 
     private Context context;
 
 
-    public BattlefieldView(Context context, NavalBattleGame navalBattleGame) {
+    public BattlefieldView(Context context, NavalBattleGame navalBattleGame, PrintWriter output) {
         super(context);
         this.navalBattleGame = navalBattleGame;
         this.context = context;
-
+        this.output = output;
 
 //        setBackgroundColor(Color.RED);
 //        setBackgroundResource(R.drawable.grid_set_positions);
@@ -66,7 +67,7 @@ public class BattlefieldView extends View{
                 float finalY = event.getY();
 
                 Position onMovePosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
-                Log.d("onMovePosition", onMovePosition.toString() + "---\n");
+//                Log.d("onMovePosition", onMovePosition.toString() + "---\n");
 
                 navalBattleGame.onMove(onMovePosition);
 
@@ -80,11 +81,12 @@ public class BattlefieldView extends View{
 
                 Position onUpPosition = new Position((int)(finalY*9 / getWidth()), ((int)(finalX*9 / getHeight())));
 
-                Log.d("onUP", onUpPosition.toString() + "---\n");
+//                Log.d("onUP", onUpPosition.toString() + "---\n");
 
                 navalBattleGame.onUp(onUpPosition);
 
-
+                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isMyTurnToPlay())
+                    sendPosition(onUpPosition);
 
                 invalidate();
                 break;
@@ -304,6 +306,9 @@ public class BattlefieldView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        Log.d("onDraw", "ATUALIZEI.");
+
+
         paintMap(canvas);
 
         //if the game already started and we may NOT change position in a ship...
@@ -328,6 +333,9 @@ public class BattlefieldView extends View{
             }
             else
             {
+
+
+
                 if(!navalBattleGame.isTwoPlayer())
                 {
                     Log.d("onDraw", "AI will play.");
@@ -340,6 +348,11 @@ public class BattlefieldView extends View{
                 paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
 //                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getAtualTeam().toString());
 
+
+
+                //if is two player game paint the fired positions of the other player...
+                if(navalBattleGame.isTwoPlayer())
+                    paintTempFiredPositions(canvas);
             }
 
 
@@ -352,10 +365,6 @@ public class BattlefieldView extends View{
         //if the game has not started yet or user may choice new position to as ship.. show all game to user change positions
         else
         {
-
-
-
-
             if(navalBattleGame.isAmITeamA())
                 paintShips(canvas, navalBattleGame.getTeamA().getShips());
             else
@@ -412,4 +421,29 @@ public class BattlefieldView extends View{
         toast.show();
     }
 
+    private void sendPosition(final Position position) {
+        final Gson gson = new Gson();
+        final Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String jsonPosition = gson.toJson(position);
+
+                    Log.d("sendPosition", "jsonPosition: " + jsonPosition);
+
+                    output.println(jsonPosition);
+                    output.flush();
+                    Log.d("sendPosition", "Sent position");
+
+                } catch (Exception e) {
+                    Log.d("sendProfile", "Error sending a move. Error: " + e);
+                }
+            }
+        });
+        t.start();
+    }
+
+    public void setOutput(PrintWriter output) {
+        this.output = output;
+    }
 }

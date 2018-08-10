@@ -11,6 +11,7 @@ public class Constants {
     public static final int PORT = 8899;
 
     public static final String START_GAME = "_#startGame";
+    public static final String NEXT_TURN = "_#nextTurn";
     public static final String TEAM_A_TURN= "_#teamATurn:";
 
 
@@ -18,6 +19,7 @@ public class Constants {
     public static final String CLASS_TEAM= "Team";
     public static final String CLASS_MESSAGE= "Message";
     public static final String CLASS_POSITION= "Position";
+
 
 
 

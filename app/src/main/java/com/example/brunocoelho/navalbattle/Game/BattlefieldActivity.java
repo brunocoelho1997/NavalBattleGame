@@ -284,7 +284,7 @@ public class BattlefieldActivity extends Activity {
                             });
 
                         }
-                    }, 2000);
+                    }, Constants.DELAY);
                 }
                 else
                 {
@@ -333,7 +333,7 @@ public class BattlefieldActivity extends Activity {
 
     public void onNextTurn(View v) {
 
-        if(navalBattleGame.isAvaibleNextTurn())
+        if(navalBattleGame.isAvaibleNextTurn() && navalBattleGame.isMyTurnToPlay())
         {
             navalBattleGame.nextTurn();
             battlefieldView.invalidate();
@@ -533,7 +533,7 @@ public class BattlefieldActivity extends Activity {
 
                     battlefieldView.invalidate();
                 }
-            }, 2000);
+            }, Constants.DELAY);
 
 
 
@@ -569,9 +569,17 @@ public class BattlefieldActivity extends Activity {
                 navalBattleGame.setTeamATurn(false);
                 break;
             case Constants.NEXT_TURN:
-                navalBattleGame.nextTurn();
-                battlefieldView.invalidate();
-                navalBattleGame.setChangedShipPosition(false);
+
+                procMsg.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        navalBattleGame.nextTurn();
+                        battlefieldView.invalidate();
+                        navalBattleGame.setChangedShipPosition(false);
+                    }
+                }, Constants.DELAY);
+
+
                 break;
         }
     }

@@ -273,6 +273,7 @@ public class BattlefieldActivity extends Activity {
                         public void run() {
                             sendObject(new Message(Constants.START_GAME));
                             navalBattleGame.startGame();
+                            battlefieldView.invalidate(); //after send start game need to invalidate view...
 
                             procMsg.post(new Runnable() {
                                 @Override

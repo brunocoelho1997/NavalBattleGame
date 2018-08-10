@@ -17,6 +17,8 @@ import com.example.brunocoelho.navalbattle.Game.Models.Position;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.R;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.util.List;
 
 public class BattlefieldView extends View{
@@ -33,6 +35,7 @@ public class BattlefieldView extends View{
         super(context);
         this.navalBattleGame = navalBattleGame;
         this.context = context;
+
 
 //        setBackgroundColor(Color.RED);
 //        setBackgroundResource(R.drawable.grid_set_positions);
@@ -206,7 +209,6 @@ public class BattlefieldView extends View{
             }
         }
     }
-
     private void paintFiredPositionsTeam(Canvas canvas, List<Position> positions) {
         Bitmap realImage;
         Bitmap newBitmap;
@@ -241,7 +243,6 @@ public class BattlefieldView extends View{
         }
 
     }
-
     private void paintTempFiredPositions(Canvas canvas) {
             Bitmap realImage;
             Bitmap newBitmap;
@@ -270,7 +271,6 @@ public class BattlefieldView extends View{
                 canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
             }
         }
-
     private void paintInvalidPositions(Canvas canvas) {
         Bitmap realImage;
         Bitmap newBitmap;

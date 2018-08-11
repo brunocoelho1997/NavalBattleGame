@@ -86,8 +86,15 @@ public class BattlefieldView extends View{
                 navalBattleGame.onUp(onUpPosition);
 
                 //if the game already started and we may NOT change position in a ship and is my turn to play...
-                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isMayChangeShipPosition() && navalBattleGame.isMyTurnToPlay() )
-                    sendPosition(onUpPosition);
+                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isChangedShipPosition() && navalBattleGame.isMyTurnToPlay() )
+                    sendObject(onUpPosition);
+
+                if(navalBattleGame.isChangedShipPosition())
+                {
+                    sendObject(navalBattleGame.getAtualTeam());
+                    Log.d("tag","Enviei equipa atual!!");
+
+                }
 
                 invalidate();
                 break;
@@ -400,19 +407,20 @@ public class BattlefieldView extends View{
         toast.show();
     }
 
-    private void sendPosition(final Position position) {
+    //used to send positions and teams
+    private void sendObject(final Object object) {
         final Gson gson = new Gson();
         final Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String jsonPosition = gson.toJson(position);
+                    String jsonObject = gson.toJson(object);
 
-                    Log.d("sendPosition", "jsonPosition: " + jsonPosition);
+//                    Log.d("sendPosition", "jsonPosition: " + jsonPosition);
 
-                    output.println(jsonPosition);
+                    output.println(jsonObject);
                     output.flush();
-                    Log.d("sendPosition", "Sent position");
+//                    Log.d("sendPosition", "Sent position");
 
                 } catch (Exception e) {
                     Log.d("sendProfile", "Error sending a move. Error: " + e);

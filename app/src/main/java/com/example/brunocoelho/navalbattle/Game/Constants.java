@@ -9,7 +9,7 @@ public class Constants {
     public static final int SERVER = 0;
     public static final int CLIENT = 1;
     public static final int PORT = 8899;
-    public static final int DELAY = 2000;
+    public static final int DELAY = 1000;
 
 
     public static final String START_GAME = "_#startGame";

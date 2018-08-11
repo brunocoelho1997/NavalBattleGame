@@ -40,7 +40,10 @@ public class NavalBattleGame implements Serializable{
 
 
 
-    private boolean mayChangeShipPosition;
+    private boolean mayChangeShipPosition; //if can change...
+    //if changed some ship...
+    // ...usada para: se tentamos mudar um navio e por validacao voltou para a mesma poicao... ou seja, ainda podemos alterar a sua posicao...
+    //e tambem e' usada no online... ou seja, caso seja alguma ship alterada da sua posicao é enviada a equipa para o outro player...
     private boolean changedShipPosition;
 
 
@@ -307,8 +310,6 @@ public class NavalBattleGame implements Serializable{
                         position.setColor(Constants.BLACK_CROSS_SQUARE);
 
                         hittedFiredPositions++;
-                        Log.d("verifyFiredPosition", "hittedFiredPositions: " + hittedFiredPositions);
-
 //                        if(isTeamATurn())
 //                            Log.d("verifyFiredPosition","TeamA hited in position: " + position);
 //                        else
@@ -642,7 +643,7 @@ public class NavalBattleGame implements Serializable{
         }
     }
 
-    private boolean verifyIsValidPositionChangeShipPosition() {
+    boolean verifyIsValidPositionChangeShipPosition() {
 
 //        //if the oposite team already fired to this position...
 //        //usa a ship anteriormente criada... mas esta ship auxoliar na posicao inicial

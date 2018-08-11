@@ -339,6 +339,8 @@ public class BattlefieldActivity extends Activity {
             navalBattleGame.nextTurn();
             battlefieldView.invalidate();
             navalBattleGame.setChangedShipPosition(false);
+            navalBattleGame.setMayChangeShipPosition(false);
+
 
             if(navalBattleGame.isTwoPlayer())
                 sendObject(new Message(Constants.NEXT_TURN));

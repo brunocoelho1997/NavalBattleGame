@@ -85,7 +85,8 @@ public class BattlefieldView extends View{
 
                 navalBattleGame.onUp(onUpPosition);
 
-                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isMyTurnToPlay())
+                //if the game already started and we may NOT change position in a ship and is my turn to play...
+                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isMayChangeShipPosition() && navalBattleGame.isMyTurnToPlay() )
                     sendPosition(onUpPosition);
 
                 invalidate();

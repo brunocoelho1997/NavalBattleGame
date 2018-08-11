@@ -341,8 +341,6 @@ public class BattlefieldActivity extends Activity {
 
             if(navalBattleGame.isTwoPlayer())
                 sendObject(new Message(Constants.NEXT_TURN));
-
-
         }
     }
 
@@ -528,7 +526,7 @@ public class BattlefieldActivity extends Activity {
             procMsg.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    navalBattleGame.onUp(onUPosition);
+                    navalBattleGame.onUpOtherTeam(onUPosition);
                     Log.d("commThread", "getFiredPositionsTemp: " + navalBattleGame.getFiredPositionsTemp());
 
                     battlefieldView.invalidate();

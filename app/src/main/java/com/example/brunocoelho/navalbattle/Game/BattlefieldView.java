@@ -327,15 +327,9 @@ public class BattlefieldView extends View{
                     paintTempFiredPositions(canvas);
 //                    Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of atual team.");
                 }
-
-
-
             }
             else
             {
-
-
-
                 if(!navalBattleGame.isTwoPlayer())
                 {
                     Log.d("onDraw", "AI will play.");
@@ -349,18 +343,12 @@ public class BattlefieldView extends View{
 //                Log.d("onDraw", "Painted fired positions of team B:" + navalBattleGame.getAtualTeam().toString());
 
 
-
                 //if is two player game paint the fired positions of the other player...
                 if(navalBattleGame.isTwoPlayer())
                     paintTempFiredPositions(canvas);
             }
-
-
-
             if(navalBattleGame.verifyEndOfGame())
                 createAlertDialog();
-
-
         }
         //if the game has not started yet or user may choice new position to as ship.. show all game to user change positions
         else

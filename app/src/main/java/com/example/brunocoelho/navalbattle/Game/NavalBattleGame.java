@@ -584,15 +584,9 @@ public class NavalBattleGame implements Serializable{
     public void onUp(Position onUpPosition) {
         this.onUpPosition = onUpPosition;
 
-        //if the game already started and we may NOT change position in a ship and is my turn to play... or if is two player and is his turn to play (other team are firing positions...)
-        //se o jogo ja comecou e ainda posso mudar posicoes dos barcos e e' a minha vez de jogar... ou entao 2 jgoadores e nao e' o meu turno, ou seja, chegou
+        //if the game already started and we may NOT change position in a ship and is my turn to play...
         if(isStarted() && !isMayChangeShipPosition() && isMyTurnToPlay())
         {
-
-            Log.d("onUp", "getFiredPositionsTemp: " + getFiredPositionsTemp());
-
-            //TODO: ATENCAO... ACRESCEI ISTWOPLAYER... mandar aqui um log para ver se as posicoes sao aderidas...
-
             //if firedPositionsTemp are already defined ignore new clicks... (estava a adicionar posicoes mesmo após delas todas definidas...)
             if(firedPositionsTemp.size()==3)
                 return;

@@ -333,7 +333,8 @@ public class BattlefieldActivity extends Activity {
 
     public void onNextTurn(View v) {
 
-        if(navalBattleGame.isAvaibleNextTurn() && navalBattleGame.isMyTurnToPlay())
+        //se for permitido next turn e estiver a jogar offline ... ou se for permitido next turn e for a minha vez de jogar (quando online)
+        if((navalBattleGame.isAvaibleNextTurn() && !navalBattleGame.isTwoPlayer()) || (navalBattleGame.isAvaibleNextTurn() && navalBattleGame.isMyTurnToPlay()))
         {
             navalBattleGame.nextTurn();
             battlefieldView.invalidate();

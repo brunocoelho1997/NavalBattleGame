@@ -306,19 +306,14 @@ public class BattlefieldView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Log.d("onDraw", "ATUALIZEI.");
-
-
         paintMap(canvas);
 
         //if the game already started and we may NOT change position in a ship...
         //if game already started... just show destroyed positions from another team
         if(navalBattleGame.isStarted() && !navalBattleGame.isMayChangeShipPosition())
         {
-
             if(navalBattleGame.isMyTurnToPlay())
             {
-
                 paintFiredPositionsTeam(canvas, navalBattleGame.getAtualTeam().getFiredPositions());
 //                Log.d("onDraw", "Painted fired positions of team A:" + navalBattleGame.getAtualTeam().getFiredPositions().toString());
 
@@ -358,17 +353,12 @@ public class BattlefieldView extends View{
             else
                 paintShips(canvas, navalBattleGame.getTeamB().getShips());
 
-
             if(navalBattleGame.isMayChangeShipPosition())
             {
                 createToast(R.string.choose_new_position, Toast.LENGTH_SHORT);
-
                 paintFiredPositionsTeam(canvas, navalBattleGame.getOppositeTeam().getFiredPositions());
-
             }
-
             paintInvalidPositions(canvas);
-
         }
     }
 

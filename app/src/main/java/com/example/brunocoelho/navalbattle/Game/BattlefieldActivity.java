@@ -345,10 +345,10 @@ public class BattlefieldActivity extends Activity {
         }
     }
 
-    public void onCloseSetPositions(View v) {
+    public void onCloseBattlefield(View v) {
 
         Log.d("onCloseSetPositions", "Clicked onCloseSetPositions");
-
+        navalBattleGame.setTwoPlayer(false);
         finish();
     }
 
@@ -533,9 +533,6 @@ public class BattlefieldActivity extends Activity {
                     battlefieldView.invalidate();
                 }
             }, Constants.DELAY);
-
-
-
         }
     }
 
@@ -587,20 +584,22 @@ public class BattlefieldActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        super.onPause();
-        try {
-            commThread.interrupt();
-            if (socketGame != null)
-                socketGame.close();
-            if (output != null)
-                output.close();
-            if (input != null)
-                input.close();
-        } catch (Exception e) {
+        if(navalBattleGame.isTwoPlayer())
+        {
+            try {
+                commThread.interrupt();
+                if (socketGame != null)
+                    socketGame.close();
+                if (output != null)
+                    output.close();
+                if (input != null)
+                    input.close();
+            } catch (Exception e) {
+            }
+            input = null;
+            output = null;
+            socketGame = null;
         }
-        input = null;
-        output = null;
-        socketGame = null;
     };
 
     public static String getLocalIpAddress() {

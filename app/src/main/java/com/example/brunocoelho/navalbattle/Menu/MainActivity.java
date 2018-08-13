@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
+import com.example.brunocoelho.navalbattle.Profiles.ProfilesList;
 import com.example.brunocoelho.navalbattle.R;
 
 public class MainActivity extends AppCompatActivity {

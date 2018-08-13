@@ -1,10 +1,9 @@
-package com.example.brunocoelho.navalbattle;
+package com.example.brunocoelho.navalbattle.Profiles;
 
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -19,17 +18,12 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.provider.MediaStore;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -37,6 +31,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.brunocoelho.navalbattle.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -85,26 +81,29 @@ public class TakePhotoActivity extends Activity {
 
     CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
-        public void onOpened(@NonNull CameraDevice camera) {
+        public void onOpened(CameraDevice camera) {
+            //This is called when the camera is open
             cameraDevice = camera;
             createCameraPreview();
         }
-
-
         @Override
-        public void onDisconnected(@NonNull CameraDevice camera) {
-            cameraDevice = camera;
-            closeCameraDevice();
-
-        }
-
-        @Override
-        public void onError(@NonNull CameraDevice cameraDevice, int i) {
+        public void onDisconnected(CameraDevice camera) {
             cameraDevice.close();
-            cameraDevice=null;
+        }
+        @Override
+        public void onError(CameraDevice camera, int error) {
+            cameraDevice.close();
+            cameraDevice = null;
         }
     };
-
+    final CameraCaptureSession.CaptureCallback captureCallbackListener = new CameraCaptureSession.CaptureCallback() {
+        @Override
+        public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+            super.onCaptureCompleted(session, request, result);
+            Toast.makeText(TakePhotoActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+            createCameraPreview();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,14 +166,6 @@ public class TakePhotoActivity extends Activity {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
-
-//                        Log.d("onTakePhoto", "cameraDevice.close()");
-
-
-
-
-
-
                     }
                     catch (FileNotFoundException e)
                     {
@@ -388,28 +379,5 @@ public class TakePhotoActivity extends Activity {
         mBackgroundThread = new HandlerThread("Camera Background");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-    }
-
-    @MainThread private
-    void closeCameraDevice() {
-        if (cameraDevice != null) {
-            cameraDevice.close();
-            cameraDevice = null;
-
-//            Intent intent = new Intent();
-//            intent.putExtra("pathName", file.getPath());
-//            intent.putExtra("aqui", "aqui222");
-//
-//            setResult(RESULT_OK, intent);
-
-//            Log.d("camara", "pathName:" + file.getPath());
-
-
-//            finish();
-
-//            Log.d("camara", "closeCameraDevice");
-
-
-        }
     }
 }

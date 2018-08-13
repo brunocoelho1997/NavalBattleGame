@@ -8,7 +8,7 @@
 
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Menu.NewProfileActivity">
+    tools:context=".Profiles.NewProfileActivity">
 
     <Button
         android:id="@+id/btTakePhoto"

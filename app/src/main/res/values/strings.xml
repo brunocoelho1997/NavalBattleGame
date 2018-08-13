@@ -24,9 +24,9 @@
     <string name="error_netconn">No network connection.</string>
     <string name="serverdlg_msg">Waiting for a someone...</string>
     <string name="serverdlg_title">NavalBatle Online</string>
-    <string name="game_finished">The game was finished.</string>
-    <string name="title_activity_profiles_list">ProfilesList</string>
-    <string name="delete_profile">Eliminar Perfil</string>
+    <string name="game_finished">The game was finished. The game will continue versus smartphone.</string>
+    <string name="title_activity_profiles_list">Profiles List</string>
+    <string name="delete_profile">Delete Profile</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete_profile_title">Delete Profile Title</string>
@@ -38,6 +38,7 @@
     <string name="take_photo">Take Photo</string>
     <string name="title_activity_take_photo">TakePhotoActivity</string>
     <string name="waiting_other_player">Wainting for the other player...</string>
+    <string name="ai_fired_positions">Smartphone fired positions</string>
 
 
 </resources>

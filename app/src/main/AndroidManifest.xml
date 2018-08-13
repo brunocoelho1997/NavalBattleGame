@@ -8,6 +8,8 @@
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.hardware.camera2.full"/>
 
 
@@ -38,13 +40,13 @@
             android:name=".Menu.ServerOrClientActivity"
             android:label="@string/title_activity_server_or_client" />
         <activity
-            android:name=".Menu.ProfilesList"
+            android:name=".Profiles.ProfilesList"
             android:label="@string/title_activity_profiles_list" />
         <activity
-            android:name=".Menu.NewProfileActivity"
+            android:name=".Profiles.NewProfileActivity"
             android:label="@string/title_activity_new_profile" />
         <activity
-            android:name=".TakePhotoActivity"
+            android:name=".Profiles.TakePhotoActivity"
             android:label="@string/title_activity_take_photo"></activity>
     </application>
 

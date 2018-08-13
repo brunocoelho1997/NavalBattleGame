@@ -1,4 +1,4 @@
-package com.example.brunocoelho.navalbattle;
+package com.example.brunocoelho.navalbattle.Profiles;
 
 import android.content.Context;
 import android.util.Log;

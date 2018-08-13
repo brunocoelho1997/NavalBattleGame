@@ -86,7 +86,7 @@ public class BattlefieldView extends View{
                 navalBattleGame.onUp(onUpPosition);
 
                 //if the game already started and we may NOT change position in a ship and is my turn to play...
-                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isChangedShipPosition() && navalBattleGame.isMyTurnToPlay() )
+                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isMayChangeShipPosition() && navalBattleGame.isMyTurnToPlay() )
                     sendObject(onUpPosition);
 
                 if(navalBattleGame.isChangedShipPosition())
@@ -254,33 +254,33 @@ public class BattlefieldView extends View{
 
     }
     private void paintTempFiredPositions(Canvas canvas) {
-            Bitmap realImage;
-            Bitmap newBitmap;
+        Bitmap realImage;
+        Bitmap newBitmap;
 
-            //size of the ship
-            int wPeca = this.getWidth()/9;
-            int hPeca = this.getHeight()/9;
+        //size of the ship
+        int wPeca = this.getWidth()/9;
+        int hPeca = this.getHeight()/9;
 
-            //point where ship will be painted
-            float letterPoint;
-            float numberPoint;
+        //point where ship will be painted
+        float letterPoint;
+        float numberPoint;
 
-            for(Position position : navalBattleGame.getFiredPositionsTemp())
-            {
-                //vai buscar o tamanho real
-                realImage = BitmapFactory.decodeResource(getResources(), Constants.FIRED_SQUARE);
+        for(Position position : navalBattleGame.getFiredPositionsTemp())
+        {
+            //vai buscar o tamanho real
+            realImage = BitmapFactory.decodeResource(getResources(), Constants.FIRED_SQUARE);
 //              realImage = createImage(50,50, ship.getColor());
 
-                //convert to point of the size of the table
-                newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
-                        , false);
+            //convert to point of the size of the table
+            newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
+                    , false);
 
-                numberPoint =  position.getNumber() * (this.getHeight()/9) ;
-                letterPoint = position.getLetter() * (this.getWidth()/9) ;
+            numberPoint =  position.getNumber() * (this.getHeight()/9) ;
+            letterPoint = position.getLetter() * (this.getWidth()/9) ;
 
-                canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
-            }
+            canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
         }
+    }
     private void paintInvalidPositions(Canvas canvas) {
         Bitmap realImage;
         Bitmap newBitmap;
@@ -335,8 +335,8 @@ public class BattlefieldView extends View{
             {
                 if(!navalBattleGame.isTwoPlayer())
                 {
-                    Log.d("onDraw", "AI will play.");
                     navalBattleGame.AIFire();
+                    Log.d("onDraw", "AI fired.");
                 }
 //                paintTempFiredPositions(canvas);
 //                Log.d("onDraw", "Painted last " + navalBattleGame.getFiredPositionsTemp().size() + "  fired positions of oposite team.");

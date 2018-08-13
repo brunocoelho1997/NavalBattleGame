@@ -370,9 +370,7 @@ public class NavalBattleGame implements Serializable{
         while(firedPositionsTemp.size()!=3)
         {
             firedPositionsTemp.add(new Position(rand.nextInt((max - min) + 1) + min,rand.nextInt((max - min) + 1) + min ));
-
-            Log.d("AIFire","AI Fired!!!!! Positions:" + firedPositionsTemp.toString());
-
+//            Log.d("AIFire","AI Fired!!!!! Positions:" + firedPositionsTemp.toString());
             verifyFiredPosition();
         }
     }

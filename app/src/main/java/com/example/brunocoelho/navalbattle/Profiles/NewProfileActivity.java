@@ -1,4 +1,4 @@
-package com.example.brunocoelho.navalbattle.Menu;
+package com.example.brunocoelho.navalbattle.Profiles;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 import com.example.brunocoelho.navalbattle.R;
-import com.example.brunocoelho.navalbattle.TakePhotoActivity;
+import com.example.brunocoelho.navalbattle.Profiles.TakePhotoActivity;
 
 public class NewProfileActivity extends Activity {
 

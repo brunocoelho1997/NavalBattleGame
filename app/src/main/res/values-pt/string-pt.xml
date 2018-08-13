@@ -19,7 +19,7 @@
     <string name="error_netconn">Sem rede.</string>
     <string name="serverdlg_msg">À espera que alguém se conecte...</string>
     <string name="serverdlg_title">Batalha Naval Online</string>
-    <string name="game_finished">O jogo acabou.</string>
+    <string name="game_finished">O jogo acabou. O jogo vai continuar contra o smartphone.</string>
 
 
 </resources>

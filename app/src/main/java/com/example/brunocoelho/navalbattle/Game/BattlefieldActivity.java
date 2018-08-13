@@ -178,29 +178,23 @@ public class BattlefieldActivity extends Activity {
     //convert object to json and send
     public void sendObject(final Object object)
     {
-//        try {
-            final Thread t = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
+        final Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
 
-                        //convert object to JSON
-                        String jsonObject = gson.toJson(object);
-                        //send json
-                        output.println(jsonObject);
-                        output.flush();
-                        Log.d("sendObject", "Sent: " + object);
-                    } catch (Exception e) {
-                        Log.d("sendObject", "Error sending a move. Error: " + e);
-                    }
+                    //convert object to JSON
+                    String jsonObject = gson.toJson(object);
+                    //send json
+                    output.println(jsonObject);
+                    output.flush();
+                    Log.d("sendObject", "Sent: " + object);
+                } catch (Exception e) {
+                    Log.d("sendObject", "Error sending a move. Error: " + e);
                 }
-            });
-            t.start();
-//            t.join();
-//        } catch (InterruptedException e) {
-//            Log.d("sendObject", "Error por estar à espera q acabasse de enviar mensagem completa.");
-//
-//        }
+            }
+        });
+        t.start();
     }
 
     public void onStartGame(View v) {
@@ -339,8 +333,6 @@ public class BattlefieldActivity extends Activity {
             navalBattleGame.nextTurn();
             battlefieldView.invalidate();
             navalBattleGame.setChangedShipPosition(false);
-            navalBattleGame.setMayChangeShipPosition(false);
-
 
             if(navalBattleGame.isTwoPlayer())
                 sendObject(new Message(Constants.NEXT_TURN));
@@ -482,10 +474,28 @@ public class BattlefieldActivity extends Activity {
                 procMsg.post(new Runnable() {
                     @Override
                     public void run() {
-                        finish();
+                        //finish();
                         Toast.makeText(getApplicationContext(),
                                 R.string.game_finished, Toast.LENGTH_LONG)
                                 .show();
+                        navalBattleGame.setTwoPlayer(false);
+
+                        //if isn't my turn to play... need to AI playing...
+                        if(!navalBattleGame.isMyTurnToPlay())
+                        {
+                            Log.d("commThread", "isMyTurnToPlay: " + navalBattleGame.isMyTurnToPlay());
+
+                            navalBattleGame.AIFire();
+
+                            Toast.makeText(getApplicationContext(),
+                                    R.string.ai_fired_positions, Toast.LENGTH_LONG)
+                                    .show();
+
+                            battlefieldView.invalidate();
+//                            navalBattleGame.nextTurn();
+
+
+                        }
                     }
                 });
             }

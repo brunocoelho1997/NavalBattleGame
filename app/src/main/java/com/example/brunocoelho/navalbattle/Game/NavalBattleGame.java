@@ -38,6 +38,7 @@ public class NavalBattleGame implements Serializable{
     private Position lasValidPosition = null;
     private Position initialPositionShip = null; //used when we hitted in 3 positions... isMayChangeShipPosition
 
+    private Profile selectedProfile;
 
 
     private boolean mayChangeShipPosition; //if can change...
@@ -238,29 +239,6 @@ public class NavalBattleGame implements Serializable{
 //            }
         }
     }
-
-//    private void sendPosition(final Position onDownPosition) {
-//        final Gson gson = new Gson();
-//
-//        final Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//
-//                    //convert object to JSON
-//                    String jsonObject = gson.toJson(onDownPosition);
-//                    //send json
-//                    output.println(jsonObject);
-//                    output.flush();
-//                    Log.d("sendObject", "Sent: " + onDownPosition);
-//                } catch (Exception e) {
-//                    Log.d("sendObject", "Error sending a move. Error: " + e);
-//                }
-//            }
-//        });
-//        t.start();
-//    }
-
     public Team getAtualTeam()
     {
         if(data.isTeamATurn())
@@ -499,6 +477,22 @@ public class NavalBattleGame implements Serializable{
         return data.getTeamA().getProfile();
     }
 
+    public void setProfileTeamA(Profile profile)
+    {
+        data.getTeamA().setProfile(profile);
+    }
+    public void setProfileTeamB(Profile profile)
+    {
+        data.getTeamB().setProfile(profile);
+    }
+
+    public Profile getSelectedProfile() {
+        return selectedProfile;
+    }
+
+    public void setSelectedProfile(Profile selectedProfile) {
+        this.selectedProfile = selectedProfile;
+    }
 
     //    -
 //    -
@@ -768,5 +762,10 @@ public class NavalBattleGame implements Serializable{
         boolean isTwoPlayer = data.isTwoPlayer();
         this.data = new Data();
         data.setTwoPlayer(isTwoPlayer); //TODO: isto nao esta' mt bem
+    }
+
+    public Profile generateAIProfile()
+    {
+        return new Profile("Android");
     }
 }

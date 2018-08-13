@@ -30,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void onNewGame(View v) {
         Intent intent = new Intent(this, newGameActivity.class);
+        navalBattleGame.setSelectedProfile(File.loadSelectedProfile(context));
+        Log.d("onNewGame", "Selected Profile: " + File.loadSelectedProfile(context));
         intent.putExtra("navalBattleGame", navalBattleGame);
         startActivity(intent);
         Log.d("onNewGame", "Aderi onNewGame");
-        Log.d("onNewGame", "Selected Profile: " + File.loadSelectedProfile(context));
-
     }
 
     public void onProfiles(View v) {

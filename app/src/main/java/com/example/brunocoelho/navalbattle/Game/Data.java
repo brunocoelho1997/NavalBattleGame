@@ -1,6 +1,7 @@
 package com.example.brunocoelho.navalbattle.Game;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
+import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.Game.Models.Team;
 
@@ -20,6 +21,8 @@ public class Data implements Serializable{
     //if 1 then teamA, if 0 then teamB
     private boolean amITeamA;
     private boolean twoPlayer;
+
+    private Profile selectedProfile;
 
     public Data() {
         teamA = new Team();
@@ -74,5 +77,4 @@ public class Data implements Serializable{
     public void setAmITeamA(boolean amITeamA) {
         this.amITeamA = amITeamA;
     }
-
 }

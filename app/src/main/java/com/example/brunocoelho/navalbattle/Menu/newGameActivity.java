@@ -18,16 +18,15 @@ public class newGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
-
         navalBattleGame = (NavalBattleGame)getIntent().getSerializableExtra("navalBattleGame");
-
-
     }
 
     public void onOfflineGame(View v) {
 
         navalBattleGame.setTwoPlayer(false);
         navalBattleGame.setAmITeamA(true);
+        navalBattleGame.setProfileTeamA(navalBattleGame.getSelectedProfile());
+        navalBattleGame.setProfileTeamB(navalBattleGame.generateAIProfile());
 
         Intent intent = new Intent(this, BattlefieldActivity.class);
         intent.putExtra("navalBattleGame", navalBattleGame);

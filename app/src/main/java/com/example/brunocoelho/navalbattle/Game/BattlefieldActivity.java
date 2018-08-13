@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Message;
@@ -125,6 +126,22 @@ public class BattlefieldActivity extends Activity {
         frameLayout = findViewById(R.id.positionsField);
         battlefieldView = new BattlefieldView(this, navalBattleGame, output);
         frameLayout.addView(battlefieldView);
+
+        setProfilePanels();
+
+    }
+
+    private void setProfilePanels() {
+        LinearLayout teamAPanel = findViewById(R.id.teamAPanel);
+        LinearLayout teamBPanel = findViewById(R.id.teamBPanel);
+
+        TextView textView = teamAPanel.findViewById(R.id.teamAName);
+        if(navalBattleGame.getTeamA().getProfile()!= null)
+            textView.setText(navalBattleGame.getTeamA().getProfile().getName());
+
+        textView = teamBPanel.findViewById(R.id.teamBName);
+        if(navalBattleGame.getTeamB().getProfile()!= null)
+            textView.setText(navalBattleGame.getTeamB().getProfile().getName());
 
     }
 

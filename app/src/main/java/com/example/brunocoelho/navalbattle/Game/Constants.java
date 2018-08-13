@@ -56,6 +56,7 @@ public class Constants {
     public static final int NUMBER_7= R.drawable.number_7;
     public static final int NUMBER_8= R.drawable.number_8;
 
+    public static final int CLOSE_ICON = R.drawable.close_icon;
 
 
 }

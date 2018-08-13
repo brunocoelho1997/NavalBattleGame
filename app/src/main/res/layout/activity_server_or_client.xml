@@ -6,12 +6,14 @@
     android:padding="15dp"
     android:background="#FFDB8E">
 
-    <Button
-        android:onClick="onCloseServerOrClient"
+    <ImageButton
+        android:id="@+id/closeBattefield"
+        android:onClick="onCloseBattlefield"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:text="X"
-        android:textSize="15sp"/>
+        android:background="@null"
+        android:src="@drawable/close_icon"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

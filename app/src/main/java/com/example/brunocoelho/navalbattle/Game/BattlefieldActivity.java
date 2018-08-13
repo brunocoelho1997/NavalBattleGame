@@ -492,7 +492,6 @@ public class BattlefieldActivity extends Activity {
                                     .show();
 
                             battlefieldView.invalidate();
-//                            navalBattleGame.nextTurn();
 
 
                         }

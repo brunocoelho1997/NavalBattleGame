@@ -29,6 +29,10 @@ public class Constants {
     public static final int BLANK_SQUARE = R.drawable.blank_square;
     public static final int RED_SQUARE = R.drawable.red_square;
 
+    public static final int FLAG_RED = R.drawable.flag_red;
+    public static final int FLAG_BLUE = R.drawable.flag_blue;
+
+
     public static final int CROSS_SQUARE= R.drawable.cross_square;
     public static final int BLACK_CROSS_SQUARE= R.drawable.black_cross_square;
     public static final int FIRED_SQUARE= R.drawable.fired_square;

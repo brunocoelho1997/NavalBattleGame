@@ -30,7 +30,7 @@
             android:layout_gravity="top"
             android:orientation="horizontal"
             android:id="@+id/teamAPanel"
-            android:background="#FFDB8E">
+            android:background="#dbe0ff">
 
             <ImageView
                 android:layout_width="50dp"
@@ -56,7 +56,7 @@
             android:layout_gravity="right"
             android:orientation="horizontal"
             android:id="@+id/teamBPanel"
-            android:background="#FFDB8E">
+            android:background="#ffb18e">
 
 
 

@@ -87,7 +87,7 @@ public class BattlefieldView extends View{
                 navalBattleGame.onUp(onUpPosition);
 
                 //if the game already started and we may NOT change position in a ship and is my turn to play...
-                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isMayChangeShipPosition() && navalBattleGame.isMyTurnToPlay() )
+                if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isChangedShipPosition() && navalBattleGame.isMyTurnToPlay() )
                     sendObject(onUpPosition);
 
                 if(navalBattleGame.isChangedShipPosition())
@@ -174,7 +174,7 @@ public class BattlefieldView extends View{
 
                     if(number == 0 && letter == 0 && navalBattleGame.isStarted())
                     {
-                        if(navalBattleGame.isAmITeamA() && navalBattleGame.isTeamATurn())
+                        if(navalBattleGame.isTeamATurn())
                             icon = Constants.FLAG_BLUE;
                         else
                             icon = Constants.FLAG_RED;

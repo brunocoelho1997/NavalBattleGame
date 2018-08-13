@@ -12,11 +12,20 @@
 
     <TextView
         android:id="@+id/tvName_Profile_Item"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:padding="10dp"
         android:text="Name"
         android:textColor="#000"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_weight="0.7"/>
+
+    <Button
+        android:id="@+id/btn_Profile_Item"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:onClick="myClickHandler"
+        android:text="@string/use_profile"/>
 </LinearLayout>

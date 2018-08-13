@@ -110,48 +110,6 @@ public class BattlefieldView extends View{
         }
         return true;
     }
-
-
-//    public static Bitmap createImage(int width, int height, String colorString) {
-//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        Paint paint = new Paint();
-//        paint.setColor(Color.parseColor(colorString));
-//        canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
-//        return bitmap;
-//    }
-//
-//    private void paintBackgroundSelectedTeam(Canvas canvas) {
-//        Bitmap realImage;
-//        Bitmap newBitmap;
-//
-//        //size of the ship
-//        int wPeca = this.getWidth()/9;
-//        int hPeca = this.getHeight()/9;
-//
-//        //point where ship will be painted
-//        float letterPoint;
-//        float numberPoint;
-//
-//        for(int number = 0; number<9; number++)
-//        {
-//            for(int letter= 0; letter<9; letter++)
-//            {
-//
-//                //vai buscar o tamanho real
-//                realImage = createImage(50,50, "#dbe0ff");
-//
-//                //convert to point of the size of the table
-//                newBitmap = Bitmap.createScaledBitmap(realImage, wPeca,hPeca
-//                        , false);
-//
-//                numberPoint =  number * (this.getHeight()/9);
-//                letterPoint = letter * (this.getWidth()/9);
-//                canvas.drawBitmap(newBitmap, letterPoint , numberPoint, null);
-//
-//            }
-//        }
-//    }
     private void paintMap(Canvas canvas) {
         Bitmap realImage;
         Bitmap newBitmap;
@@ -363,7 +321,6 @@ public class BattlefieldView extends View{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-//        paintBackgroundSelectedTeam(canvas);
         paintMap(canvas);
 
         //if the game already started and we may NOT change position in a ship...

@@ -8,6 +8,7 @@ public class Profile implements Serializable{
 
     private String objectType;
     private String name;
+    private boolean selected;
 
     public Profile(String name) {
         this.objectType = Constants.CLASS_PROFILE; //className
@@ -29,6 +30,14 @@ public class Profile implements Serializable{
 
     public void setObjectType(String objectType) {
         this.objectType = objectType;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     @Override

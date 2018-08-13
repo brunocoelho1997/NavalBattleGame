@@ -39,6 +39,7 @@
     <string name="title_activity_take_photo">TakePhotoActivity</string>
     <string name="waiting_other_player">Wainting for the other player...</string>
     <string name="ai_fired_positions">Smartphone fired positions</string>
+    <string name="use_profile">Use profile</string>
 
 
 </resources>

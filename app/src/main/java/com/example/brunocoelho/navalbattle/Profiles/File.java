@@ -1,6 +1,7 @@
 package com.example.brunocoelho.navalbattle.Profiles;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Profile;
@@ -10,17 +11,24 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static com.example.brunocoelho.navalbattle.Game.Constants.FILE_NAME;
 
 public class File {
 
+    private java.io.File file;
+
     public static void saveProfiles(Context context, ArrayList<Profile> profiles) {
+
+        String filePathString = context.getFilesDir().getPath().toString() + "/" + FILE_NAME;
+        java.io.File filePath = new java.io.File(filePathString);
+
         FileOutputStream fos = null;
         ObjectOutputStream os = null;
 
         try {
-            fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            fos = new FileOutputStream(filePath);
             os = new ObjectOutputStream(fos);
             os.writeObject(profiles.size());
             for (Profile p : profiles) {
@@ -29,7 +37,7 @@ public class File {
             os.close();
             fos.close();
 
-            Log.i("teste", "All profiles was saved.");
+            Log.i("File", "All profiles was saved.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,9 +46,13 @@ public class File {
     public static ArrayList<Profile> loadProfiles(Context context) {
         ArrayList<Profile> profiles;
 
+        String filePathString = context.getFilesDir().getPath().toString() + "/" + FILE_NAME;
+        java.io.File filePath = new java.io.File(filePathString);
+
+
         try {
             FileInputStream fis = null;
-            fis = context.openFileInput(FILE_NAME);
+            fis = new FileInputStream(filePath);
             ObjectInputStream is = new ObjectInputStream(fis);
 
             profiles = new ArrayList<>();
@@ -57,4 +69,38 @@ public class File {
 
         return profiles;
     }
+
+    public static Profile loadSelectedProfile(Context context)
+    {
+        Profile profile = null;
+
+        String filePathString = context.getFilesDir().getPath().toString() + "/" + FILE_NAME;
+        java.io.File filePath = new java.io.File(filePathString);
+
+        try {
+            FileInputStream fis = null;
+            fis = new FileInputStream(filePath);
+            ObjectInputStream is = new ObjectInputStream(fis);
+
+            int size = (int) is.readObject();
+
+            for(int i = 0; i < size; i++) {
+                Profile profileAux = (Profile) is.readObject();
+                if(profileAux.isSelected())
+                {
+                    profile = profileAux;
+                    break;
+                }
+            }
+            is.close();
+            fis.close();
+        } catch(Exception e) {
+            Log.d("getSelectedProfile", "Error loading selected profile. Error: " + e);
+
+            return null;
+        }
+
+        return profile;
+    }
+
 }

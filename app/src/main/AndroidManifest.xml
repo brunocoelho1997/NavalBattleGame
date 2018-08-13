@@ -40,7 +40,7 @@
             android:name=".Menu.ServerOrClientActivity"
             android:label="@string/title_activity_server_or_client" />
         <activity
-            android:name=".Profiles.ProfilesList"
+            android:name=".Profiles.ProfilesListActivity"
             android:label="@string/title_activity_profiles_list" />
         <activity
             android:name=".Profiles.NewProfileActivity"

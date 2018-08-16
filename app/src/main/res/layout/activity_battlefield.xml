@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#96beff"
+
     tools:context=".Game.BattlefieldActivity"
     android:orientation="vertical">
 
@@ -110,7 +112,6 @@
             android:id="@+id/positionsField"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#fff"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

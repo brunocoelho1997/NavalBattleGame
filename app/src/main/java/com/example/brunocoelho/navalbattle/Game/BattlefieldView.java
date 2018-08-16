@@ -41,7 +41,7 @@ public class BattlefieldView extends View{
 
 //        setBackgroundColor(Color.RED);
 //        setBackgroundResource(R.drawable.grid_set_positions);
-        setBackgroundColor(Color.parseColor("#FFDB8E"));
+//        setBackgroundColor(Color.parseColor("#80000000"));
 
 
     }
@@ -207,7 +207,7 @@ public class BattlefieldView extends View{
 
         for(Ship ship : team)
         {
-            int marginShip = 0;
+            int marginShip = 1;
 
             for(Position position : ship.getPositionList()){
 

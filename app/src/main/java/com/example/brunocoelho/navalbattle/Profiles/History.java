@@ -2,10 +2,11 @@ package com.example.brunocoelho.navalbattle.Profiles;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class History {
+public class History implements Serializable{
     private Profile teamB;
     private Profile teamA;
     private Calendar date;
@@ -14,8 +15,6 @@ public class History {
     public History(Profile teamB, Profile teamA) {
         this.teamB = teamB;
         this.teamA = teamA;
-    }
-    public History() {
         winner = Result.NotDefined;
         date = GregorianCalendar.getInstance();
     }

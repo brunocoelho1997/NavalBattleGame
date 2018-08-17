@@ -44,6 +44,7 @@
     <string name="history_not_found">History not found</string>
     <string name="delete_profile_message">Delete profile</string>
     <string name="details_profile">Details</string>
+    <string name="choose_create_profile">First need to choose / create a profile.</string>
 
 
 </resources>

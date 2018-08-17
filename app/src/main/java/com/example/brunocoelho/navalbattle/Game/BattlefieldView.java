@@ -15,18 +15,25 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
+import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
+import com.example.brunocoelho.navalbattle.Profiles.File;
+import com.example.brunocoelho.navalbattle.Profiles.History;
+import com.example.brunocoelho.navalbattle.Profiles.Result;
 import com.example.brunocoelho.navalbattle.R;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BattlefieldView extends View{
 
     float initialX, initialY;
     private NavalBattleGame navalBattleGame;
+
+    private History history;
 
     private PrintWriter output;
 
@@ -38,6 +45,8 @@ public class BattlefieldView extends View{
         this.navalBattleGame = navalBattleGame;
         this.context = context;
         this.output = output;
+        this.history = new History(navalBattleGame.getProfileTeamA(), navalBattleGame.getProfileTeamB());
+
 
 //        setBackgroundColor(Color.RED);
 //        setBackgroundResource(R.drawable.grid_set_positions);
@@ -383,12 +392,16 @@ public class BattlefieldView extends View{
         int str;
 
         if(navalBattleGame.isTeamATurn())
+        {
             str = R.string.won_a;
-
+            history.setWinner(Result.TeamA);
+        }
         else
+        {
             str = R.string.won_b;
-
-
+            history.setWinner(Result.TeamB);
+        }
+        updateHistory();
         builder
                 .setTitle(R.string.end_game)
                 .setCancelable(false)
@@ -405,6 +418,24 @@ public class BattlefieldView extends View{
 //                    Log.d("verifyFiredPosition","TeamA won!!!");
 //                else
 //                    Log.d("verifyFiredPosition","TeamB won!!!");
+    }
+
+    private void updateHistory() {
+        ArrayList<Profile> profiles = File.loadProfiles(getContext());
+
+        Profile a = navalBattleGame.getProfileTeamA(), b = navalBattleGame.getProfileTeamB();
+
+        for(Profile p : profiles) {
+            if(p.equals(a)) {
+                p.addHistorico(history);
+            } else if(p.equals(b)) {
+                p.addHistorico(history);
+            }
+        }
+        File.saveProfiles(getContext(), profiles);
+
+        Log.d("updateHistory", "history: " + history);
+
     }
 
     private void createToast(int str, int duration)

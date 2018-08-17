@@ -474,7 +474,7 @@ public class NavalBattleGame implements Serializable{
     }
     public Profile getProfileTeamB()
     {
-        return data.getTeamA().getProfile();
+        return data.getTeamB().getProfile();
     }
 
     public void setProfileTeamA(Profile profile)
@@ -766,6 +766,6 @@ public class NavalBattleGame implements Serializable{
 
     public Profile generateAIProfile()
     {
-        return new Profile("Android");
+        return new Profile(Constants.NAME_PROFILE_AI);
     }
 }

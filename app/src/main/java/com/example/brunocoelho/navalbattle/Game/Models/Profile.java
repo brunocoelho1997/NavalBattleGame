@@ -21,6 +21,12 @@ public class Profile implements Serializable{
         this.name = name;
     }
 
+    public void addHistorico(History h) {
+        if(historyList.size() == 10)
+            historyList.remove(9);
+        historyList.add(0, h);
+    }
+
     public String getName() {
         return name;
     }
@@ -65,11 +71,28 @@ public class Profile implements Serializable{
 
         for(int i = 0; i < historyList.size(); i++) {
             History h = historyList.get(i);
-            strs[i] = h.getTeamA() + " - " + h.getTeamB();
+            strs[i] = h.getTeamA().getName() + " - " + h.getTeamB().getName();
         }
         return strs;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null || !(obj instanceof Profile))
+            return false;
+
+        Profile p = (Profile) obj;
+
+        if(!name.equals(p.name) || historyList.size() != p.historyList.size())
+            return false;
+
+        for (int i = 0; i < historyList.size(); i++) {
+            if(!historyList.get(i).equals(p.historyList.get(i)))
+                return false;
+        }
+
+        return true;
+    }
     @Override
     public String toString() {
         return "Profile{" +

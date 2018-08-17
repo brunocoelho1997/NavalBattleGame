@@ -23,6 +23,8 @@ public class Constants {
     public static final String CLASS_POSITION= "Position";
 
 
+    public static final String NAME_PROFILE_AI= "Android";
+
 
 
     public static final int FULL_SQUARE = R.drawable.black_square;

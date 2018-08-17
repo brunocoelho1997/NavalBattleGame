@@ -5,15 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.hardware.camera2.full"/>
-
-
-
+    <uses-permission android:name="android.hardware.camera2.full" />
 
     <application
         android:allowBackup="true"
@@ -47,7 +42,10 @@
             android:label="@string/title_activity_new_profile" />
         <activity
             android:name=".Profiles.TakePhotoActivity"
-            android:label="@string/title_activity_take_photo"></activity>
+            android:label="@string/title_activity_take_photo" />
+        <activity
+            android:name=".Profiles.DetailsActivity"
+            android:label="@string/title_activity_details"></activity>
     </application>
 
 </manifest>

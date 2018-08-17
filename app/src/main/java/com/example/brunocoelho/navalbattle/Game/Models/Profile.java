@@ -1,17 +1,22 @@
 package com.example.brunocoelho.navalbattle.Game.Models;
 
 import com.example.brunocoelho.navalbattle.Game.Constants;
+import com.example.brunocoelho.navalbattle.Profiles.History;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Profile implements Serializable{
 
     private String objectType;
     private String name;
     private boolean selected;
+    private ArrayList<History> historyList;
+
 
     public Profile(String name) {
         this.objectType = Constants.CLASS_PROFILE; //className
+        this.historyList = new ArrayList<>();
 
         this.name = name;
     }
@@ -38,6 +43,31 @@ public class Profile implements Serializable{
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public ArrayList<History> getHistoryList() {
+        return historyList;
+    }
+
+    public void setHistoryList(ArrayList<History> historyList) {
+        this.historyList = historyList;
+    }
+
+    public boolean hasHistory() {
+        return historyList.size() != 0;
+    }
+    public History getHistory(int i) {
+        return historyList.get(i);
+    }
+
+    public String [] getTitles() {
+        String [] strs = new String[historyList.size()];
+
+        for(int i = 0; i < historyList.size(); i++) {
+            History h = historyList.get(i);
+            strs[i] = h.getTeamA() + " - " + h.getTeamB();
+        }
+        return strs;
     }
 
     @Override

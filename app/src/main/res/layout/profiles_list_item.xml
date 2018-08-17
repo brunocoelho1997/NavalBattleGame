@@ -21,11 +21,35 @@
         android:textSize="20dp"
         android:layout_weight="0.7"/>
 
-    <Button
-        android:id="@+id/btn_Profile_Item"
+    <ImageButton
+        android:id="@+id/btn_SelectProfile_Item"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:layout_weight="0.3"
-        android:onClick="myClickHandler"
-        android:text="@string/use_profile"/>
+        android:layout_margin="5dp"
+        android:onClick="onUseProfile"
+        android:text="@string/use_profile"
+        android:background="@null"
+        android:src="@drawable/select_user" />
+    <ImageButton
+        android:id="@+id/btn_Details_Item"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.3"
+        android:layout_margin="10dp"
+        android:text="@string/details_profile"
+        android:background="@null"
+        android:src="@drawable/history" />
+
+    <ImageButton
+        android:id="@+id/btn_Delete_Item"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_weight="0.3"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:text="@string/delete_profile"
+        android:background="@null"
+        android:src="@drawable/delete" />
+
 </LinearLayout>

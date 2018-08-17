@@ -40,6 +40,10 @@
     <string name="waiting_other_player">Wainting for the other player...</string>
     <string name="ai_fired_positions">Smartphone fired positions</string>
     <string name="use_profile">Use profile</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="history_not_found">History not found</string>
+    <string name="delete_profile_message">Delete profile</string>
+    <string name="details_profile">Details</string>
 
 
 </resources>

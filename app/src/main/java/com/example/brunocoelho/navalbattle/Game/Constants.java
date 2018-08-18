@@ -17,10 +17,10 @@ public class Constants {
     public static final String TEAM_A_TURN= "_#teamATurn:";
 
 
-    public static final String CLASS_PROFILE= "Profile";
-    public static final String CLASS_TEAM= "Team";
-    public static final String CLASS_MESSAGE= "Message";
-    public static final String CLASS_POSITION= "Position";
+    public static final String CLASS_PROFILE= "CLASS_PROFILE";
+    public static final String CLASS_TEAM= "CLASS_TEAM";
+    public static final String CLASS_MESSAGE= "CLASS_MESSAGE";
+    public static final String CLASS_POSITION= "CLASS_POSITION";
 
 
     public static final String NAME_PROFILE_AI= "Android";

@@ -7,14 +7,14 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class History implements Serializable{
-    private Profile teamB;
-    private Profile teamA;
+    private Profile profileTeamB;
+    private Profile profileTeamA;
     private Calendar date;
     private Result winner; // true - jogadorA - false - jogadorB;
 
-    public History(Profile teamB, Profile teamA) {
-        this.teamB = teamB;
-        this.teamA = teamA;
+    public History(Profile teamA, Profile teamB) {
+        this.profileTeamB = teamB;
+        this.profileTeamA = teamA;
         winner = Result.NotDefined;
         date = GregorianCalendar.getInstance();
     }
@@ -38,28 +38,28 @@ public class History implements Serializable{
 
         History h = (History) obj;
 
-        return teamA.equals(h.teamA) && teamB.equals(h.teamB) && date.equals(h.date) && winner == h.winner;
+        return profileTeamA.equals(h.profileTeamA) && profileTeamB.equals(h.profileTeamB) && date.equals(h.date) && winner == h.winner;
     }
 
     @Override
     public String toString() {
-        return "Team A: " + teamA+ " Team B: " + teamB + " Vencedor: " + winner;
+        return "Team A: " + profileTeamA + " Team B: " + profileTeamB + " Vencedor: " + winner;
     }
 
-    public Profile getTeamB() {
-        return teamB;
+    public Profile getProfileTeamB() {
+        return profileTeamB;
     }
 
-    public void setTeamB(Profile teamB) {
-        this.teamB = teamB;
+    public void setProfileTeamB(Profile profileTeamB) {
+        this.profileTeamB = profileTeamB;
     }
 
-    public Profile getTeamA() {
-        return teamA;
+    public Profile getProfileTeamA() {
+        return profileTeamA;
     }
 
-    public void setTeamA(Profile teamA) {
-        this.teamA = teamA;
+    public void setProfileTeamA(Profile profileTeamA) {
+        this.profileTeamA = profileTeamA;
     }
 
     public void setDate(Calendar date) {

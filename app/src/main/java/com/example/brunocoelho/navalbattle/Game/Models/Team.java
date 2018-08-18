@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Team implements Serializable{
 
-    private Profile profile;
+
     private String objectType;
     private List<Ship> ships;
     private ArrayList<Position> firedPositions;
@@ -54,14 +54,6 @@ public class Team implements Serializable{
 
     public void setObjectType(String objectType) {
         this.objectType = objectType;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 
     @Override

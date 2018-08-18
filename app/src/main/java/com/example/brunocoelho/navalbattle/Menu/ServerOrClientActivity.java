@@ -34,6 +34,7 @@ public class ServerOrClientActivity extends Activity {
 
         Log.d("onServer", "Clicked onServer");
         navalBattleGame.setAmITeamA(true);
+        navalBattleGame.setProfileTeamA(navalBattleGame.getSelectedProfile());
 
 
         Intent intent=new Intent(this, BattlefieldActivity.class);
@@ -47,6 +48,7 @@ public class ServerOrClientActivity extends Activity {
 
         Log.d("onServer", "Clicked onServer");
         navalBattleGame.setAmITeamA(false);
+        navalBattleGame.setProfileTeamB(navalBattleGame.getSelectedProfile());
 
         Intent intent=new Intent(this, BattlefieldActivity.class);
         intent.putExtra("navalBattleGame", navalBattleGame);

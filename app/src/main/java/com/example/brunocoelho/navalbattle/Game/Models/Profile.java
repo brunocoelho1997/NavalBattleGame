@@ -71,7 +71,7 @@ public class Profile implements Serializable{
 
         for(int i = 0; i < historyList.size(); i++) {
             History h = historyList.get(i);
-            strs[i] = h.getTeamA().getName() + " - " + h.getTeamB().getName();
+            strs[i] = h.getProfileTeamA().getName() + " - " + h.getProfileTeamB().getName();
         }
         return strs;
     }

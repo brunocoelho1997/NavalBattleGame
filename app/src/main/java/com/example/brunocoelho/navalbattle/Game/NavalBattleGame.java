@@ -10,13 +10,11 @@ import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipOne;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipThree;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
 import com.example.brunocoelho.navalbattle.Game.Models.Team;
-import com.google.gson.Gson;
+import com.example.brunocoelho.navalbattle.Profiles.History;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +44,7 @@ public class NavalBattleGame implements Serializable{
     // ...usada para: se tentamos mudar um navio e por validacao voltou para a mesma poicao... ou seja, ainda podemos alterar a sua posicao...
     //e tambem e' usada no online... ou seja, caso seja alguma ship alterada da sua posicao é enviada a equipa para o outro player...
     private boolean changedShipPosition;
-
+    private History history;
 
     //online
     BufferedReader input;
@@ -468,22 +466,30 @@ public class NavalBattleGame implements Serializable{
         this.changedShipPosition = changedShipPosition;
     }
 
+    public History getHistory() {
+        return history;
+    }
+
+    public void setHistory(History history) {
+        this.history = history;
+    }
+
     public Profile getProfileTeamA()
     {
-        return data.getTeamA().getProfile();
+        return data.getProfileA();
     }
     public Profile getProfileTeamB()
     {
-        return data.getTeamB().getProfile();
+        return data.getProfileB();
     }
 
     public void setProfileTeamA(Profile profile)
     {
-        data.getTeamA().setProfile(profile);
+        data.setProfileA(profile);
     }
     public void setProfileTeamB(Profile profile)
     {
-        data.getTeamB().setProfile(profile);
+        data.setProfileB(profile);
     }
 
     public Profile getSelectedProfile() {
@@ -767,5 +773,20 @@ public class NavalBattleGame implements Serializable{
     public Profile generateAIProfile()
     {
         return new Profile(Constants.NAME_PROFILE_AI);
+    }
+
+    public void setProfile(Profile profile) {
+        if(isAmITeamA())
+        {
+            setProfileTeamB(profile);
+            history.setProfileTeamB(profile);
+        }
+        else
+        {
+            setProfileTeamA(profile);
+            history.setProfileTeamA(profile);
+
+        }
+
     }
 }

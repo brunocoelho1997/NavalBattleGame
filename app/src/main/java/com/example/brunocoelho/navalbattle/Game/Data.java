@@ -13,6 +13,8 @@ public class Data implements Serializable{
 
     private Team teamA;
     private Team teamB;
+    private Profile profileA;
+    private Profile profileB;
 
 
     private boolean started;
@@ -76,5 +78,21 @@ public class Data implements Serializable{
 
     public void setAmITeamA(boolean amITeamA) {
         this.amITeamA = amITeamA;
+    }
+
+    public Profile getProfileA() {
+        return profileA;
+    }
+
+    public void setProfileA(Profile profileA) {
+        this.profileA = profileA;
+    }
+
+    public Profile getProfileB() {
+        return profileB;
+    }
+
+    public void setProfileB(Profile profileB) {
+        this.profileB = profileB;
     }
 }

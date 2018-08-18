@@ -76,8 +76,8 @@ public class DetailsActivity extends Activity {
     private String getHistoryDescription(History h) {
         String str = "";
 
-        str += "Team A: " + h.getTeamA().getName() + '\n';
-        str += "Team B: " + h.getTeamB().getName() + '\n';
+        str += "Team A: " + h.getProfileTeamA().getName() + '\n';
+        str += "Team B: " + h.getProfileTeamB().getName() + '\n';
         str += "Date: " + h.getDate() + '\n';
         str += "Hour: " + h.getHour();
 

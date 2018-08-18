@@ -136,12 +136,12 @@ public class BattlefieldActivity extends Activity {
         LinearLayout teamBPanel = findViewById(R.id.teamBPanel);
 
         TextView textView = teamAPanel.findViewById(R.id.teamAName);
-        if(navalBattleGame.getTeamA().getProfile()!= null)
-            textView.setText(navalBattleGame.getTeamA().getProfile().getName());
+        if(navalBattleGame.getProfileTeamA()!= null)
+            textView.setText(navalBattleGame.getProfileTeamA().getName());
 
         textView = teamBPanel.findViewById(R.id.teamBName);
-        if(navalBattleGame.getTeamB().getProfile()!= null)
-            textView.setText(navalBattleGame.getTeamB().getProfile().getName());
+        if(navalBattleGame.getProfileTeamB()!= null)
+            textView.setText(navalBattleGame.getProfileTeamB().getName());
 
     }
 
@@ -173,7 +173,7 @@ public class BattlefieldActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    Profile profile = new Profile("PERFILABC_" + (new Random()).nextInt());
+                    Profile profile = navalBattleGame.getSelectedProfile();
 
                     String jsonProfile = gson.toJson(profile);
 
@@ -480,6 +480,8 @@ public class BattlefieldActivity extends Activity {
 //                navalBattleGame.setOutput(output);
                 battlefieldView.setOutput(output);
 
+
+
                 sendProfile();
 
                 while (!Thread.currentThread().isInterrupted()) {
@@ -519,10 +521,33 @@ public class BattlefieldActivity extends Activity {
     });
 
     private void processJSON(String jsonReceived) {
+
         if(jsonReceived.contains(Constants.CLASS_PROFILE))
         {
-            Profile profile = gson.fromJson(jsonReceived, Profile.class);
+            final Profile profile = gson.fromJson(jsonReceived, Profile.class);
             Log.d("commThread", "Received the profile: " + profile);
+
+
+
+
+            procMsg.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    navalBattleGame.setProfile(profile);
+                    final LinearLayout linearLayout;
+
+                    if(navalBattleGame.isAmITeamA())
+                        linearLayout = findViewById(R.id.teamBPanel);
+                    else
+                        linearLayout = findViewById(R.id.teamAPanel);
+
+                    Log.d("commThread", "profile.getName(): " + profile.getName());
+                    ((TextView)linearLayout.getChildAt(1)).setText(profile.getName());
+                }
+            }, Constants.DELAY);
+
+
+
         }
         else if(jsonReceived.contains(Constants.CLASS_TEAM))
         {

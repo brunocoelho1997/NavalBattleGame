@@ -33,7 +33,7 @@ public class BattlefieldView extends View{
     float initialX, initialY;
     private NavalBattleGame navalBattleGame;
 
-    private History history;
+
 
     private PrintWriter output;
 
@@ -45,7 +45,9 @@ public class BattlefieldView extends View{
         this.navalBattleGame = navalBattleGame;
         this.context = context;
         this.output = output;
-        this.history = new History(navalBattleGame.getProfileTeamA(), navalBattleGame.getProfileTeamB());
+        navalBattleGame.setHistory(new History(navalBattleGame.getProfileTeamA(), navalBattleGame.getProfileTeamB()));
+
+        Log.d("BattlefieldView", "history: " + navalBattleGame.getHistory());
 
 
 //        setBackgroundColor(Color.RED);
@@ -394,12 +396,12 @@ public class BattlefieldView extends View{
         if(navalBattleGame.isTeamATurn())
         {
             str = R.string.won_a;
-            history.setWinner(Result.TeamA);
+            navalBattleGame.getHistory().setWinner(Result.TeamA);
         }
         else
         {
             str = R.string.won_b;
-            history.setWinner(Result.TeamB);
+            navalBattleGame.getHistory().setWinner(Result.TeamB);
         }
         updateHistory();
         builder
@@ -427,14 +429,14 @@ public class BattlefieldView extends View{
 
         for(Profile p : profiles) {
             if(p.equals(a)) {
-                p.addHistorico(history);
+                p.addHistorico(navalBattleGame.getHistory());
             } else if(p.equals(b)) {
-                p.addHistorico(history);
+                p.addHistorico(navalBattleGame.getHistory());
             }
         }
         File.saveProfiles(getContext(), profiles);
 
-        Log.d("updateHistory", "history: " + history);
+        Log.d("updateHistory", "history: " + navalBattleGame.getHistory());
 
     }
 

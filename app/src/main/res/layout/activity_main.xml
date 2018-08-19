@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.75"
+        android:layout_weight="0.6"
         android:gravity="center">
 
         <ImageView
@@ -27,25 +27,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.4"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:layout_margin="10dp"
             android:gravity="center"
             android:paddingLeft="30dp"
             android:paddingRight="30dp">
 
             <Button
+                android:drawableRight="@drawable/newgame"
+                android:background="@null"
+                android:textColor="#b98f71"
+                android:text="@string/new_game"
+                android:textSize="30sp"
                 android:id="@+id/btNewGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onNewGame"
-                android:padding="10dp"
-                android:text="@string/new_game"
-                android:textSize="30sp"/>
+                android:padding="10dp" />
 
         </LinearLayout>
 
@@ -54,17 +58,21 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_margin="10dp"
             android:paddingLeft="30dp"
             android:paddingRight="30dp">
 
             <Button
+                android:drawableRight="@drawable/profiles"
+                android:background="@null"
+                android:textColor="#b98f71"
+                android:text="@string/profiles"
+                android:textSize="30sp"
                 android:id="@+id/btProfiles"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onProfiles"
-                android:padding="10dp"
-                android:text="@string/profiles"
-                android:textSize="30sp" />
+                android:padding="10dp"/>
 
         </LinearLayout>
 

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Profiles.ProfilesListActivity">
+    tools:context=".Profiles.ProfilesListActivity"
+    android:background="#96beff"
+    >
 
     <ListView
         android:id="@+id/lvProfiles"

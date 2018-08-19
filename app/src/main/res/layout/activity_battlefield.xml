@@ -59,7 +59,7 @@
             android:layout_gravity="right"
             android:orientation="horizontal"
             android:id="@+id/teamBPanel"
-            android:background="#ffb18e">
+            android:background="#b95555">
 
 
 

@@ -31,6 +31,9 @@
             android:paddingRight="30dp">
 
             <Button
+                android:drawableRight="@drawable/offline"
+                android:background="@null"
+                android:textColor="#b98f71"
                 android:id="@+id/btOfflineGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,11 +53,15 @@
             android:paddingRight="30dp">
 
             <Button
+                android:drawableRight="@drawable/withfriends"
+                android:background="@null"
+                android:textColor="#b98f71"
                 android:id="@+id/btOnlineGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onOnlineGame"
                 android:padding="10dp"
+
                 android:text="@string/online"
                 android:textSize="30sp" />
 

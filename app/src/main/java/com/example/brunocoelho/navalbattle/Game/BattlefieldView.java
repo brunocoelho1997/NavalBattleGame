@@ -401,6 +401,8 @@ public class BattlefieldView extends View{
             navalBattleGame.getHistory().setWinner(Result.TeamB);
         }
         updateHistory();
+
+        output.close();
         builder
                 .setTitle(R.string.end_game)
                 .setCancelable(false)

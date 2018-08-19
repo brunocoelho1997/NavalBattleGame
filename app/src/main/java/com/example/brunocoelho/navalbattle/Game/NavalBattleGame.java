@@ -362,7 +362,8 @@ public class NavalBattleGame implements Serializable{
     }
 
     public boolean isAvaibleNextTurn() {
-        return firedPositionsTemp.size()==3;
+        //se for permitido next turn e estiver a jogar offline ... ou se for permitido next turn e for a minha vez de jogar (quando online)
+        return (firedPositionsTemp.size()==3 && !isTwoPlayer()) || (firedPositionsTemp.size()==3 && isMyTurnToPlay());
     }
     public Team getTeamA() {
         if(isTeamATurn())
@@ -641,11 +642,25 @@ public class NavalBattleGame implements Serializable{
         }
     }
 
+    public static List<Position> cloneList(List<Position> list) {
+        List<Position> clone = new ArrayList<Position>(list.size());
+        for (Position item : list) {
+            Position newPosition = new Position();
+            newPosition.setNumber(item.getNumber());
+            newPosition.setLetter(item.getLetter());
+            clone.add(newPosition);
+        }
+        return clone;
+    }
+
     boolean verifyIsValidPositionChangeShipPosition() {
+
+
+
 
 //        //if the oposite team already fired to this position...
 //        //usa a ship anteriormente criada... mas esta ship auxoliar na posicao inicial
-        Ship selectedShipAux = createShip(new ArrayList<Position>(selectedShip.getPositionList()));
+        Ship selectedShipAux = createShip(cloneList(selectedShip.getPositionList()));
 
 
         //verifica se ja nao tinha sido disparado para esta nova posicao...
@@ -659,9 +674,13 @@ public class NavalBattleGame implements Serializable{
 
         //if the oposite team already fired to this ship...
         //create a ship with same positions (apenas para ir buscar o numero de posicoes e criar um barco do mesmo tipo...)
-        selectedShipAux = createShip(new ArrayList<Position>(selectedShip.getPositionList()));
+//        selectedShipAux = createShip(new ArrayList<>(selectedShip.getPositionList()));
 
-//        selectedShipAux.setPointPosition(initialPositionShip); TODO: ISTO AINDA ESTA' MAL... se pormos isto sem ser comentarios faz todas as validacoes mas quando escolhemos bem fica lixado...
+        Position aux = new Position();
+        aux.setLetter(initialPositionShip.getLetter());
+        aux.setNumber(initialPositionShip.getNumber());
+
+        selectedShipAux.setPointPosition(aux); //TODO: ISTO AINDA ESTA' MAL... se pormos isto sem ser comentarios faz todas as validacoes mas quando escolhemos bem fica lixado...
 
         //verifica se a outra equipa ja nao tinha disparado numa destas posicoes...
         //Check if one list contains element from the other

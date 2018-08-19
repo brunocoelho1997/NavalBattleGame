@@ -47,9 +47,6 @@ public class BattlefieldView extends View{
         this.output = output;
         navalBattleGame.setHistory(new History(navalBattleGame.getProfileTeamA(), navalBattleGame.getProfileTeamB()));
 
-        Log.d("BattlefieldView", "history: " + navalBattleGame.getHistory());
-
-
 //        setBackgroundColor(Color.RED);
 //        setBackgroundResource(R.drawable.grid_set_positions);
 //        setBackgroundColor(Color.parseColor("#80000000"));
@@ -101,7 +98,7 @@ public class BattlefieldView extends View{
                 if(navalBattleGame.isTwoPlayer() && navalBattleGame.isStarted() && !navalBattleGame.isChangedShipPosition() && navalBattleGame.isMyTurnToPlay() )
                     sendObject(onUpPosition);
 
-                if(navalBattleGame.isChangedShipPosition())
+                if(navalBattleGame.isChangedShipPosition() && navalBattleGame.isTwoPlayer())
                 {
                     sendObject(navalBattleGame.getAtualTeam());
                     Log.d("tag","Enviei equipa atual!!");

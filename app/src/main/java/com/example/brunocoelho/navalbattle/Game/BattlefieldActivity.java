@@ -184,7 +184,7 @@ public class BattlefieldActivity extends Activity {
                     Log.d("sendProfile", "Sent profile");
 
                 } catch (Exception e) {
-                    Log.d("sendProfile", "Error sending a move. Error: " + e);
+                    Log.d("sendProfile", "Error sending a profile. Error: " + e);
                 }
             }
         });
@@ -344,12 +344,12 @@ public class BattlefieldActivity extends Activity {
 
     public void onNextTurn(View v) {
 
-        //se for permitido next turn e estiver a jogar offline ... ou se for permitido next turn e for a minha vez de jogar (quando online)
-        if((navalBattleGame.isAvaibleNextTurn() && !navalBattleGame.isTwoPlayer()) || (navalBattleGame.isAvaibleNextTurn() && navalBattleGame.isMyTurnToPlay()))
+        if(navalBattleGame.isAvaibleNextTurn())
         {
+            navalBattleGame.setChangedShipPosition(false);
+            navalBattleGame.setMayChangeShipPosition(false);
             navalBattleGame.nextTurn();
             battlefieldView.invalidate();
-            navalBattleGame.setChangedShipPosition(false);
 
             if(navalBattleGame.isTwoPlayer())
                 sendObject(new Message(Constants.NEXT_TURN));
@@ -487,7 +487,7 @@ public class BattlefieldActivity extends Activity {
                 while (!Thread.currentThread().isInterrupted()) {
                     String read = input.readLine();
                     processJSON(read);
-                    Log.d("RPS", "Received: " + read);
+                    Log.d("commThread", "JSON received: " + read);
                 }
             } catch (Exception e) {
                 procMsg.post(new Runnable() {
@@ -581,7 +581,7 @@ public class BattlefieldActivity extends Activity {
                 @Override
                 public void run() {
                     navalBattleGame.onUpOtherTeam(onUPosition);
-                    Log.d("commThread", "getFiredPositionsTemp: " + navalBattleGame.getFiredPositionsTemp());
+//                    Log.d("commThread", "getFiredPositionsTemp: " + navalBattleGame.getFiredPositionsTemp());
 
                     battlefieldView.invalidate();
                 }

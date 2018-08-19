@@ -75,7 +75,6 @@ public class ProfilesListActivity extends AppCompatActivity {
             {
                 ((ImageButton)layout.findViewById(R.id.btn_SelectProfile_Item)).setVisibility(View.INVISIBLE);
                 layout.setBackgroundColor(Color.parseColor("#9cd17b"));
-
             }
 
             ((ImageButton)layout.findViewById(R.id.btn_Details_Item)).setOnClickListener(new View.OnClickListener() {
@@ -147,7 +146,17 @@ public class ProfilesListActivity extends AppCompatActivity {
         if(requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 if(data.hasExtra("NewProfile")) {
-                    profiles.add((Profile) data.getSerializableExtra("NewProfile"));
+
+                    //put new profile as selected
+                    Profile newProfile = (Profile) data.getSerializableExtra("NewProfile");
+                    newProfile.setSelected(true);
+                    //deselect the profile which was selected
+                    for(Profile profile : profiles)
+                    {
+                        if(profile.isSelected())
+                            profile.setSelected(false);
+                    }
+                    profiles.add(newProfile);
                     lv.invalidateViews();
                 }
             }
@@ -190,5 +199,7 @@ public class ProfilesListActivity extends AppCompatActivity {
         }
 
         vwParentRow.refreshDrawableState();
+
+        finish();
     }
 }

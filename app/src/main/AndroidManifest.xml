@@ -45,7 +45,10 @@
             android:label="@string/title_activity_take_photo" />
         <activity
             android:name=".Profiles.DetailsActivity"
-            android:label="@string/title_activity_details"></activity>
+            android:label="@string/title_activity_details" />
+        <activity
+            android:name=".Menu.CreditsActivity"
+            android:label="@string/title_activity_credits"></activity>
     </application>
 
 </manifest>

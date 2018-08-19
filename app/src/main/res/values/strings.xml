@@ -45,6 +45,12 @@
     <string name="delete_profile_message">Delete profile</string>
     <string name="details_profile">Details</string>
     <string name="choose_create_profile">First need to choose / create a profile.</string>
+    <string name="client_dlg_text">Write the IP of the other player.</string>
+    <string name="client_dlg_title">Connect Game</string>
+    <string name="title_activity_credits">CreditsActivity</string>
+    <string name="credits_title">Mobile Applications</string>
+    <string name="credits_teacher">Teacher: Álvaro Santos</string>
+    <string name="credits_institute">Institute of Engineering of Coimbra</string>
 
 
 </resources>

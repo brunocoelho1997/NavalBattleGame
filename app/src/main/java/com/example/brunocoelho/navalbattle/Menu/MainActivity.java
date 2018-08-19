@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -68,5 +70,24 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("onProfiles", "Aderi onProfiles");
 
+    }
+
+    @Override // to create our own menu
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list_credits, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override // when select a item of the menu
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.newProfile:
+                Intent intent = new Intent(getBaseContext(), CreditsActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -425,8 +425,8 @@ public class BattlefieldActivity extends Activity {
     void clientDlg() {
         final EditText edtIP = new EditText(this);
         edtIP.setText("192.168.1.68"); // emulator's default ip
-        AlertDialog ad = new AlertDialog.Builder(this).setTitle("RPS Client")
-                .setMessage("Server IP").setView(edtIP)
+        AlertDialog ad = new AlertDialog.Builder(this).setTitle(R.string.client_dlg_title)
+                .setMessage(R.string.client_dlg_text).setView(edtIP)
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

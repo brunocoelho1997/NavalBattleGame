@@ -1,10 +1,21 @@
 package com.example.brunocoelho.navalbattle.Game.Models;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
+
 import com.example.brunocoelho.navalbattle.Game.Constants;
 import com.example.brunocoelho.navalbattle.Profiles.History;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 public class Profile implements Serializable{
 
@@ -101,6 +112,43 @@ public class Profile implements Serializable{
 
     public void setFilePathPhoto(String filePathPhoto) {
         this.filePathPhoto = filePathPhoto;
+    }
+
+    private Uri Uri() {
+        return Uri.parse("file://" + filePathPhoto);
+    }
+
+    @SuppressWarnings("deprecation")
+    public Bitmap getImage(Context context, int targetW, int targetH) throws FileNotFoundException {
+
+        Log.d(TAG, "getImage: Uri().getPath() = " + Uri().getPath());
+
+
+        InputStream imageStream = context.getContentResolver().openInputStream(Uri());
+
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(Uri().getPath(), bmOptions);
+        Bitmap img = BitmapFactory.decodeStream(imageStream, null, bmOptions);
+
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        Log.d(TAG, "getImage: targetW = " + targetW);
+        Log.d(TAG, "getImage: targetH = " + targetH);
+        Log.d(TAG, "getImage: photoW = " + photoW);
+        Log.d(TAG, "getImage: photoH = " + photoH);
+
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        imageStream = context.getContentResolver().openInputStream(Uri());
+
+        return BitmapFactory.decodeStream(imageStream, null, bmOptions);
     }
 
     @Override

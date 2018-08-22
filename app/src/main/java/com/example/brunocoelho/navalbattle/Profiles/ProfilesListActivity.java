@@ -1,5 +1,6 @@
 package com.example.brunocoelho.navalbattle.Profiles;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 import com.example.brunocoelho.navalbattle.R;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ProfilesListActivity extends AppCompatActivity {
@@ -69,7 +72,11 @@ public class ProfilesListActivity extends AppCompatActivity {
             View layout = getLayoutInflater().inflate(R.layout.profiles_list_item,null);
 
             ((TextView)layout.findViewById(R.id.tvName_Profile_Item)).setText(profiles.get(i).getName());
-//            ((ImageView)layout.findViewById(R.id.ivItem_lista)).setImageResource(profiles.get(i).getImg());
+            try {
+                ((ImageView)layout.findViewById(R.id.ivProfile_Item)).setImageBitmap(profiles.get(i).getImage(context, 75,75));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
             if(profiles.get(i).isSelected())
             {

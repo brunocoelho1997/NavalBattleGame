@@ -51,6 +51,7 @@
     <string name="credits_title">Mobile Applications</string>
     <string name="credits_teacher">Teacher: Álvaro Santos</string>
     <string name="credits_institute">Institute of Engineering of Coimbra</string>
+    <string name="ai_setted_positions">AI positioned the ships</string>
 
 
 </resources>

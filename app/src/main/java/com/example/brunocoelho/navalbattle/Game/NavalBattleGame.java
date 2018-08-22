@@ -798,12 +798,12 @@ public class NavalBattleGame implements Serializable{
         if(isAmITeamA())
         {
             setProfileTeamB(profile);
-            history.setProfileTeamB(profile);
+            history.setProfileTeamB(profile.getName());
         }
         else
         {
             setProfileTeamA(profile);
-            history.setProfileTeamA(profile);
+            history.setProfileTeamA(profile.getName());
 
         }
 

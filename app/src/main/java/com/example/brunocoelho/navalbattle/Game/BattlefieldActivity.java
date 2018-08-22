@@ -492,44 +492,55 @@ public class BattlefieldActivity extends Activity {
                 procMsg.post(new Runnable() {
                     @Override
                     public void run() {
-                        //finish();
+                    //finish();
 
 
 
-                        //if isn't a winner defined the game continue
-                        if(navalBattleGame.getHistory().getWinner().equals(Result.NotDefined))
+                    //if isn't a winner defined the game continue
+                    if(navalBattleGame.getHistory().getWinner().equals(Result.NotDefined))
+                    {
+
+                        Profile ai = navalBattleGame.generateAIProfile();
+                        if(navalBattleGame.isAmITeamA())
                         {
+                            ((TextView)findViewById(R.id.teamBName)).setText(ai.getName());
+                            navalBattleGame.getProfileTeamB().setName(ai.getName());
+                        }
+                        else
+                        {
+                            ((TextView)findViewById(R.id.teamAName)).setText(ai.getName());
+                            navalBattleGame.getProfileTeamA().setName(ai.getName());
+                        }
 
-                            Log.d("commThread", "navalBattleGame.getHistory().getWinner(): " + navalBattleGame.getHistory().getWinner());
 
+                        Toast.makeText(getApplicationContext(),
+                                R.string.game_finished, Toast.LENGTH_LONG)
+                                .show();
+                        navalBattleGame.setTwoPlayer(false);
 
+                        //if isn't my turn to play... need to AI playing...
+                        if(!navalBattleGame.isMyTurnToPlay())
+                        {
+                            int msg = R.string.ai_fired_positions;
 
-                            Profile ai = navalBattleGame.generateAIProfile();
-                            if(navalBattleGame.isAmITeamA())
-                                ((TextView)findViewById(R.id.teamBName)).setText(ai.getName());
+                            if(navalBattleGame.getOppositeTeam().isPositionedShips())
+                            {
+                                navalBattleGame.AIFire();
+                                msg = R.string.ai_fired_positions;
+                            }
                             else
-                                ((TextView)findViewById(R.id.teamAName)).setText(ai.getName());
-
+                            {
+                                navalBattleGame.setAIPositions();
+                                msg = R.string.ai_setted_positions;
+                            }
 
                             Toast.makeText(getApplicationContext(),
-                                    R.string.game_finished, Toast.LENGTH_LONG)
+                                    msg, Toast.LENGTH_LONG)
                                     .show();
-                            navalBattleGame.setTwoPlayer(false);
 
-                            //if isn't my turn to play... need to AI playing...
-                            if(!navalBattleGame.isMyTurnToPlay())
-                            {
-                                Log.d("commThread", "isMyTurnToPlay: " + navalBattleGame.isMyTurnToPlay());
-
-                                navalBattleGame.AIFire();
-
-                                Toast.makeText(getApplicationContext(),
-                                        R.string.ai_fired_positions, Toast.LENGTH_LONG)
-                                        .show();
-
-                                battlefieldView.invalidate();
-                            }
+                            battlefieldView.invalidate();
                         }
+                    }
                     }
                 });
             }

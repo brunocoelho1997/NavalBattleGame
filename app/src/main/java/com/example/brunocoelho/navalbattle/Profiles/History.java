@@ -7,14 +7,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class History implements Serializable{
-    private Profile profileTeamB;
-    private Profile profileTeamA;
+    private String profileTeamA;
+    private String profileTeamB;
     private Calendar date;
     private Result winner; // true - jogadorA - false - jogadorB;
 
-    public History(Profile teamA, Profile teamB) {
-        this.profileTeamB = teamB;
-        this.profileTeamA = teamA;
+    public History() {
         winner = Result.NotDefined;
         date = GregorianCalendar.getInstance();
     }
@@ -46,20 +44,20 @@ public class History implements Serializable{
         return "Team A: " + profileTeamA + " Team B: " + profileTeamB + " Vencedor: " + winner;
     }
 
-    public Profile getProfileTeamB() {
-        return profileTeamB;
-    }
-
-    public void setProfileTeamB(Profile profileTeamB) {
-        this.profileTeamB = profileTeamB;
-    }
-
-    public Profile getProfileTeamA() {
+    public String getProfileTeamA() {
         return profileTeamA;
     }
 
-    public void setProfileTeamA(Profile profileTeamA) {
+    public void setProfileTeamA(String profileTeamA) {
         this.profileTeamA = profileTeamA;
+    }
+
+    public String getProfileTeamB() {
+        return profileTeamB;
+    }
+
+    public void setProfileTeamB(String profileTeamB) {
+        this.profileTeamB = profileTeamB;
     }
 
     public void setDate(Calendar date) {

@@ -45,7 +45,7 @@ public class BattlefieldView extends View{
         this.navalBattleGame = navalBattleGame;
         this.context = context;
         this.output = output;
-        navalBattleGame.setHistory(new History(navalBattleGame.getProfileTeamA(), navalBattleGame.getProfileTeamB()));
+        navalBattleGame.setHistory(new History());
 
 //        setBackgroundColor(Color.RED);
 //        setBackgroundResource(R.drawable.grid_set_positions);
@@ -402,7 +402,9 @@ public class BattlefieldView extends View{
         }
         updateHistory();
 
-        output.close();
+        if(navalBattleGame.isTwoPlayer())
+            output.close();
+
         builder
                 .setTitle(R.string.end_game)
                 .setCancelable(false)
@@ -425,6 +427,9 @@ public class BattlefieldView extends View{
         ArrayList<Profile> profiles = File.loadProfiles(getContext());
 
         Profile a = navalBattleGame.getProfileTeamA(), b = navalBattleGame.getProfileTeamB();
+
+        navalBattleGame.getHistory().setProfileTeamA(a.getName());
+        navalBattleGame.getHistory().setProfileTeamB(b.getName());
 
         for(Profile p : profiles) {
             if(p.equals(a)) {

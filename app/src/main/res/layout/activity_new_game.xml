@@ -8,8 +8,8 @@
     >
 
     <ImageButton
-        android:id="@+id/closeBattefield"
-        android:onClick="onCloseBattlefield"
+        android:id="@+id/closeNewGame"
+        android:onClick="onCloseNewGame"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@null"

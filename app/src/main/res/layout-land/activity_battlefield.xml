@@ -5,22 +5,148 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Game.BattlefieldActivity"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:background="#96beff">
 
-    <Button
-        android:id="@+id/closeSetPositions"
-        android:onClick="onCloseSetPositions"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="X"
-        android:textSize="15sp"/>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.8"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <ImageButton
+            android:id="@+id/closeBattefield"
+            android:onClick="onCloseBattlefield"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:src="@drawable/close_icon"
+            />
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.3"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:id="@+id/playersPanel">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="top"
+                android:orientation="vertical"
+                android:id="@+id/teamAPanel"
+                android:background="#dbe0ff">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/teamAImage"/>
+
+                <TextView
+                    android:id="@+id/teamAName"
+                    android:textSize="15sp"
+                    android:text="Team A"
+                    android:gravity="center_vertical|center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:orientation="vertical"
+                android:id="@+id/teamBPanel"
+                android:background="#b95555">
+
+
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/teamBImage"/>
+
+                <TextView
+                    android:id="@+id/teamBName"
+                    android:textSize="15sp"
+                    android:text="Team B"
+                    android:gravity="center_vertical|center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:padding="5dp"
+            android:id="@+id/choosePanel">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="@string/header_set_positions"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.3"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <Button
+                android:id="@+id/btStartGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onStartGame"
+                android:padding="10dp"
+                android:text="@string/start_game"
+                android:textSize="30sp" />
+
+
+            <Button
+                android:id="@+id/btNextTurn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onNextTurn"
+                android:padding="10dp"
+                android:text="@string/next_turn"
+                android:textSize="30sp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
 
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:padding="20dp">
 
@@ -28,7 +154,6 @@
             android:id="@+id/positionsField"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#fff"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,6 +161,8 @@
             app:layout_constraintDimensionRatio="1"/>
 
     </android.support.constraint.ConstraintLayout>
+
+
 
 
 

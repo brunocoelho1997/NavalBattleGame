@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="horizontal"
     tools:context=".Menu.MainActivity"
-    android:background="#FFDB8E">
+    android:background="#96beff">
 
     <LinearLayout
         android:layout_width="0dp"

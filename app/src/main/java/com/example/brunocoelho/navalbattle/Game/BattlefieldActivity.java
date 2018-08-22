@@ -90,6 +90,15 @@ public class BattlefieldActivity extends Activity {
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             navalBattleGame = (NavalBattleGame) savedInstanceState.getSerializable("restoredNavalBattleGame");
+
+            if(navalBattleGame.isStarted())
+            {
+                Button buttonNextTurn = findViewById(R.id.btNextTurn);
+                Button buttonStartGame = findViewById(R.id.btStartGame);
+
+                buttonNextTurn.setVisibility(View.VISIBLE);
+                buttonStartGame.setVisibility(View.GONE);
+            }
         } else {
             // when is new game...
             navalBattleGame = (NavalBattleGame)getIntent().getSerializableExtra("navalBattleGame");
@@ -335,6 +344,7 @@ public class BattlefieldActivity extends Activity {
             buttonNextTurn.setVisibility(View.VISIBLE);
 
 
+
             //if only 1 player....
             if(!navalBattleGame.isTwoPlayer())
                 navalBattleGame.setAIPositions();
@@ -555,8 +565,6 @@ public class BattlefieldActivity extends Activity {
             Log.d("commThread", "Received the profile: " + profile);
 
 
-
-
             procMsg.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -572,8 +580,6 @@ public class BattlefieldActivity extends Activity {
                     ((TextView)linearLayout.getChildAt(1)).setText(profile.getName());
                 }
             }, Constants.DELAY);
-
-
 
         }
         else if(jsonReceived.contains(Constants.CLASS_TEAM))

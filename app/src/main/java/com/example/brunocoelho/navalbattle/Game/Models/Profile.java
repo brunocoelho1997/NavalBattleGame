@@ -12,6 +12,7 @@ public class Profile implements Serializable{
     private String name;
     private boolean selected;
     private ArrayList<History> historyList;
+    private String filePathPhoto;
 
 
     public Profile(String name) {
@@ -93,6 +94,15 @@ public class Profile implements Serializable{
 
         return true;
     }
+
+    public String getFilePathPhoto() {
+        return filePathPhoto;
+    }
+
+    public void setFilePathPhoto(String filePathPhoto) {
+        this.filePathPhoto = filePathPhoto;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +

@@ -1,11 +1,14 @@
 package com.example.brunocoelho.navalbattle.Profiles;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Profile;
@@ -30,6 +33,7 @@ public class NewProfileActivity extends Activity {
     public void onCreateProfile(View v) {
         if(validations()) {
             Profile p = new Profile(name);
+            p.setFilePathPhoto(filePath);
             Intent intent = new Intent();
             intent.putExtra("NewProfile", p);
             setResult(RESULT_OK, intent);
@@ -60,15 +64,26 @@ public class NewProfileActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d("onTakePhoto", "aqui");
-
-
         if(requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                if(data.hasExtra("NewProfile")) {
+                if(data.hasExtra("filePath")) {
 
-                    Log.d("onTakePhoto", (String) data.getSerializableExtra("NewProfile"));
+                    Log.d("onTakePhoto", (String) data.getSerializableExtra("filePath"));
 
+                    filePath = (String) data.getSerializableExtra("filePath");
+
+                    java.io.File imgFile = new  java.io.File(filePath);
+
+                    if(imgFile.exists()){
+
+                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                        ImageView myImage = (ImageView) findViewById(R.id.ivPhoto);
+
+                        myImage.setImageBitmap(myBitmap);
+
+
+                    }
                 }
             }
         }

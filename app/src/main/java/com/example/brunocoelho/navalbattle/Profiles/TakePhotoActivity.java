@@ -232,7 +232,7 @@ public class TakePhotoActivity extends Activity {
 //                    Toast.makeText(TakePhotoActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
 //                    createCameraPreview();
 
-//                    Toast.makeText(TakePhotoActivity.this, "JA GRUARDOU O FICHEIRO CARALHO: "+file, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(TakePhotoActivity.this, "JA GRUARDOU O FICHEIRO: "+file, Toast.LENGTH_SHORT).show();
 
                     procMsg.postDelayed(new Runnable() {
                         @Override
@@ -241,11 +241,11 @@ public class TakePhotoActivity extends Activity {
                             procMsg.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(TakePhotoActivity.this, "vou fechar caralho: "+file, Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(TakePhotoActivity.this, "vou fechar: "+file, Toast.LENGTH_SHORT).show();
                                     //todo: ainda da' uns warnings no log... ter atencao
 
                                     Intent intent = new Intent();
-                                    intent.putExtra("NewProfile", file.getPath());
+                                    intent.putExtra("filePath", file.getPath());
                                     setResult(RESULT_OK, intent);
                                     cameraDevice.close();
                                     finish();

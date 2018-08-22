@@ -10,6 +10,11 @@
     android:padding="20dp"
     tools:context=".Profiles.NewProfileActivity">
 
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:id="@+id/ivPhoto"
+        />
     <Button
         android:id="@+id/btTakePhoto"
         android:layout_width="wrap_content"

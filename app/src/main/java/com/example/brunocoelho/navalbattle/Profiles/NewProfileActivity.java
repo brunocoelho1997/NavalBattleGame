@@ -19,6 +19,7 @@ public class NewProfileActivity extends Activity {
 
     private String stringAux;
 
+    String filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,8 @@ public class NewProfileActivity extends Activity {
 
     public void onTakePhoto(View v) {
         Intent intent = new Intent(this, TakePhotoActivity.class);
-        startActivity(intent);
+
+        startActivityForResult(intent, 1);
         Log.d("onTakePhoto", "Aderi onTakePhoto");
     }
 
@@ -58,16 +60,18 @@ public class NewProfileActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d("onTakePhoto", "aqui");
+
+
         if(requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                if(data.hasExtra("aqui")) {
-//                    Log.d("onActivityResult", "pathName:" + (String)data.getSerializableExtra("pathName"));
-                    Log.d("onActivityResult", "aqui:" + data.getSerializableExtra("aqui"));
+                if(data.hasExtra("NewProfile")) {
+
+                    Log.d("onTakePhoto", (String) data.getSerializableExtra("NewProfile"));
 
                 }
             }
         }
     }
-
 
 }

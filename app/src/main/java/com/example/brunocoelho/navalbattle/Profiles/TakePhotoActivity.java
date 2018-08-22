@@ -4,6 +4,7 @@ package com.example.brunocoelho.navalbattle.Profiles;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -32,6 +33,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.brunocoelho.navalbattle.Game.Constants;
+import com.example.brunocoelho.navalbattle.Game.Models.Message;
 import com.example.brunocoelho.navalbattle.R;
 
 import java.io.File;
@@ -55,6 +58,9 @@ public class TakePhotoActivity extends Activity {
 
     private String stringAux;
 
+    Handler procMsg = null;
+
+    String filePath;
 
     //Check state orientation of output image
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
@@ -121,6 +127,9 @@ public class TakePhotoActivity extends Activity {
                 takePicture();
             }
         });
+
+        procMsg = new Handler();
+
     }
 
     private void takePicture() {
@@ -193,6 +202,10 @@ public class TakePhotoActivity extends Activity {
 
 
 //                                finish();
+
+//                                cameraDevice.close();
+//                                Toast.makeText(TakePhotoActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
+//                                finish();
                             }
 
                         }
@@ -216,8 +229,32 @@ public class TakePhotoActivity extends Activity {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(TakePhotoActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
-                    createCameraPreview();
+//                    Toast.makeText(TakePhotoActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
+//                    createCameraPreview();
+
+//                    Toast.makeText(TakePhotoActivity.this, "JA GRUARDOU O FICHEIRO CARALHO: "+file, Toast.LENGTH_SHORT).show();
+
+                    procMsg.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            procMsg.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(TakePhotoActivity.this, "vou fechar caralho: "+file, Toast.LENGTH_SHORT).show();
+                                    //todo: ainda da' uns warnings no log... ter atencao
+
+                                    Intent intent = new Intent();
+                                    intent.putExtra("NewProfile", file.getPath());
+                                    setResult(RESULT_OK, intent);
+                                    cameraDevice.close();
+                                    finish();
+                                }
+                            });
+
+                        }
+                    }, Constants.DELAY);
+
                 }
             };
 
@@ -367,8 +404,6 @@ public class TakePhotoActivity extends Activity {
             mBackgroundThread.join();
             mBackgroundThread= null;
             mBackgroundHandler = null;
-
-
 
         } catch (InterruptedException e) {
             e.printStackTrace();

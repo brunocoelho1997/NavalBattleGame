@@ -11,36 +11,26 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Message;
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
-import com.example.brunocoelho.navalbattle.Game.Models.Profile;
-import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
-import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipFive;
-import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipOne;
-import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipThree;
-import com.example.brunocoelho.navalbattle.Game.Models.Ships.ShipTwo;
+import com.example.brunocoelho.navalbattle.Profiles.Profile;
 import com.example.brunocoelho.navalbattle.Game.Models.Team;
-import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
-import com.example.brunocoelho.navalbattle.Game.BattlefieldView;
 import com.example.brunocoelho.navalbattle.Profiles.Result;
 import com.example.brunocoelho.navalbattle.R;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -50,12 +40,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.example.brunocoelho.navalbattle.Game.Constants.PORT;
 import static com.example.brunocoelho.navalbattle.Game.Constants.SERVER;
@@ -66,6 +51,7 @@ public class BattlefieldActivity extends Activity {
     private BattlefieldView battlefieldView;
     private NavalBattleGame navalBattleGame;
 
+    private Context context;
 
     //online
     ServerSocket serverSocket=null;
@@ -85,6 +71,7 @@ public class BattlefieldActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battlefield);
 
+        this.context = getBaseContext();
 
         // Check whether we're recreating a previously destroyed instance
         if (savedInstanceState != null) {
@@ -110,7 +97,7 @@ public class BattlefieldActivity extends Activity {
             mode = intent.getIntExtra("mode", SERVER);
 
 
-        Log.d("MINHA", "onCreate:" + mode);
+//        Log.d("MINHA", "onCreate:" + mode);
 
         if(navalBattleGame.isTwoPlayer())
         {
@@ -146,12 +133,36 @@ public class BattlefieldActivity extends Activity {
         LinearLayout teamBPanel = findViewById(R.id.teamBPanel);
 
         TextView textView = teamAPanel.findViewById(R.id.teamAName);
+        ImageView imageView = teamAPanel.findViewById(R.id.teamAImage);
         if(navalBattleGame.getProfileTeamA()!= null)
+        {
             textView.setText(navalBattleGame.getProfileTeamA().getName());
+            if(navalBattleGame.getProfileTeamA().getFilePathPhoto()!=null) {
+                try {
+                    imageView.setImageBitmap(navalBattleGame.getProfileTeamA().getImage(context,50,50));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         textView = teamBPanel.findViewById(R.id.teamBName);
+        imageView = teamBPanel.findViewById(R.id.teamBImage);
         if(navalBattleGame.getProfileTeamB()!= null)
+        {
             textView.setText(navalBattleGame.getProfileTeamB().getName());
+
+            if(!navalBattleGame.isTwoPlayer())
+                imageView.setBackgroundResource(Constants.ICON_AI);
+            else
+            {
+                try {
+                    imageView.setImageBitmap(navalBattleGame.getProfileTeamB().getImage(context,50,50));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 

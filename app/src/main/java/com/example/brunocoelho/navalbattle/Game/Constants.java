@@ -24,6 +24,7 @@ public class Constants {
 
 
     public static final String NAME_PROFILE_AI= "Android";
+    public static final int ICON_AI= R.drawable.offline;
 
 
 

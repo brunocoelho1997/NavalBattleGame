@@ -238,20 +238,14 @@ public class TakePhotoActivity extends Activity {
                         @Override
                         public void run() {
 
-                            procMsg.post(new Runnable() {
-                                @Override
-                                public void run() {
 //                                    Toast.makeText(TakePhotoActivity.this, "vou fechar: "+file, Toast.LENGTH_SHORT).show();
-                                    //todo: ainda da' uns warnings no log... ter atencao
+                            //todo: ainda da' uns warnings no log... ter atencao
 
-                                    Intent intent = new Intent();
-                                    intent.putExtra("filePath", file.getPath());
-                                    setResult(RESULT_OK, intent);
-                                    cameraDevice.close();
-                                    finish();
-                                }
-                            });
-
+                            Intent intent = new Intent();
+                            intent.putExtra("filePath", file.getPath());
+                            setResult(RESULT_OK, intent);
+                            cameraDevice.close();
+                            finish();
                         }
                     }, Constants.DELAY);
 

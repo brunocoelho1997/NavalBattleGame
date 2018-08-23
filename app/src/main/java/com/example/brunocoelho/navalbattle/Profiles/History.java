@@ -1,7 +1,5 @@
 package com.example.brunocoelho.navalbattle.Profiles;
 
-import com.example.brunocoelho.navalbattle.Game.Models.Profile;
-
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;

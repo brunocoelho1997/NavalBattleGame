@@ -7,15 +7,13 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.Game.Models.Position;
-import com.example.brunocoelho.navalbattle.Game.Models.Profile;
+import com.example.brunocoelho.navalbattle.Profiles.Profile;
 import com.example.brunocoelho.navalbattle.Game.Models.Ships.Ship;
 import com.example.brunocoelho.navalbattle.Profiles.File;
 import com.example.brunocoelho.navalbattle.Profiles.History;
@@ -23,7 +21,6 @@ import com.example.brunocoelho.navalbattle.Profiles.Result;
 import com.example.brunocoelho.navalbattle.R;
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;

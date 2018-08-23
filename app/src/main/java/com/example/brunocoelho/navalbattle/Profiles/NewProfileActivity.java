@@ -11,9 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 import com.example.brunocoelho.navalbattle.R;
-import com.example.brunocoelho.navalbattle.Profiles.TakePhotoActivity;
 
 public class NewProfileActivity extends Activity {
 

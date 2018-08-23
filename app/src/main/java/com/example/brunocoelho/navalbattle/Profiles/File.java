@@ -1,17 +1,13 @@
 package com.example.brunocoelho.navalbattle.Profiles;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
-
-import com.example.brunocoelho.navalbattle.Game.Models.Profile;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static com.example.brunocoelho.navalbattle.Game.Constants.FILE_NAME;
 

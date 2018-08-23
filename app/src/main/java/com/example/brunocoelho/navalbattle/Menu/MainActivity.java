@@ -10,13 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.brunocoelho.navalbattle.Game.Models.Profile;
+import com.example.brunocoelho.navalbattle.Profiles.Profile;
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.Profiles.File;
 import com.example.brunocoelho.navalbattle.Profiles.ProfilesListActivity;
 import com.example.brunocoelho.navalbattle.R;
-
-import javax.xml.datatype.Duration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context = getBaseContext();
+        this.context = getBaseContext();
 
         navalBattleGame = new NavalBattleGame();
 

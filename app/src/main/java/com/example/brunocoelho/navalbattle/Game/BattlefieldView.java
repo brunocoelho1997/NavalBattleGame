@@ -21,6 +21,8 @@ import com.example.brunocoelho.navalbattle.Profiles.Result;
 import com.example.brunocoelho.navalbattle.R;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +34,12 @@ public class BattlefieldView extends View{
 
 
 
-    private PrintWriter output;
+    private ObjectOutputStream output;
 
     private Context context;
 
 
-    public BattlefieldView(Context context, NavalBattleGame navalBattleGame, PrintWriter output) {
+    public BattlefieldView(Context context, NavalBattleGame navalBattleGame, ObjectOutputStream output) {
         super(context);
         this.navalBattleGame = navalBattleGame;
         this.context = context;
@@ -362,8 +364,13 @@ public class BattlefieldView extends View{
                 if(navalBattleGame.isTwoPlayer())
                     paintTempFiredPositions(canvas);
             }
-            if(navalBattleGame.verifyEndOfGame())
-                createAlertDialog();
+            if(navalBattleGame.verifyEndOfGame()) {
+                try {
+                    createAlertDialog();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         //if the game has not started yet or user may choice new position to as ship.. show all game to user change positions
         else
@@ -383,7 +390,7 @@ public class BattlefieldView extends View{
     }
 
 
-    private void createAlertDialog() {
+    private void createAlertDialog() throws IOException {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         int str;
 
@@ -459,7 +466,7 @@ public class BattlefieldView extends View{
 
 //                    Log.d("sendPosition", "jsonPosition: " + jsonPosition);
 
-                    output.println(jsonObject);
+                    output.writeObject(jsonObject);
                     output.flush();
 //                    Log.d("sendPosition", "Sent position");
 
@@ -471,7 +478,7 @@ public class BattlefieldView extends View{
         t.start();
     }
 
-    public void setOutput(PrintWriter output) {
+    public void setOutput(ObjectOutputStream output) {
         this.output = output;
     }
 }

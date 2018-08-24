@@ -1,16 +1,21 @@
 package com.example.brunocoelho.navalbattle.Game;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
+import android.os.StrictMode;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,10 +34,18 @@ import com.example.brunocoelho.navalbattle.Profiles.Result;
 import com.example.brunocoelho.navalbattle.R;
 import com.google.gson.Gson;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -40,6 +53,7 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.security.Permission;
 import java.util.Enumeration;
 
 import static com.example.brunocoelho.navalbattle.Game.Constants.PORT;
@@ -56,8 +70,8 @@ public class BattlefieldActivity extends Activity {
     //online
     ServerSocket serverSocket=null;
     Socket socketGame = null;
-    BufferedReader input = null;
-    PrintWriter output = null;
+    ObjectInputStream input = null;
+    ObjectOutputStream output = null;
 
     int mode = SERVER;
     Handler procMsg = null;
@@ -125,7 +139,6 @@ public class BattlefieldActivity extends Activity {
         frameLayout.addView(battlefieldView);
 
         setProfilePanels();
-
     }
 
     private void setProfilePanels() {
@@ -144,6 +157,13 @@ public class BattlefieldActivity extends Activity {
                     e.printStackTrace();
                 }
             }
+
+            //its AI thus we need to define the icon...
+            if(!navalBattleGame.isTwoPlayer() && !navalBattleGame.isAmITeamA())
+            {
+                imageView.setImageResource(0);
+                imageView.setBackgroundResource(Constants.ICON_AI);
+            }
         }
 
         textView = teamBPanel.findViewById(R.id.teamBName);
@@ -152,15 +172,21 @@ public class BattlefieldActivity extends Activity {
         {
             textView.setText(navalBattleGame.getProfileTeamB().getName());
 
-            if(!navalBattleGame.isTwoPlayer())
-                imageView.setBackgroundResource(Constants.ICON_AI);
-            else
+
+            if(navalBattleGame.getProfileTeamB().getFilePathPhoto()!=null)
             {
                 try {
                     imageView.setImageBitmap(navalBattleGame.getProfileTeamB().getImage(context,50,50));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
+            }
+
+            //its AI thus we need to define the icon...
+            if(!navalBattleGame.isTwoPlayer() && navalBattleGame.isAmITeamA())
+            {
+                imageView.setImageResource(0);
+                imageView.setBackgroundResource(Constants.ICON_AI);
             }
         }
 
@@ -188,21 +214,31 @@ public class BattlefieldActivity extends Activity {
         }
     }
 
+
+
     private void sendProfile() {
 
         final Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Profile profile = navalBattleGame.getSelectedProfile();
+                    final Profile profile = navalBattleGame.getSelectedProfile();
 
                     String jsonProfile = gson.toJson(profile);
 
                     Log.d("sendProfile", "JSONProfile which will be send:" + jsonProfile);
 
-                    output.println(jsonProfile);
+                    output.writeObject(jsonProfile);
                     output.flush();
                     Log.d("sendProfile", "Sent profile");
+
+                    if(profile.getFilePathPhoto()!=null)
+                    {
+                        Log.d("sendProfile", "JSONProfile which will be send has an image in:" + profile.getFilePathPhoto());
+
+                        sendPhoto(profile.getFilePathPhoto());
+
+                    }
 
                 } catch (Exception e) {
                     Log.d("sendProfile", "Error sending a profile. Error: " + e);
@@ -224,7 +260,7 @@ public class BattlefieldActivity extends Activity {
                     //convert object to JSON
                     String jsonObject = gson.toJson(object);
                     //send json
-                    output.println(jsonObject);
+                    output.writeObject(jsonObject);
                     output.flush();
                     Log.d("sendObject", "Sent: " + object);
                 } catch (Exception e) {
@@ -494,9 +530,11 @@ public class BattlefieldActivity extends Activity {
         @Override
         public void run() {
             try {
-                input = new BufferedReader(new InputStreamReader(
-                        socketGame.getInputStream()));
-                output = new PrintWriter(socketGame.getOutputStream());
+//                input = new BufferedReader(new InputStreamReader(socketGame.getInputStream()));
+//                output = new PrintWriter(socketGame.getOutputStream());
+
+                output = new ObjectOutputStream(socketGame.getOutputStream());
+                input = new ObjectInputStream(socketGame.getInputStream());
 
 //                navalBattleGame.setInput(input);
 //                navalBattleGame.setOutput(output);
@@ -505,9 +543,15 @@ public class BattlefieldActivity extends Activity {
                 sendProfile();
 
                 while (!Thread.currentThread().isInterrupted()) {
-                    String read = input.readLine();
-                    processJSON(read);
-                    Log.d("commThread", "JSON received: " + read);
+
+                    final Object objectReceived = input.readObject();
+
+                    if(objectReceived instanceof String)
+                    {
+                        Log.d("commThread", "Received JSON: " + (String)objectReceived);
+                        processJSON((String)objectReceived);
+
+                    }
                 }
             } catch (Exception e) {
                 procMsg.post(new Runnable() {
@@ -523,21 +567,18 @@ public class BattlefieldActivity extends Activity {
 
                         Profile ai = navalBattleGame.generateAIProfile();
                         if(navalBattleGame.isAmITeamA())
-                        {
-                            ((TextView)findViewById(R.id.teamBName)).setText(ai.getName());
-                            navalBattleGame.getProfileTeamB().setName(ai.getName());
-                        }
-                        else
-                        {
-                            ((TextView)findViewById(R.id.teamAName)).setText(ai.getName());
-                            navalBattleGame.getProfileTeamA().setName(ai.getName());
-                        }
 
+                            navalBattleGame.setProfileTeamB(ai);
+
+                        else
+                            navalBattleGame.setProfileTeamA(ai);
 
                         Toast.makeText(getApplicationContext(),
                                 R.string.game_finished, Toast.LENGTH_LONG)
                                 .show();
                         navalBattleGame.setTwoPlayer(false);
+
+                        setProfilePanels();
 
                         //if isn't my turn to play... need to AI playing...
                         if(!navalBattleGame.isMyTurnToPlay())
@@ -568,27 +609,119 @@ public class BattlefieldActivity extends Activity {
         }
     });
 
+
+    int bytesRead;
+
+//    private void receivePhoto(byte[] buffer)
+//    {
+//
+//
+//            try {
+//
+//                String filePathPhoto;
+//
+//                if(navalBattleGame.isAmITeamA())
+//                    filePathPhoto = navalBattleGame.getProfileTeamB().getFilePathPhoto();
+//                else
+//                    filePathPhoto = navalBattleGame.getProfileTeamA().getFilePathPhoto();
+//
+//
+//                Log.d("receivePhoto", "filePathPhoto: " + filePathPhoto);
+//
+//
+//                if(os==null)
+//                {
+//                    Log.d("receivePhoto", "criei um file em:" + filePathPhoto);
+//                    java.io.File imageFile = new java.io.File(filePathPhoto);
+//                    imageFile.createNewFile();
+//                    os = new FileOutputStream(imageFile);
+//                }
+//
+//
+//
+//
+//
+//                if(buffer == null)
+//                {
+//                    //flush OutputStream to write any buffered data to file
+//                    os.flush();
+//                    os.close();
+////                    os = null;
+//
+//                    setProfilePanels();
+//                }
+//                else
+//                {
+//
+//                    bytesRead = buffer.length;
+//
+////                    if(Build.VERSION.SDK_INT>22){
+////                        requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+////                    }
+//
+//                    os.write(buffer, 0, bytesRead);
+//                }
+//
+//
+////                    //read from is to buffer
+////                    while((bytesRead = is.read(buffer)) !=-1){
+////                        os.write(buffer, 0, bytesRead);
+////                    }
+//
+//
+//
+//
+//            } catch (Exception e) {
+//                Log.d("receivePhoto", "Error receiving photo a profile. Error: " + e);
+//            }
+//
+//
+//
+//    }
+//
+////    @Override
+////    public void onRequestPermissionsResult(int requestCode,
+////                                           String permissions[], int[] grantResults) {
+////        switch (requestCode) {
+////            case 1: {
+////
+////                // If request is cancelled, the result arrays are empty.
+////                if (grantResults.length > 0
+////                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+////
+////                    // permission was granted, yay! Do the
+////                    // contacts-related task you need to do.
+////                } else {
+////
+////                    // permission denied, boo! Disable the
+////                    // functionality that depends on this permission.
+////                    Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+////                }
+////                return;
+////            }
+////
+////            // other 'case' lines to check for other
+////            // permissions this app might request
+////        }
+////    }
+
     private void processJSON(String jsonReceived) {
+
+        String bytes;
 
         if(jsonReceived.contains(Constants.CLASS_PROFILE))
         {
             final Profile profile = gson.fromJson(jsonReceived, Profile.class);
             Log.d("commThread", "Received the profile: " + profile);
 
+            if(profile.getFilePathPhoto()!=null)
+                receivePhoto(profile.getFilePathPhoto());
 
             procMsg.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     navalBattleGame.setProfile(profile);
-                    final LinearLayout linearLayout;
-
-                    if(navalBattleGame.isAmITeamA())
-                        linearLayout = findViewById(R.id.teamBPanel);
-                    else
-                        linearLayout = findViewById(R.id.teamAPanel);
-
-                    Log.d("commThread", "profile.getName(): " + profile.getName());
-                    ((TextView)linearLayout.getChildAt(1)).setText(profile.getName());
+                    setProfilePanels();
                 }
             }, Constants.DELAY);
 
@@ -677,6 +810,67 @@ public class BattlefieldActivity extends Activity {
         }
     }
 
+
+    private void receivePhoto(String filePathPhoto) {
+
+        try {
+            Log.d("receivePhoto", "receivePhoto: perfil com imagem");
+
+            java.io.File imageFile = new java.io.File(filePathPhoto);
+            imageFile.createNewFile();
+            FileOutputStream fout = null;
+            fout = new FileOutputStream(imageFile);
+
+            byte [] buffer = new byte[Constants.BYTES];
+            int nBytes;
+
+            while ((nBytes = input.read(buffer, 0, Constants.BYTES)) != -1) {
+                fout.write(buffer, 0, nBytes);
+                Log.d("receivePhoto", "receivePhoto: recebidos = " + nBytes + " bytes");
+            }
+
+            if (nBytes == -1) {
+                input.readObject();
+                Log.d("receivePhoto", "receivePhoto: fim da receção");
+            }
+
+            fout.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void sendPhoto(String filePathPhoto) {
+
+        try {
+            java.io.File imageFile = new java.io.File(filePathPhoto);
+            FileInputStream fin = null;
+            fin = new FileInputStream(imageFile);
+            byte [] buffer = new byte[Constants.BYTES];
+            int nBytes;
+            while ((nBytes = fin.read(buffer)) != -1) {
+                output.write(buffer, 0, nBytes);
+                output.flush();
+                Log.d("sendPhoto", "sendPhoto: enviados = " + nBytes + " bytes");
+            }
+            fin.close();
+            Log.d("sendPhoto", "waitClient: ficheiro enviado");
+
+            output.writeObject(null);
+            output.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void onPause() {
         super.onPause();

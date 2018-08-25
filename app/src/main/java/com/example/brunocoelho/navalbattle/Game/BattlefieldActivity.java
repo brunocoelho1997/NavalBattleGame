@@ -278,6 +278,12 @@ public class BattlefieldActivity extends Activity {
         int duration = Toast.LENGTH_LONG;
         Toast toast = Toast.makeText(context, text, duration);
 
+
+        //if only 1 player....
+//        if(!navalBattleGame.isTwoPlayer())
+//            navalBattleGame.setAIPositions();
+
+
         if(navalBattleGame.existInvalidPositions())
             toast.show();
         else
@@ -392,9 +398,7 @@ public class BattlefieldActivity extends Activity {
 
 
 
-            //if only 1 player....
-//            if(!navalBattleGame.isTwoPlayer())
-//                navalBattleGame.setAIPositions();
+
 
             battlefieldView.invalidate();
         }

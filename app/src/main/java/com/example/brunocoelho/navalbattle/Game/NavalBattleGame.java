@@ -91,9 +91,10 @@ public class NavalBattleGame implements Serializable{
 
     public boolean existInvalidPositions()
     {
+        refreshInvalidPositions();
         return invalidPositions.size()!=0;
     }
-    public void refreshInvalidPositions(Ship selectedShip) {
+    public void refreshInvalidPositions() {
 
         invalidPositions = new ArrayList<>();
 
@@ -104,24 +105,30 @@ public class NavalBattleGame implements Serializable{
         else
             team = getTeamB();
 
-        for(Ship ship : team.getShips())
-        {
 
-            //colision with another ship
-            for(Position position: ship.getPositionList())
-            {
-                //if exist a ship that constains this position and isnt't the selected one...
-                if(selectedShip.getPositionList().contains(position) && !selectedShip.equals(ship))
-                    invalidPositions.add(position);
+        for(Ship ship : team.getShips()){
 
-            }
+            for(Ship otherShip : team.getShips()){
 
-            //adjacent positions
-            for(Position position: ship.getAdjacentPositions())
-            {
-                //if exist a ship that constains this position and isnt't the selected one...
-                if(selectedShip.getPositionList().contains(position) && !selectedShip.equals(ship))
-                    invalidPositions.add(position);
+                if(otherShip.equals(ship))
+                    break;
+
+                //colision with another ship
+                for(Position position: ship.getPositionList())
+                {
+                    //if exist a ship that constains this position and isnt't the selected one...
+                    if(otherShip.getPositionList().contains(position))
+                        invalidPositions.add(position);
+                }
+
+                //adjacent positions
+                for(Position position: ship.getAdjacentPositions())
+                {
+                    //if exist a ship that constains this position and isnt't the selected one...
+                    if(otherShip.getPositionList().contains(position))
+                        invalidPositions.add(position);
+                }
+
             }
         }
     }
@@ -130,6 +137,50 @@ public class NavalBattleGame implements Serializable{
 
     public void setAIPositions() {
 
+        Team team = getTeamB();
+        int min = 1, max = 8;
+        int letter, number;
+        int i;
+
+        setAmITeamA(false);
+
+
+        Position initialPosition;
+        for(Ship ship : team.getShips())
+        {
+
+            i=1000;
+            while(i>0)
+            {
+
+                letter = ThreadLocalRandom.current().nextInt(min, max + 1);
+                number = ThreadLocalRandom.current().nextInt(min, max + 1);
+
+
+                initialPosition = ship.getPointPosition();
+
+                ship.setPointPosition(new Position(number,letter));
+
+                refreshInvalidPositions();
+
+                //se tiver invalid positions ou nao estiver dentro da view (sem estar em cima de letras e numeros (algumas das suas posicoes da ship))...
+                if(!invalidPositions.isEmpty() || !isInsideView(ship))
+                    ship.setPointPosition(initialPosition);
+                else
+                {
+                    Log.d("setAIPositions","Found new position to the ship: " + ship);
+                    i = 0;
+                    break;
+                }
+
+                i--;
+            }
+        }
+        setAmITeamA(true);
+        invalidPositions.clear();
+
+
+        Log.d("setAIPositions","setAIPositions: " + team);
 
     }
 
@@ -577,7 +628,7 @@ public class NavalBattleGame implements Serializable{
                 else
                     selectedShip.setPointPosition(lasValidPosition);
 
-                refreshInvalidPositions(selectedShip);
+                refreshInvalidPositions();
 
             }
 
@@ -629,7 +680,7 @@ public class NavalBattleGame implements Serializable{
                 else
                     selectedShip.setPointPosition(lasValidPosition);
 
-                refreshInvalidPositions(selectedShip);
+                refreshInvalidPositions();
 
 //                if current team may change a ship position...
                 if(isMayChangeShipPosition())
@@ -645,7 +696,7 @@ public class NavalBattleGame implements Serializable{
                         Log.d("onUp", "tried to change position but exists an invalid Positions");
 
                         selectedShip.setPointPosition(initialPositionShip);
-                        refreshInvalidPositions(selectedShip);
+                        refreshInvalidPositions();
                     }
                 }
                 selectedShip = null;

@@ -280,8 +280,8 @@ public class BattlefieldActivity extends Activity {
 
 
         //if only 1 player....
-//        if(!navalBattleGame.isTwoPlayer())
-//            navalBattleGame.setAIPositions();
+        if(!navalBattleGame.isTwoPlayer())
+            navalBattleGame.setAIPositions();
 
 
         if(navalBattleGame.existInvalidPositions())

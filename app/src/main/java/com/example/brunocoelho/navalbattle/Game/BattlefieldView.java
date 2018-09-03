@@ -366,7 +366,7 @@ public class BattlefieldView extends View{
             }
             if(navalBattleGame.verifyEndOfGame()) {
                 try {
-                    createAlertDialog();
+                    createAlertDialogEndOfGame();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -390,7 +390,7 @@ public class BattlefieldView extends View{
     }
 
 
-    private void createAlertDialog() throws IOException {
+    private void createAlertDialogEndOfGame() throws IOException {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         int str;
 
@@ -405,9 +405,6 @@ public class BattlefieldView extends View{
             navalBattleGame.getHistory().setWinner(Result.TeamB);
         }
         updateHistory();
-
-        if(navalBattleGame.isTwoPlayer())
-            output.close();
 
         builder
                 .setTitle(R.string.end_game)

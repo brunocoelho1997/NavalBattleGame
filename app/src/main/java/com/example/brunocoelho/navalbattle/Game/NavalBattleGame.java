@@ -161,6 +161,9 @@ public class NavalBattleGame implements Serializable{
 
                 ship.setPointPosition(new Position(number,letter));
 
+                if(Math.random() < 0.5)
+                    ship.rotate();
+
                 refreshInvalidPositions();
 
                 //se tiver invalid positions ou nao estiver dentro da view (sem estar em cima de letras e numeros (algumas das suas posicoes da ship))...
@@ -172,6 +175,23 @@ public class NavalBattleGame implements Serializable{
                     i = 0;
                     break;
                 }
+
+
+                ship.rotate();
+                refreshInvalidPositions();
+
+                //se tiver invalid positions ou nao estiver dentro da view (sem estar em cima de letras e numeros (algumas das suas posicoes da ship))...
+                if(!invalidPositions.isEmpty() || !isInsideView(ship))
+                    ship.setPointPosition(initialPosition);
+                else
+                {
+                    Log.d("setAIPositions","Found new position to the ship: " + ship);
+                    i = 0;
+                    break;
+                }
+
+
+
 
                 i--;
             }
@@ -238,7 +258,8 @@ public class NavalBattleGame implements Serializable{
         positionList.add(new Position(3,2));
         positionList.add(new Position(3,3));
         teamA.add(createShip(positionList));
-//        teamB.add(createShip(positionList));
+        teamB.add(createShip(positionList));
+
 
         //2x3
         positionList = new ArrayList<>();
@@ -252,7 +273,7 @@ public class NavalBattleGame implements Serializable{
         positionList.add(new Position(5,2));
         positionList.add(new Position(5,3));
         teamA.add(createShip(positionList));
-//        teamB.add(createShip(positionList));
+        teamB.add(createShip(positionList));
 
         //1x5 T
         positionList = new ArrayList<>();
@@ -262,7 +283,7 @@ public class NavalBattleGame implements Serializable{
         positionList.add(new Position(6,6));
         positionList.add(new Position(7,6));
         teamA.add(createShip(positionList));
-//        teamB.add(createShip(positionList));
+        teamB.add(createShip(positionList));
     }
 
     public void addFiredPosition(Position onUpPosition) {

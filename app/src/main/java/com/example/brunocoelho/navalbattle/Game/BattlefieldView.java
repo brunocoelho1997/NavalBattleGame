@@ -425,11 +425,6 @@ public class BattlefieldView extends View{
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
-//                if(isTeamATurn())
-//
-//                    Log.d("verifyFiredPosition","TeamA won!!!");
-//                else
-//                    Log.d("verifyFiredPosition","TeamB won!!!");
     }
 
     private void updateHistory(){

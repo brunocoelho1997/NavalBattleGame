@@ -292,7 +292,12 @@ public class BattlefieldActivity extends Activity {
             //random - 0 or 1
             //se eu sou a equipa B e estamos a jogar c 2 jogadores nao fazer... pq ja recebeu por mensagem quem e' a vez de jogar...
             if(navalBattleGame.isAmITeamA() && navalBattleGame.isTwoPlayer() || !navalBattleGame.isTwoPlayer())
-                navalBattleGame.setTeamATurn(Math.random() < 0.5);
+            {
+                boolean aux = Math.random() < 0.5;
+                Log.d("Math.random()", "Math.random()=" + aux);
+
+                navalBattleGame.setTeamATurn(aux);
+            }
 
             if(!navalBattleGame.isTwoPlayer())
                 navalBattleGame.startGame();

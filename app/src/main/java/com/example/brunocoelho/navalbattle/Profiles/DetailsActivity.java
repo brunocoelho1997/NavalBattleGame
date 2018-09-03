@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.brunocoelho.navalbattle.R;
 
+import java.io.FileNotFoundException;
+
 public class DetailsActivity extends Activity {
 
     private Context context;
@@ -41,6 +43,15 @@ public class DetailsActivity extends Activity {
 
         tvName.setText(profile.getName());
 //        img.setImageResource(perfil.getImg());
+        if(profile.getFilePathPhoto()!=null)
+        {
+            try {
+                img.setImageBitmap(profile.getImage(context,200,200));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         if(profile.hasHistory()) {
             sh.setVisibility(View.GONE);

@@ -52,6 +52,7 @@
     <string name="credits_teacher">Teacher: Álvaro Santos</string>
     <string name="credits_institute">Institute of Engineering of Coimbra</string>
     <string name="ai_setted_positions">AI positioned the ships</string>
+    <string name="capture">CAPTURE</string>
 
 
 </resources>

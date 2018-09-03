@@ -412,7 +412,15 @@ public class BattlefieldView extends View{
                 .setMessage(str)
                 .setPositiveButton(R.string.new_game, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        ((Activity) context).finish();
+
+                        if(navalBattleGame.isTwoPlayer()) {
+                            try {
+                                output.close();
+                                ((Activity) context).finish();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 });
         AlertDialog dialog = builder.create();
@@ -424,7 +432,7 @@ public class BattlefieldView extends View{
 //                    Log.d("verifyFiredPosition","TeamB won!!!");
     }
 
-    private void updateHistory() {
+    private void updateHistory(){
         ArrayList<Profile> profiles = File.loadProfiles(getContext());
 
         Profile a = navalBattleGame.getProfileTeamA(), b = navalBattleGame.getProfileTeamB();
@@ -442,6 +450,10 @@ public class BattlefieldView extends View{
         File.saveProfiles(getContext(), profiles);
 
         Log.d("updateHistory", "history: " + navalBattleGame.getHistory());
+
+
+
+
 
     }
 

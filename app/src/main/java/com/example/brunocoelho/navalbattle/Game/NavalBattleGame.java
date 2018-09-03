@@ -47,10 +47,6 @@ public class NavalBattleGame implements Serializable{
     private boolean changedShipPosition;
     private History history;
 
-    //online
-    BufferedReader input;
-    PrintWriter output;
-
 
 
     public NavalBattleGame() {
@@ -834,22 +830,6 @@ public class NavalBattleGame implements Serializable{
             data.setTeamB(team);
         else
             data.setTeamA(team);
-    }
-
-    public BufferedReader getInput() {
-        return input;
-    }
-
-    public void setInput(BufferedReader input) {
-        this.input = input;
-    }
-
-    public PrintWriter getOutput() {
-        return output;
-    }
-
-    public void setOutput(PrintWriter output) {
-        this.output = output;
     }
 
 

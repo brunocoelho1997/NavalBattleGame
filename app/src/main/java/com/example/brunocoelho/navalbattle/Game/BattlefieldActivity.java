@@ -401,8 +401,10 @@ public class BattlefieldActivity extends Activity {
             Button buttonNextTurn = findViewById(R.id.btNextTurn);
             buttonNextTurn.setVisibility(View.VISIBLE);
 
-
-
+            if(navalBattleGame.isTeamATurn())
+                buttonNextTurn.setBackgroundColor(Color.parseColor("#98C1D9"));
+            else
+                buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
 
 
             battlefieldView.invalidate();
@@ -413,6 +415,15 @@ public class BattlefieldActivity extends Activity {
 
         if(navalBattleGame.isAvaibleNextTurn())
         {
+            Button buttonNextTurn = findViewById(R.id.btNextTurn);
+
+            if(navalBattleGame.isTeamATurn())
+                buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
+            else
+                buttonNextTurn.setBackgroundColor(Color.parseColor("#98C1D9"));
+
+
+
             navalBattleGame.setChangedShipPosition(false);
             navalBattleGame.setMayChangeShipPosition(false);
             navalBattleGame.nextTurn();

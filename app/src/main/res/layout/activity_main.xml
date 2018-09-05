@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="onNewGame"
                 android:fontFamily="@font/mastodontus"
-                />
+            />
 
         </LinearLayout>
 
@@ -66,8 +66,8 @@
             <Button
                 android:background="@null"
                 android:textColor="#3D5A80"
-                android:drawableRight="@drawable/profiles"
                 android:fontFamily="@font/mastodontus"
+                android:drawableRight="@drawable/profiles"
                 android:text="@string/profiles"
                 android:textSize="30sp"
                 android:id="@+id/btProfiles"

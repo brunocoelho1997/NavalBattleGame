@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu.CreditsActivity"
-    android:background="#E0FBFC"
+    android:background="#FCFBFA"
     android:orientation="vertical"
     >
 

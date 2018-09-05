@@ -402,7 +402,7 @@ public class BattlefieldActivity extends Activity {
             buttonNextTurn.setVisibility(View.VISIBLE);
 
             if(navalBattleGame.isTeamATurn())
-                buttonNextTurn.setBackgroundColor(Color.parseColor("#98C1D9"));
+                buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
             else
                 buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
 
@@ -420,7 +420,7 @@ public class BattlefieldActivity extends Activity {
             if(navalBattleGame.isTeamATurn())
                 buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
             else
-                buttonNextTurn.setBackgroundColor(Color.parseColor("#98C1D9"));
+                buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
 
 
 

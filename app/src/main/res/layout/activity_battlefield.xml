@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E0FBFC"
+    android:background="#FCFBFA"
 
     tools:context=".Game.BattlefieldActivity"
     android:orientation="vertical">
@@ -33,7 +33,7 @@
             android:layout_gravity="top"
             android:orientation="horizontal"
             android:id="@+id/teamAPanel"
-            android:background="#98C1D9"
+            android:background="#238EA6"
             >
 
             <ImageView
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_gravity="center"
-                android:textColor="#3D5A80"
+                android:textColor="#FCFBFA"
                 android:fontFamily="@font/mastodontus"/>
 
         </LinearLayout>
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_gravity="center"
-                android:textColor="#9b3922"
+                android:textColor="#FCFBFA"
                 android:fontFamily="@font/mastodontus"/>
 
         </LinearLayout>
@@ -143,7 +143,7 @@
 
 
     <Button
-        android:textColor="#E0FBFC"
+        android:textColor="#FCFBFA"
         android:fontFamily="@font/mastodontus"
 
         android:id="@+id/btNextTurn"

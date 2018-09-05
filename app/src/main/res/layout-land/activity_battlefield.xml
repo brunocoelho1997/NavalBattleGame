@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Game.BattlefieldActivity"
     android:orientation="horizontal"
-    android:background="#96beff">
+    android:background="#FCFBFA">
 
 
 
@@ -40,7 +40,7 @@
                 android:layout_gravity="top"
                 android:orientation="vertical"
                 android:id="@+id/teamAPanel"
-                android:background="#dbe0ff">
+                android:background="#238EA6">
 
                 <ImageView
                     android:layout_width="50dp"
@@ -56,7 +56,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textColor="#FCFBFA"
+                    android:fontFamily="@font/mastodontus"/>
 
             </LinearLayout>
             <LinearLayout
@@ -66,7 +68,7 @@
                 android:layout_gravity="right"
                 android:orientation="vertical"
                 android:id="@+id/teamBPanel"
-                android:background="#b95555">
+                android:background="#EE6C4D">
 
 
 
@@ -84,7 +86,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textColor="#FCFBFA"
+                    android:fontFamily="@font/mastodontus"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -100,7 +104,9 @@
                 android:layout_height="match_parent"
                 android:padding="10dp"
                 android:text="@string/header_set_positions"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:fontFamily="@font/mastodontus"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -111,6 +117,11 @@
             android:padding="10dp">
 
             <Button
+                android:background="@null"
+                android:textColor="#3D5A80"
+                android:drawableRight="@drawable/startgame"
+                android:fontFamily="@font/mastodontus"
+
                 android:id="@+id/btStartGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,6 +132,9 @@
 
 
             <Button
+                android:textColor="#FCFBFA"
+                android:fontFamily="@font/mastodontus"
+
                 android:id="@+id/btNextTurn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

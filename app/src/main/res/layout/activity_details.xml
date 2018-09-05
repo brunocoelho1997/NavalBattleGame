@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp"
-    android:background="#E0FBFC"
+    android:background="#FCFBFA"
     android:orientation="vertical"
 
     tools:context=".Profiles.DetailsActivity">
@@ -28,9 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="@string/name"
-            android:textColor="#293241"
-            android:textSize="30sp"
+            android:textColor="#3D5A80"
             android:fontFamily="@font/mastodontus"
+            android:textSize="20sp"
+            android:padding="10dp"
             />
     </LinearLayout>
 

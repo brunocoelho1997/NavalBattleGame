@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#96beff"
+    android:background="#E0FBFC"
     android:gravity="center_horizontal"
 
     android:orientation="vertical"
@@ -17,11 +17,16 @@
         android:id="@+id/ivPhoto"
         />
     <Button
+        android:background="@null"
+        android:textColor="#3D5A80"
+        android:drawableRight="@drawable/camera"
+        android:fontFamily="@font/mastodontus"
+        android:textSize="20sp"
+
         android:id="@+id/btTakePhoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="50dp"
-        android:paddingVertical="15dp"
+        android:paddingHorizontal="20sp"
         android:text="@string/take_photo"
         android:onClick="onTakePhoto"
         android:selectAllOnFocus="true" />
@@ -34,6 +39,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:fontFamily="@font/mastodontus"
+        android:textSize="20sp"
+
         android:text="@string/name"
         android:textColor="#000" />
 
@@ -56,6 +65,12 @@
         android:textAlignment="textEnd"/>
 
     <Button
+        android:background="@null"
+        android:textColor="#3D5A80"
+        android:fontFamily="@font/mastodontus"
+        android:textSize="20sp"
+        android:drawableRight="@drawable/createprofile"
+
         android:id="@+id/btCriarNovoPerfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

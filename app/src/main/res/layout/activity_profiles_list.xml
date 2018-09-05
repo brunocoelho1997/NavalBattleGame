@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Profiles.ProfilesListActivity"
-    android:background="#96beff"
+    android:background="#E0FBFC"
     >
 
     <ListView

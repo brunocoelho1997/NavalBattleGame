@@ -43,13 +43,15 @@
                 android:background="@null"
                 android:textColor="#3D5A80"
                 android:drawableRight="@drawable/newgame"
+                android:fontFamily="@font/mastodontus"
+
                 android:text="@string/new_game"
                 android:textSize="30sp"
                 android:id="@+id/btNewGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onNewGame"
-                android:fontFamily="@font/mastodontus"
+
             />
 
         </LinearLayout>

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="15dp"
-    android:background="#96beff"
+    android:background="#E0FBFC"
     >
 
     <ImageButton
@@ -31,14 +31,16 @@
             android:paddingRight="30dp">
 
             <Button
-                android:drawableRight="@drawable/offline"
+
                 android:background="@null"
-                android:textColor="#b98f71"
+                android:textColor="#3D5A80"
+                android:drawableRight="@drawable/offline"
+                android:fontFamily="@font/mastodontus"
+
                 android:id="@+id/btOfflineGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onOfflineGame"
-                android:padding="10dp"
                 android:text="@string/offline"
                 android:textSize="30sp" />
 
@@ -53,14 +55,15 @@
             android:paddingRight="30dp">
 
             <Button
-                android:drawableRight="@drawable/withfriends"
+
                 android:background="@null"
-                android:textColor="#b98f71"
+                android:textColor="#3D5A80"
+                android:fontFamily="@font/mastodontus"
+                android:drawableRight="@drawable/withfriends"
                 android:id="@+id/btOnlineGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onOnlineGame"
-                android:padding="10dp"
 
                 android:text="@string/online"
                 android:textSize="30sp" />

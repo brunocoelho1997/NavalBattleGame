@@ -20,7 +20,6 @@ public class Data implements Serializable{
     private boolean amITeamA;
     private boolean twoPlayer;
 
-    private Profile selectedProfile;
 
     public Data() {
         teamA = new Team();

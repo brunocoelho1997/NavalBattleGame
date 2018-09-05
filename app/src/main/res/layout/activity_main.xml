@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#96beff"
+    android:background="#E0FBFC"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".Menu.MainActivity">
@@ -40,16 +40,17 @@
             android:paddingRight="30dp">
 
             <Button
-                android:drawableRight="@drawable/newgame"
                 android:background="@null"
-                android:textColor="#b98f71"
+                android:textColor="#3D5A80"
+                android:drawableRight="@drawable/newgame"
                 android:text="@string/new_game"
                 android:textSize="30sp"
                 android:id="@+id/btNewGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onNewGame"
-                android:padding="10dp" />
+                android:fontFamily="@font/mastodontus"
+                />
 
         </LinearLayout>
 
@@ -63,9 +64,10 @@
             android:paddingRight="30dp">
 
             <Button
-                android:drawableRight="@drawable/profiles"
                 android:background="@null"
-                android:textColor="#b98f71"
+                android:textColor="#3D5A80"
+                android:drawableRight="@drawable/profiles"
+                android:fontFamily="@font/mastodontus"
                 android:text="@string/profiles"
                 android:textSize="30sp"
                 android:id="@+id/btProfiles"

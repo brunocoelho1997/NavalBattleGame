@@ -49,6 +49,7 @@
         <activity
             android:name=".Menu.CreditsActivity"
             android:label="@string/title_activity_credits"></activity>
+        <service android:enabled="true" android:name=".MusicService" />
     </application>
 
 </manifest>

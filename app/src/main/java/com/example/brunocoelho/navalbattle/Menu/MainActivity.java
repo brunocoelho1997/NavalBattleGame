@@ -2,6 +2,8 @@ package com.example.brunocoelho.navalbattle.Menu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.brunocoelho.navalbattle.MusicService;
 import com.example.brunocoelho.navalbattle.Profiles.Profile;
 import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.Profiles.File;
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         navalBattleGame = new NavalBattleGame();
 
+        Intent svc=new Intent(this, MusicService.class);
+        startService(svc);
 
     }
 
@@ -89,3 +94,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+

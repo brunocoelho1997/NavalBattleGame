@@ -31,13 +31,17 @@
             android:paddingRight="30dp">
 
             <Button
+                android:background="@null"
+                android:textColor="#3D5A80"
+                android:fontFamily="@font/mastodontus"
+                android:textSize="30sp"
+
                 android:id="@+id/btServer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onServer"
                 android:padding="10dp"
-                android:text="@string/server"
-                android:textSize="30sp" />
+                android:text="@string/server" />
 
         </LinearLayout>
 
@@ -50,13 +54,17 @@
             android:paddingRight="30dp">
 
             <Button
+                android:background="@null"
+                android:textColor="#3D5A80"
+                android:fontFamily="@font/mastodontus"
+                android:textSize="30sp"
+
                 android:id="@+id/btClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onClient"
                 android:padding="10dp"
-                android:text="@string/client"
-                android:textSize="30sp" />
+                android:text="@string/client" />
 
         </LinearLayout>
 

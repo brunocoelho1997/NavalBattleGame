@@ -21,5 +21,33 @@
     <string name="serverdlg_title">Batalha Naval Online</string>
     <string name="game_finished">O jogo acabou. O jogo vai continuar contra o smartphone.</string>
 
+    <string name="title_activity_profiles_list">Lista de Perfis</string>
+    <string name="delete_profile">Eliminar Perfil</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="delete_profile_title">Eliminar Perfil</string>
+    <string name="title_activity_new_profile">new_profile</string>
+    <string name="title_activity_new">NewActivity</string>
+    <string name="name">Nome</string>
+    <string name="required">Necessário</string>
+    <string name="create_profile">Criar Perfil</string>
+    <string name="take_photo">Tirar Foto</string>
+    <string name="title_activity_take_photo">TakePhotoActivity</string>
+    <string name="waiting_other_player">À espera de outro jogador...</string>
+    <string name="ai_fired_positions">Smartphone disparou.</string>
+    <string name="use_profile">Usar perfil</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="history_not_found">Sem histórico</string>
+    <string name="delete_profile_message">Eliminar Perfil</string>
+    <string name="details_profile">Detalhes</string>
+    <string name="choose_create_profile">Primeiro tem de escolher / criar um perfil.</string>
+    <string name="client_dlg_text">Escreva o IP do outro jogador.</string>
+    <string name="client_dlg_title">Ligar a Jogo</string>
+    <string name="title_activity_credits">CreditsActivity</string>
+    <string name="credits_title">Aplicações Móveis</string>
+    <string name="credits_teacher">Professor: Álvaro Santos</string>
+    <string name="credits_institute">Instituto Politécnico de Coimbra</string>
+    <string name="ai_setted_positions">O smartphone posicionou os barcos.</string>
+    <string name="capture">Capturar</string>
 
 </resources>

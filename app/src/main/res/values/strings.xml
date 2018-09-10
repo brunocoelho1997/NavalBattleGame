@@ -29,7 +29,7 @@
     <string name="delete_profile">Delete Profile</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="delete_profile_title">Delete Profile Title</string>
+    <string name="delete_profile_title">Delete Profile</string>
     <string name="title_activity_new_profile">new_profile</string>
     <string name="title_activity_new">NewActivity</string>
     <string name="name">Name</string>

@@ -30,10 +30,10 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp">
 
+
             <Button
                 android:background="@null"
                 android:textColor="#3D5A80"
-                android:fontFamily="@font/mastodontus"
                 android:textSize="30sp"
 
                 android:id="@+id/btServer"
@@ -56,7 +56,6 @@
             <Button
                 android:background="@null"
                 android:textColor="#3D5A80"
-                android:fontFamily="@font/mastodontus"
                 android:textSize="30sp"
 
                 android:id="@+id/btClient"

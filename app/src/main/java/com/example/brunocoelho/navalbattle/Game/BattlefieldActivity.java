@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -84,6 +85,16 @@ public class BattlefieldActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battlefield);
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/mastodontus.ttf");
+        ((TextView)findViewById(R.id.teamAName)).setTypeface(font);
+        ((TextView)findViewById(R.id.teamBName)).setTypeface(font);
+        ((TextView)findViewById(R.id.tvChoosePositions)).setTypeface(font);
+        ((Button)findViewById(R.id.btStartGame)).setTypeface(font);
+        ((Button)findViewById(R.id.btNextTurn)).setTypeface(font);
+
+
+
 
         this.context = getBaseContext();
 

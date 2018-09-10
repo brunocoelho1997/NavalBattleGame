@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -66,6 +67,11 @@ public class ProfilesListActivity extends AppCompatActivity {
             View layout = getLayoutInflater().inflate(R.layout.profiles_list_item,null);
 
             ((TextView)layout.findViewById(R.id.tvName_Profile_Item)).setText(profiles.get(i).getName());
+
+            Typeface font = Typeface.createFromAsset(getAssets(), "fonts/mastodontus.ttf");
+            ((TextView)layout.findViewById(R.id.tvName_Profile_Item)).setTypeface(font);
+
+
             try {
                 ((ImageView)layout.findViewById(R.id.ivProfile_Item)).setImageBitmap(profiles.get(i).getImage(context, 75,75));
             } catch (FileNotFoundException e) {

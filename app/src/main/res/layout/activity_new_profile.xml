@@ -20,7 +20,6 @@
         android:background="@null"
         android:textColor="#3D5A80"
         android:drawableRight="@drawable/camera"
-        android:fontFamily="@font/mastodontus"
         android:textSize="20sp"
 
         android:id="@+id/btTakePhoto"
@@ -39,10 +38,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:fontFamily="@font/mastodontus"
         android:textSize="20sp"
-
         android:text="@string/name"
         android:textColor="#000" />
 
@@ -67,7 +63,6 @@
     <Button
         android:background="@null"
         android:textColor="#3D5A80"
-        android:fontFamily="@font/mastodontus"
         android:textSize="20sp"
         android:drawableRight="@drawable/createprofile"
 

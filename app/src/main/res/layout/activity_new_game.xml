@@ -35,8 +35,6 @@
                 android:background="@null"
                 android:textColor="#3D5A80"
                 android:drawableRight="@drawable/offline"
-                android:fontFamily="@font/mastodontus"
-
                 android:id="@+id/btOfflineGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +56,6 @@
 
                 android:background="@null"
                 android:textColor="#3D5A80"
-                android:fontFamily="@font/mastodontus"
                 android:drawableRight="@drawable/withfriends"
                 android:id="@+id/btOnlineGame"
                 android:layout_width="match_parent"

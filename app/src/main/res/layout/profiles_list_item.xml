@@ -18,7 +18,6 @@
         android:padding="10dp"
         android:text="Name"
         android:textColor="#3D5A80"
-        android:fontFamily="@font/mastodontus"
         android:textSize="20sp"
         android:layout_weight="0.7"/>
 

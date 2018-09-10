@@ -2,6 +2,8 @@ package com.example.brunocoelho.navalbattle.Menu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.brunocoelho.navalbattle.MusicService;
@@ -18,6 +21,8 @@ import com.example.brunocoelho.navalbattle.Game.NavalBattleGame;
 import com.example.brunocoelho.navalbattle.Profiles.File;
 import com.example.brunocoelho.navalbattle.Profiles.ProfilesListActivity;
 import com.example.brunocoelho.navalbattle.R;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         this.context = getBaseContext();
 
         navalBattleGame = new NavalBattleGame();
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/mastodontus.ttf");
+        ((Button)findViewById(R.id.btNewGame)).setTypeface(font);
+        ((Button)findViewById(R.id.btProfiles)).setTypeface(font);
 
         Intent svc=new Intent(this, MusicService.class);
         startService(svc);

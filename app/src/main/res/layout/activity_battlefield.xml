@@ -51,8 +51,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_gravity="center"
-                android:textColor="#FCFBFA"
-                android:fontFamily="@font/mastodontus"/>
+                android:textColor="#FCFBFA"/>
 
         </LinearLayout>
         <LinearLayout
@@ -81,8 +80,7 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_gravity="center"
-                android:textColor="#FCFBFA"
-                android:fontFamily="@font/mastodontus"/>
+                android:textColor="#FCFBFA"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -95,11 +93,10 @@
         android:id="@+id/choosePanel">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tvChoosePositions"
+        android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:fontFamily="@font/mastodontus"
-
             android:text="@string/header_set_positions"
             android:textSize="30sp"/>
     </LinearLayout>
@@ -130,8 +127,6 @@
         android:background="@null"
         android:textColor="#3D5A80"
         android:drawableRight="@drawable/startgame"
-        android:fontFamily="@font/mastodontus"
-
         android:id="@+id/btStartGame"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
@@ -144,8 +139,6 @@
 
     <Button
         android:textColor="#FCFBFA"
-        android:fontFamily="@font/mastodontus"
-
         android:id="@+id/btNextTurn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

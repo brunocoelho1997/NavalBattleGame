@@ -57,8 +57,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:layout_gravity="center"
-                    android:textColor="#FCFBFA"
-                    android:fontFamily="@font/mastodontus"/>
+                    android:textColor="#FCFBFA"/>
 
             </LinearLayout>
             <LinearLayout
@@ -87,8 +86,7 @@
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:layout_gravity="center"
-                    android:textColor="#FCFBFA"
-                    android:fontFamily="@font/mastodontus"/>
+                    android:textColor="#FCFBFA"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -105,7 +103,6 @@
                 android:padding="10dp"
                 android:text="@string/header_set_positions"
                 android:textSize="20sp"
-                android:fontFamily="@font/mastodontus"
                 />
         </LinearLayout>
 
@@ -120,8 +117,6 @@
                 android:background="@null"
                 android:textColor="#3D5A80"
                 android:drawableRight="@drawable/startgame"
-                android:fontFamily="@font/mastodontus"
-
                 android:id="@+id/btStartGame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,8 +128,6 @@
 
             <Button
                 android:textColor="#FCFBFA"
-                android:fontFamily="@font/mastodontus"
-
                 android:id="@+id/btNextTurn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -29,18 +29,10 @@
             android:layout_margin="5dp"
             android:text="@string/name"
             android:textColor="#3D5A80"
-            android:fontFamily="@font/mastodontus"
             android:textSize="20sp"
             android:padding="10dp"
             />
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/lvHistory"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="#3D5A80"
-        android:fontFamily="@font/mastodontus"/>
 
 
     <TextView
@@ -50,8 +42,13 @@
         android:gravity="center"
         android:text="@string/history_not_found"
         android:textColor="#3D5A80"
-        android:fontFamily="@font/mastodontus"
         />
+
+    <ListView
+        android:id="@+id/lvHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="#3D5A80" />
 
 
 </LinearLayout>

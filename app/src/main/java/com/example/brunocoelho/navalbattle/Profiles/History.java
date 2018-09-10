@@ -8,7 +8,7 @@ public class History implements Serializable{
     private String profileTeamA;
     private String profileTeamB;
     private Calendar date;
-    private Result winner; // true - jogadorA - false - jogadorB;
+    private Result winner;
 
     public History() {
         winner = Result.NotDefined;

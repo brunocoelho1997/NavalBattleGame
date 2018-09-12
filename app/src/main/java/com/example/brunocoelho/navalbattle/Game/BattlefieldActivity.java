@@ -304,8 +304,9 @@ public class BattlefieldActivity extends Activity {
             //se eu sou a equipa B e estamos a jogar c 2 jogadores nao fazer... pq ja recebeu por mensagem quem e' a vez de jogar...
             if(navalBattleGame.isAmITeamA() && navalBattleGame.isTwoPlayer() || !navalBattleGame.isTwoPlayer())
             {
-                boolean aux = Math.random() < 0.5;
-                Log.d("Math.random()", "Math.random()=" + aux);
+//                boolean aux = Math.random() < 0.5;
+
+                boolean aux = true;
 
                 navalBattleGame.setTeamATurn(aux);
             }
@@ -412,10 +413,13 @@ public class BattlefieldActivity extends Activity {
             Button buttonNextTurn = findViewById(R.id.btNextTurn);
             buttonNextTurn.setVisibility(View.VISIBLE);
 
-            if(navalBattleGame.isMyTurnToPlay())
-                buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
-            else
-                buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
+
+            processNextTurnButton();
+
+//            if(navalBattleGame.isMyTurnToPlay())
+//                buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
+//            else
+//                buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
 
 
             battlefieldView.invalidate();
@@ -829,9 +833,9 @@ public class BattlefieldActivity extends Activity {
                         procMsg.post(new Runnable() {
                             @Override
                             public void run() {
+
                                 pd.dismiss();
                                 pd = null;
-//                                processNextTurnButton();
                                 battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
                             }
                         });
@@ -842,10 +846,14 @@ public class BattlefieldActivity extends Activity {
                 navalBattleGame.setTeamATurn(true);
                 processNextTurnButton();
 
+
+
                 break;
             case Constants.TEAM_A_TURN + "false":
                 navalBattleGame.setTeamATurn(false);
                 processNextTurnButton();
+
+
 
                 break;
             case Constants.NEXT_TURN:
@@ -878,6 +886,12 @@ public class BattlefieldActivity extends Activity {
             buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
         else
             buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
+
+//        if(!navalBattleGame.isMyTurnToPlay())
+//            buttonNextTurn.setText(R.string.waiting_other_player);
+//        else
+//            buttonNextTurn.setText(R.string.waiting_other_player);
+
     }
     private void receivePhoto(String filePathPhoto) {
 

@@ -304,9 +304,7 @@ public class BattlefieldActivity extends Activity {
             //se eu sou a equipa B e estamos a jogar c 2 jogadores nao fazer... pq ja recebeu por mensagem quem e' a vez de jogar...
             if(navalBattleGame.isAmITeamA() && navalBattleGame.isTwoPlayer() || !navalBattleGame.isTwoPlayer())
             {
-//                boolean aux = Math.random() < 0.5;
-
-                boolean aux = true;
+                boolean aux = Math.random() < 0.5;
 
                 navalBattleGame.setTeamATurn(aux);
             }
@@ -452,7 +450,10 @@ public class BattlefieldActivity extends Activity {
             battlefieldView.invalidate();
 
             if(navalBattleGame.isTwoPlayer())
+            {
+                buttonNextTurn.setText(R.string.waiting_other_player);
                 sendObject(new Message(Constants.NEXT_TURN));
+            }
         }
         else
         {
@@ -844,14 +845,23 @@ public class BattlefieldActivity extends Activity {
                 break;
             case Constants.TEAM_A_TURN + "true":
                 navalBattleGame.setTeamATurn(true);
-                processNextTurnButton();
 
-
-
+                procMsg.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        processNextTurnButton();
+                    }
+                });
                 break;
             case Constants.TEAM_A_TURN + "false":
                 navalBattleGame.setTeamATurn(false);
-                processNextTurnButton();
+
+                procMsg.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        processNextTurnButton();
+                    }
+                });
 
 
 
@@ -887,10 +897,10 @@ public class BattlefieldActivity extends Activity {
         else
             buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
 
-//        if(!navalBattleGame.isMyTurnToPlay())
-//            buttonNextTurn.setText(R.string.waiting_other_player);
-//        else
-//            buttonNextTurn.setText(R.string.waiting_other_player);
+        if(!navalBattleGame.isMyTurnToPlay())
+            buttonNextTurn.setText(R.string.waiting_other_player);
+        else
+            buttonNextTurn.setText(R.string.next_turn);
 
     }
     private void receivePhoto(String filePathPhoto) {

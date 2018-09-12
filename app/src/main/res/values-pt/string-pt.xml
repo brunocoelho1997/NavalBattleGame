@@ -49,5 +49,9 @@
     <string name="credits_institute">Instituto Politécnico de Coimbra</string>
     <string name="ai_setted_positions">O smartphone posicionou os barcos.</string>
     <string name="capture">Capturar</string>
+    <string name="fire_3_positions">Tem de disparar 3 posições.</string>
+    <string name="next_turn_ai_fired">A IA disparou. Próximo turno</string>
+
+
 
 </resources>

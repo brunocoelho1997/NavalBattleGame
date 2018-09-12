@@ -412,8 +412,7 @@ public class BattlefieldActivity extends Activity {
             Button buttonNextTurn = findViewById(R.id.btNextTurn);
             buttonNextTurn.setVisibility(View.VISIBLE);
 
-            //just do to single player game (when online is procced another method
-            if(navalBattleGame.isTeamATurn() && !navalBattleGame.isTwoPlayer())
+            if(navalBattleGame.isMyTurnToPlay())
                 buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
             else
                 buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
@@ -434,6 +433,13 @@ public class BattlefieldActivity extends Activity {
             else
                 buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
 
+            if(!navalBattleGame.isTwoPlayer())
+            {
+                if(navalBattleGame.isMyTurnToPlay())
+                    buttonNextTurn.setText(R.string.next_turn_ai_fired);
+                else
+                    buttonNextTurn.setText(R.string.next_turn);
+            }
 
 
             navalBattleGame.setChangedShipPosition(false);
@@ -443,6 +449,17 @@ public class BattlefieldActivity extends Activity {
 
             if(navalBattleGame.isTwoPlayer())
                 sendObject(new Message(Constants.NEXT_TURN));
+        }
+        else
+        {
+            if(navalBattleGame.isMyTurnToPlay())
+                Toast.makeText(getApplicationContext(),
+                        R.string.fire_3_positions, Toast.LENGTH_LONG)
+                        .show();
+            else
+                Toast.makeText(getApplicationContext(),
+                        R.string.waiting_other_player, Toast.LENGTH_LONG)
+                        .show();
         }
     }
 
@@ -589,52 +606,52 @@ public class BattlefieldActivity extends Activity {
                 procMsg.post(new Runnable() {
                     @Override
                     public void run() {
-                    //finish();
+                        //finish();
 
 
 
-                    //if isn't a winner defined the game continue
-                    if(navalBattleGame.getHistory().getWinner().equals(Result.NotDefined))
-                    {
-
-                        Profile ai = navalBattleGame.generateAIProfile();
-                        if(navalBattleGame.isAmITeamA())
-
-                            navalBattleGame.setProfileTeamB(ai);
-
-                        else
-                            navalBattleGame.setProfileTeamA(ai);
-
-                        Toast.makeText(getApplicationContext(),
-                                R.string.game_finished, Toast.LENGTH_LONG)
-                                .show();
-                        navalBattleGame.setTwoPlayer(false);
-
-                        setProfilePanels();
-
-                        //if isn't my turn to play... need to AI playing...
-                        if(!navalBattleGame.isMyTurnToPlay())
+                        //if isn't a winner defined the game continue
+                        if(navalBattleGame.getHistory().getWinner().equals(Result.NotDefined))
                         {
-                            int msg = R.string.ai_fired_positions;
 
-                            if(navalBattleGame.getOppositeTeam().isPositionedShips())
-                            {
-                                navalBattleGame.AIFire();
-                                msg = R.string.ai_fired_positions;
-                            }
+                            Profile ai = navalBattleGame.generateAIProfile();
+                            if(navalBattleGame.isAmITeamA())
+
+                                navalBattleGame.setProfileTeamB(ai);
+
                             else
-                            {
-                                navalBattleGame.setAIPositions();
-                                msg = R.string.ai_setted_positions;
-                            }
+                                navalBattleGame.setProfileTeamA(ai);
 
                             Toast.makeText(getApplicationContext(),
-                                    msg, Toast.LENGTH_LONG)
+                                    R.string.game_finished, Toast.LENGTH_LONG)
                                     .show();
+                            navalBattleGame.setTwoPlayer(false);
 
-                            battlefieldView.invalidate();
+                            setProfilePanels();
+
+                            //if isn't my turn to play... need to AI playing...
+                            if(!navalBattleGame.isMyTurnToPlay())
+                            {
+                                int msg = R.string.ai_fired_positions;
+
+                                if(navalBattleGame.getOppositeTeam().isPositionedShips())
+                                {
+                                    navalBattleGame.AIFire();
+                                    msg = R.string.ai_fired_positions;
+                                }
+                                else
+                                {
+                                    navalBattleGame.setAIPositions();
+                                    msg = R.string.ai_setted_positions;
+                                }
+
+                                Toast.makeText(getApplicationContext(),
+                                        msg, Toast.LENGTH_LONG)
+                                        .show();
+
+                                battlefieldView.invalidate();
+                            }
                         }
-                    }
                     }
                 });
             }
@@ -814,7 +831,7 @@ public class BattlefieldActivity extends Activity {
                             public void run() {
                                 pd.dismiss();
                                 pd = null;
-                                processNextTurnButton();
+//                                processNextTurnButton();
                                 battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
                             }
                         });
@@ -823,17 +840,27 @@ public class BattlefieldActivity extends Activity {
                 break;
             case Constants.TEAM_A_TURN + "true":
                 navalBattleGame.setTeamATurn(true);
+                processNextTurnButton();
+
                 break;
             case Constants.TEAM_A_TURN + "false":
                 navalBattleGame.setTeamATurn(false);
+                processNextTurnButton();
+
                 break;
             case Constants.NEXT_TURN:
 
                 procMsg.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        ((Button)findViewById(R.id.btNextTurn)).setText(R.string.next_turn);
+
                         navalBattleGame.nextTurn();
                         processNextTurnButton();
+
+
+
                         battlefieldView.invalidate();
                         navalBattleGame.setChangedShipPosition(false);
                     }

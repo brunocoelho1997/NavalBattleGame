@@ -53,6 +53,8 @@
     <string name="credits_institute">Institute of Engineering of Coimbra</string>
     <string name="ai_setted_positions">AI positioned the ships</string>
     <string name="capture">CAPTURE</string>
+    <string name="fire_3_positions">Need to Fire 3 positions</string>
+    <string name="next_turn_ai_fired">AI Fired. Next Turn</string>
 
 
 </resources>

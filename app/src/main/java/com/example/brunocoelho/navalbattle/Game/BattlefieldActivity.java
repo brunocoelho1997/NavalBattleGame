@@ -634,6 +634,9 @@ public class BattlefieldActivity extends Activity {
 
                             setProfilePanels();
 
+                            ((Button)findViewById(R.id.btNextTurn)).setText(R.string.next_turn);
+
+
                             //if isn't my turn to play... need to AI playing...
                             if(!navalBattleGame.isMyTurnToPlay())
                             {
@@ -643,6 +646,8 @@ public class BattlefieldActivity extends Activity {
                                 {
                                     navalBattleGame.AIFire();
                                     msg = R.string.ai_fired_positions;
+                                    ((Button)findViewById(R.id.btNextTurn)).setText(R.string.next_turn_ai_fired);
+
                                 }
                                 else
                                 {
@@ -662,102 +667,6 @@ public class BattlefieldActivity extends Activity {
             }
         }
     });
-
-
-    int bytesRead;
-
-//    private void receivePhoto(byte[] buffer)
-//    {
-//
-//
-//            try {
-//
-//                String filePathPhoto;
-//
-//                if(navalBattleGame.isAmITeamA())
-//                    filePathPhoto = navalBattleGame.getProfileTeamB().getFilePathPhoto();
-//                else
-//                    filePathPhoto = navalBattleGame.getProfileTeamA().getFilePathPhoto();
-//
-//
-//                Log.d("receivePhoto", "filePathPhoto: " + filePathPhoto);
-//
-//
-//                if(os==null)
-//                {
-//                    Log.d("receivePhoto", "criei um file em:" + filePathPhoto);
-//                    java.io.File imageFile = new java.io.File(filePathPhoto);
-//                    imageFile.createNewFile();
-//                    os = new FileOutputStream(imageFile);
-//                }
-//
-//
-//
-//
-//
-//                if(buffer == null)
-//                {
-//                    //flush OutputStream to write any buffered data to file
-//                    os.flush();
-//                    os.close();
-////                    os = null;
-//
-//                    setProfilePanels();
-//                }
-//                else
-//                {
-//
-//                    bytesRead = buffer.length;
-//
-////                    if(Build.VERSION.SDK_INT>22){
-////                        requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-////                    }
-//
-//                    os.write(buffer, 0, bytesRead);
-//                }
-//
-//
-////                    //read from is to buffer
-////                    while((bytesRead = is.read(buffer)) !=-1){
-////                        os.write(buffer, 0, bytesRead);
-////                    }
-//
-//
-//
-//
-//            } catch (Exception e) {
-//                Log.d("receivePhoto", "Error receiving photo a profile. Error: " + e);
-//            }
-//
-//
-//
-//    }
-//
-////    @Override
-////    public void onRequestPermissionsResult(int requestCode,
-////                                           String permissions[], int[] grantResults) {
-////        switch (requestCode) {
-////            case 1: {
-////
-////                // If request is cancelled, the result arrays are empty.
-////                if (grantResults.length > 0
-////                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-////
-////                    // permission was granted, yay! Do the
-////                    // contacts-related task you need to do.
-////                } else {
-////
-////                    // permission denied, boo! Disable the
-////                    // functionality that depends on this permission.
-////                    Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
-////                }
-////                return;
-////            }
-////
-////            // other 'case' lines to check for other
-////            // permissions this app might request
-////        }
-////    }
 
     private void processJSON(String jsonReceived) {
 

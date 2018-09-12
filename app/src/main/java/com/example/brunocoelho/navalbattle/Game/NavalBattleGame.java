@@ -129,8 +129,6 @@ public class NavalBattleGame implements Serializable{
         }
     }
 
-
-
     public void setAIPositions() {
 
         Team team = getTeamB();
@@ -155,10 +153,10 @@ public class NavalBattleGame implements Serializable{
 
                 initialPosition = ship.getPointPosition();
 
-                ship.setPointPosition(new Position(number,letter));
+                if(initialPosition.getNumber() == number && initialPosition.getLetter() == letter)
+                    continue;
 
-                if(Math.random() < 0.5)
-                    ship.rotate();
+                ship.setPointPosition(new Position(number,letter));
 
                 refreshInvalidPositions();
 
@@ -185,10 +183,6 @@ public class NavalBattleGame implements Serializable{
                     i = 0;
                     break;
                 }
-
-
-
-
                 i--;
             }
         }

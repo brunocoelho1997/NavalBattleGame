@@ -412,7 +412,8 @@ public class BattlefieldActivity extends Activity {
             Button buttonNextTurn = findViewById(R.id.btNextTurn);
             buttonNextTurn.setVisibility(View.VISIBLE);
 
-            if(navalBattleGame.isTeamATurn())
+            //just do to single player game (when online is procced another method
+            if(navalBattleGame.isTeamATurn() && !navalBattleGame.isTwoPlayer())
                 buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
             else
                 buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
@@ -813,6 +814,7 @@ public class BattlefieldActivity extends Activity {
                             public void run() {
                                 pd.dismiss();
                                 pd = null;
+                                processNextTurnButton();
                                 battlefieldView.invalidate(); //tem de ter um invalidae.... pq no cliente (teamB nao atualizava ecra)
                             }
                         });
@@ -831,6 +833,7 @@ public class BattlefieldActivity extends Activity {
                     @Override
                     public void run() {
                         navalBattleGame.nextTurn();
+                        processNextTurnButton();
                         battlefieldView.invalidate();
                         navalBattleGame.setChangedShipPosition(false);
                     }
@@ -841,7 +844,14 @@ public class BattlefieldActivity extends Activity {
         }
     }
 
-
+    void processNextTurnButton()
+    {
+        Button buttonNextTurn = findViewById(R.id.btNextTurn);
+        if(navalBattleGame.isTeamATurn())
+            buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
+        else
+            buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
+    }
     private void receivePhoto(String filePathPhoto) {
 
         try {

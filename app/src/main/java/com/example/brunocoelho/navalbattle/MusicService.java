@@ -34,11 +34,12 @@ public class MusicService extends Service {
         return null;
     }
 
-    public void onStop() {
 
+    public void onStop() {
+        player.stop();
     }
     public void onPause() {
-
+        player.start();
     }
 
     @Override

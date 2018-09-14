@@ -319,17 +319,6 @@ public class NavalBattleGame implements Serializable{
 
         Team team = getAtualTeam();
 
-
-//        TODO: isto para mim nao esta' bem... so esta' a fazer para uma equipa...
-//        solucao:
-//        Team team;
-//
-//        //se for um jogo online e nao for a minha vez de jogar vai verificar as firedpositions da equipa contraria...
-//        if(isTwoPlayer() && !isMyTurnToPlay())
-//            team = getOppositeTeam();
-//        else
-//            team = getAtualTeam();
-//
         int hittedFiredPositions = 0;
 
         if(firedPositionsTemp.size()==3)
@@ -728,9 +717,6 @@ public class NavalBattleGame implements Serializable{
     }
 
     boolean verifyIsValidPositionChangeShipPosition() {
-
-
-
 
 //        //if the oposite team already fired to this position...
 //        //usa a ship anteriormente criada... mas esta ship auxoliar na posicao inicial

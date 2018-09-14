@@ -133,11 +133,8 @@ public class BattlefieldActivity extends Activity {
                 finish();
                 return;
             }
-
-
             procMsg = new Handler();
             gson = new Gson();
-
         }
 
 
@@ -413,12 +410,6 @@ public class BattlefieldActivity extends Activity {
 
 
             processNextTurnButton();
-
-//            if(navalBattleGame.isMyTurnToPlay())
-//                buttonNextTurn.setBackgroundColor(Color.parseColor("#238EA6"));
-//            else
-//                buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
-
 
             battlefieldView.invalidate();
         }
@@ -807,7 +798,12 @@ public class BattlefieldActivity extends Activity {
             buttonNextTurn.setBackgroundColor(Color.parseColor("#EE6C4D"));
 
         if(!navalBattleGame.isMyTurnToPlay())
-            buttonNextTurn.setText(R.string.waiting_other_player);
+        {
+            if(navalBattleGame.isTwoPlayer())
+                buttonNextTurn.setText(R.string.waiting_other_player);
+            else
+                buttonNextTurn.setText(R.string.next_turn_ai_fired);
+        }
         else
             buttonNextTurn.setText(R.string.next_turn);
 

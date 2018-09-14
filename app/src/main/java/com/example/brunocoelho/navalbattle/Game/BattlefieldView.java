@@ -45,12 +45,6 @@ public class BattlefieldView extends View{
         this.context = context;
         this.output = output;
         navalBattleGame.setHistory(new History());
-
-//        setBackgroundColor(Color.RED);
-//        setBackgroundResource(R.drawable.grid_set_positions);
-//        setBackgroundColor(Color.parseColor("#80000000"));
-
-
     }
 
     @Override
